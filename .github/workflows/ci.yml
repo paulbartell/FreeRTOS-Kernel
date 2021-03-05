@@ -1,7 +1,5 @@
 name: CI Checks
 on:
-  push:
-    branches: ["**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -63,4 +61,3 @@ jobs:
         run: |
           git-secrets --register-aws
           git-secrets --scan
-
