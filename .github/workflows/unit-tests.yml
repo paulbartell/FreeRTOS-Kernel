@@ -1,4 +1,4 @@
-name: CMock UT
+name: CMock Unit Tests
 on: [push]
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: master
-        repository: paulbartell/FreeRTOS
+        repository: FreeRTOS/FreeRTOS
         submodules: 'recursive'
         fetch-depth: 1
     - name: Clone This Repo
@@ -28,7 +28,7 @@ jobs:
     - name: Run Unit Tests with ENABLE_SANITIZER=1
       run: |
           make -C FreeRTOS/Test/CMock clean
-          make -C FreeRTOS/Test/CMock ENABLE_SANITIZER=1
+          make -C FreeRTOS/Test/CMock ENABLE_SANITIZER=1 run_col_formatted
     - name: Run Unit Tests for coverage
       run: |
           make -C FreeRTOS/Test/CMock clean
@@ -41,8 +41,6 @@ jobs:
         working-directory: .
         root_dir: FreeRTOS/Source
         flags: unittests
-        env_vars: OS,PYTHON
-        name: codecov-umbrella
         fail_ci_if_error: true
         path_to_write_report: coverage/codecov_report.txt
         verbose: false
