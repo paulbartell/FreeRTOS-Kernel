@@ -45,7 +45,7 @@
  *     contains the typedefs required to build FreeRTOS.  Read the instructions
  *     in FreeRTOS/source/stdint.readme for more information.
  */
-#include <stdint.h>     /* READ COMMENT ABOVE. */
+#include <stdint.h> /* READ COMMENT ABOVE. */
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
@@ -128,21 +128,23 @@
 
 #ifdef INCLUDE_xTaskDelayUntil
     #ifdef INCLUDE_vTaskDelayUntil
-        /* INCLUDE_vTaskDelayUntil was replaced by INCLUDE_xTaskDelayUntil.  Backward
-         * compatibility is maintained if only one or the other is defined, but
-         * there is a conflict if both are defined. */
+
+/* INCLUDE_vTaskDelayUntil was replaced by INCLUDE_xTaskDelayUntil.  Backward
+ * compatibility is maintained if only one or the other is defined, but
+ * there is a conflict if both are defined. */
         #error INCLUDE_vTaskDelayUntil and INCLUDE_xTaskDelayUntil are both defined.  INCLUDE_vTaskDelayUntil is no longer required and should be removed
     #endif
 #endif
 
 #ifndef INCLUDE_xTaskDelayUntil
     #ifdef INCLUDE_vTaskDelayUntil
-        /* If INCLUDE_vTaskDelayUntil is set but INCLUDE_xTaskDelayUntil is not then
-         * the project's FreeRTOSConfig.h probably pre-dates the introduction of
-         * xTaskDelayUntil and setting INCLUDE_xTaskDelayUntil to whatever
-         * INCLUDE_vTaskDelayUntil is set to will ensure backward compatibility.
-         */
-        #define INCLUDE_xTaskDelayUntil INCLUDE_vTaskDelayUntil
+
+/* If INCLUDE_vTaskDelayUntil is set but INCLUDE_xTaskDelayUntil is not then
+ * the project's FreeRTOSConfig.h probably pre-dates the introduction of
+ * xTaskDelayUntil and setting INCLUDE_xTaskDelayUntil to whatever
+ * INCLUDE_vTaskDelayUntil is set to will ensure backward compatibility.
+ */
+        #define INCLUDE_xTaskDelayUntil    INCLUDE_vTaskDelayUntil
     #endif
 #endif
 
@@ -898,7 +900,7 @@
 
 #ifndef configSTACK_ALLOCATION_FROM_SEPARATE_HEAP
     /* Defaults to 0 for backward compatibility. */
-    #define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP   0
+    #define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
 #endif
 
 #ifndef configSTACK_DEPTH_TYPE

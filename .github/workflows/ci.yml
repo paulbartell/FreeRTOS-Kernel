@@ -19,8 +19,7 @@ jobs:
             path: ./kernel
       - name: Install spell
         run: |
-          sudo apt-get install spell
-          sudo apt-get install util-linux
+          sudo apt install spell util-linux uncrustify
       - name: Check spelling
         run: |
           PATH=$PATH:main/tools/spell
