@@ -34,6 +34,9 @@ jobs:
           make -C FreeRTOS/Test/CMock clean
           make -C FreeRTOS/Test/CMock lcovhtml
           lcov --config-file FreeRTOS/Test/CMock/lcovrc --summary FreeRTOS/Test/CMock/build/cmock_test.info > FreeRTOS/Test/CMock/build/cmock_test_summary.txt
+    - name: Output environment for debugging
+      run: |
+          env
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
