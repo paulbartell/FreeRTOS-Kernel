@@ -133,7 +133,7 @@ not necessary for to use this port.  They are defined so the common demo files
 
 #define portNOP() __asm volatile 	( " nop " )
 
-#define portINLINE	__inline
+#define portINLINE	inline
 
 #ifndef portFORCE_INLINE
 	#define portFORCE_INLINE inline __attribute__(( always_inline))

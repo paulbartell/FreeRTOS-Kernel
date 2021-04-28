@@ -92,7 +92,7 @@
     #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT                 8
     #define portNOP()
-    #define portINLINE                         __inline
+    #define portINLINE                         inline
     #ifndef portFORCE_INLINE
         #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
     #endif

@@ -164,7 +164,7 @@
 /* portNOP() is not required by this port. */
     #define portNOP()
 
-    #define portINLINE              __inline
+    #define portINLINE              inline
 
     #ifndef portFORCE_INLINE
         #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
