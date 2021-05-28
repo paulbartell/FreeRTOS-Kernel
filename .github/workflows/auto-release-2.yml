@@ -11,6 +11,10 @@ on:
         description: 'Version Number (Ex. 10.4.0)'
         required: true
         default: '10.4.0'
+      main_br_version:
+        description: "Version String for task.h on main branch (leave empty to leave as-is)."
+        require: false
+        default: ''
 
 jobs:
   release-packager:
@@ -48,7 +52,7 @@ jobs:
 
           # Install deps and run
           pip install -r ./tools/.github/scripts/release-requirements.txt
-          ./tools/.github/scripts/release.py paulbartell --kernel-repo-path=local_kernel --kernel-commit=${{ github.event.inputs.commit_id }} --new-kernel-version=${{ github.event.inputs.version_number }}
+          ./tools/.github/scripts/release.py paulbartell --kernel-repo-path=local_kernel --kernel-commit=${{ github.event.inputs.commit_id }} --new-kernel-version=${{ github.event.inputs.version_number }} --new-kernel-main-br-version=${{ github.event.inputs.main_br_version }}
           exit $?
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
