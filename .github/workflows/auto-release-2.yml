@@ -30,7 +30,7 @@ jobs:
       - name: Checkout FreeRTOS Release Tools
         uses: actions/checkout@v2
         with:
-          repository: FreeRTOS/FreeRTOS
+          repository: paulbartell/FreeRTOS
           path: tools
       
       # Simpler git auth if we use checkout action and forward the repo to release script 
