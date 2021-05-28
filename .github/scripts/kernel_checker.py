@@ -49,7 +49,7 @@ KERNEL_IGNORED_PATTERNS = [
 
 KERNEL_HEADER = [
     '/*\n',
-    ' * FreeRTOS Kernel V10.4.3\n',
+    ' * FreeRTOS Kernel V10.4.010203\n',
     ' * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.\n',
     ' *\n',
     ' * Permission is hereby granted, free of charge, to any person obtaining a copy of\n',
