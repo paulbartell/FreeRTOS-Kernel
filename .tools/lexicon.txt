@@ -257,7 +257,6 @@ coldfire
 com
 comm
 comp
-compiletime
 compsel
 computefmcn
 conbits
@@ -397,7 +396,6 @@ daemontaskmessage
 daif
 dat
 datar
-datas
 datasheet
 dataw
 datdef
@@ -710,7 +708,6 @@ fp
 fpccr
 fpga
 fpi
-fpr
 fpscr
 fpsr
 fpsw
@@ -728,7 +725,6 @@ fri
 frm
 frmsz
 fromisr
-fron
 frxt
 fsave
 fsden
@@ -750,7 +746,6 @@ gc
 gcacc
 gcc
 gdb
-genration
 gens
 getalarmvalue
 getbaudrate
@@ -968,7 +963,6 @@ keil
 keymod
 keywxr
 khz
-konw
 ky
 lan
 lapic
@@ -995,7 +989,6 @@ ldrb
 ldrbs
 ldub
 len
-lengh
 les
 lexpirecounters
 libc
@@ -1019,7 +1012,6 @@ loadseed
 locke
 locopt
 locoptsize
-lod
 loopback
 lovrs
 lowpowermode
@@ -1080,7 +1072,6 @@ messagebuffer
 messagebufferamp
 messagebufferhandle
 messagebuffermanagement
-messsage
 mfcr
 mfd
 mfid
@@ -1116,12 +1107,10 @@ moderegister
 modf
 modfdis
 mon
-mor
 mosc
 moscen
 moscs
 mosi
-mot
 motorola
 mov
 moveq
@@ -1167,7 +1156,6 @@ multidriverenable
 multidrvenable
 mutex
 mutexes
-mutexs
 mux
 muxes
 mv
@@ -1254,7 +1242,6 @@ oscen
 oscount
 osr
 othercoreid
-othewise
 outb
 outputdisable
 outputenable
@@ -1270,7 +1257,6 @@ ovre
 ovres
 ovrun
 owdr
-ower
 owsr
 padc
 pae
@@ -1327,7 +1313,6 @@ pdr
 pdsr
 pdtrue
 pe
-peformed
 pendedfunction
 pendsv
 perf
@@ -1487,7 +1472,6 @@ prea
 preb
 preemtion
 preinc
-pres
 prescal
 prescalar
 prescale
@@ -1779,14 +1763,12 @@ registerselection
 registerset
 registerstatus
 regs
-regsiter
 reld
 repurpose
 reqflg
 resetep
 resetrx
 resettx
-ressetting
 ret
 reti
 rets
@@ -2067,7 +2049,6 @@ swi
 swinr
 swintr
 swrst
-swtich
 swtrg
 sxx
 synchro
@@ -2132,7 +2113,6 @@ tdes
 tdesmod
 tdr
 tdre
-te
 tec
 tempdata
 tempregister
@@ -2611,7 +2591,6 @@ vtoggleled
 vtor
 vuart
 walter
-wasn
 watchpoint
 wavesel
 wavsel
@@ -2644,7 +2623,6 @@ wdv
 westat
 wfi
 winavr
-witin
 wizc
 wl
 wo
@@ -2652,7 +2630,6 @@ wol
 wperiodmin
 wreg
 writebit
-writting
 wu
 www
 wwwfreertos

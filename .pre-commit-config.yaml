@@ -1,0 +1,78 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 38b88246ccc552bffaaf54259d064beeee434539 # v4.0.1
+    hooks:
+    -   id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+    -   id: end-of-file-fixer
+    -   id: check-added-large-files
+    -   id: check-case-conflict
+    -   id: check-executables-have-shebangs
+    -   id: check-ast
+    -   id: check-json
+    -   id: check-yaml
+    -   id: fix-byte-order-marker
+    -   id: mixed-line-ending
+        args : [--fix=auto]
+
+-   repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 7cc5848088fd8412905ab79feea6c8edc3ac76c6 # 2.1.5
+    hooks:
+    -   id: forbid-binary
+    -   id: git-dirty
+    -   id: protect-first-parent
+    -   id: shellcheck
+
+-   repo: https://github.com/codespell-project/codespell.git
+    rev: 67c489d36dd4c52cbb9e4755d90c35c6231842ef # v2.0.0
+    hooks:
+    -   id: codespell
+        args: [ "--ignore-words .tools/lexicon.txt" ]
+        exclude: |
+            (?x)^(
+                .tools/lexicon.txt|
+                portable/GCC/ARM7_AT91SAM7S/lib_AT91SAM7X256.h|
+                portable/IAR/AtmelSAM7S64/lib_AT91SAM7X128.h|
+                portable/IAR/AtmelSAM7S64/lib_AT91SAM7X256.h
+            )$
+
+-   repo: local
+    hooks:
+    -   name: Uncrustify
+        id: uncrustify
+        entry: .tools/uncrustify.sh
+        language: script
+        files: ^.*\.(c|h)$
+        exclude: |
+            (?x)^(
+                portable/GCC/ARM7_AT91SAM7S/lib_AT91SAM7X256.h|
+                portable/GCC/ARM7_AT91SAM7S/lib_AT91SAM7X256.c|
+                portable/GCC/ARM7_AT91SAM7S/ioat91sam7x256.h|
+                portable/GCC/ARM7_AT91SAM7S/lib_AT91SAM7X256.h|
+                portable/GCC/ARM7_AT91SAM7S/AT91SAM7X256.h|
+                portable/IAR/AtmelSAM7S64/lib_AT91SAM7S64.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7X128.h|
+                portable/IAR/AtmelSAM7S64/lib_AT91SAM7X128.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7S64_inc.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7S64.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7X128_inc.h|
+                portable/IAR/AtmelSAM7S64/lib_AT91SAM7X256.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7X256.h|
+                portable/IAR/AtmelSAM7S64/AT91SAM7X256_inc.h|
+                portable/WizC/PIC18/port.c|
+                portable/ThirdParty/XCC/Xtensa/.*|
+                portable/ThirdParty/GCC/ATmega/port.c|
+                portable/ThirdParty/CDK/T-HEAD_CK802/.*|
+                portable/Softune/MB91460/__STD_LIB_sbrk.c|
+                .*portasm.*|
+                portable/GCC/AVR32_UC3/portmacro.h|
+                portable/IAR/AVR32_UC3/portmacro.h|
+                .*ISR_Support.h|
+            )$
+
+-   repo: https://github.com/awslabs/git-secrets.git
+    rev: 80230afa8c8bdeac766a0fece36f95ffaa0be778 # 1.3.0 + precommit hook
+    hooks:
+    -   id: git-secrets
