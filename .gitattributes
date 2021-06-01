@@ -1,0 +1,14 @@
+# Enable line-ending normalization
+# Refer to https://git-scm.com/docs/gitattributes for more details.
+
+# Unless excluded below, files with LF line endings in this repository will be:
+#   * converted to platform specific line endings on checkout and
+#   * converted back to the original line endings on commit
+# Files with CRLF line endings will not be modified by git on checkout or commit.
+*       text=auto
+
+# Platform specific files
+# These will always have the specified line endings
+*.sh    text eol=lf
+.bat    text eol=crlf
+.url    text eol=crlf
