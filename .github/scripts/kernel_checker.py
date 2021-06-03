@@ -36,7 +36,8 @@ from common.header_checker import HeaderChecker
 KERNEL_IGNORED_FILES = [
     'FreeRTOS-openocd.c',
     'Makefile',
-    '.DS_Store'
+    '.DS_Store',
+    'uncrustify.cfg'
 ]
 
 KERNEL_IGNORED_EXTENSIONS = [
@@ -60,7 +61,9 @@ KERNEL_IGNORED_EXTENSIONS = [
     '.png',
     '.bat',
     '.sh',
-    '.txt'
+    '.txt',
+    '.yml',
+    '.yaml'
 ]
 
 KERNEL_ASM_EXTENSIONS = [
@@ -148,4 +151,3 @@ def main():
 
 if __name__ == '__main__':
     exit(main())
-
