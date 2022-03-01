@@ -5,14 +5,14 @@ HARNESS_FILE = pvPortMalloc_harness
 # Litani dashboard. It can be human-readable and contain spaces if you wish.
 PROOF_UID = pvPortMalloc
 
-DEFINES += 
-INCLUDES += 
+DEFINES +=
+INCLUDES += $(SRCDIR)/include
 
-REMOVE_FUNCTION_BODY +=
+REMOVE_FUNCTION_BODY += vTaskSuspendAll xTaskResumeAll
 UNWINDSET +=
 
 PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE).c
-PROJECT_SOURCES += $(SRCDIR)/Portable/MemMang/Heap_2.c
+PROJECT_SOURCES += $(SRCDIR)/portable/MemMang/heap_2.c
 
 # If this proof is found to consume huge amounts of RAM, you can set the
 # EXPENSIVE variable. With new enough versions of the proof tools, this will

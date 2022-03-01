@@ -20,7 +20,8 @@
 
 #include "FreeRTOSConfig.h"
 
-void *pvPortMalloc(size_t size);
+extern void *pvPortMalloc(size_t size);
+extern void vPortFree( void * pBlock );
 
 void harness()
 {
@@ -33,17 +34,17 @@ void harness()
   __CPROVER_assume(size3 < size4);
   __CPROVER_assume(size5 < size4);
   __CPROVER_assume(size5 > size3);
-  
+
 //  __CPROVER_assume(size1+size2+size3+size4 == configTOTAL_HEAP_SIZE/2);
 
    ptr1 = pvPortMalloc(size1);
-   xPortFree(ptr1);
+   vPortFree(ptr1);
    ptr2 = pvPortMalloc(size2);
-   xPortFree(ptr2);
+   vPortFree(ptr2);
    ptr3 = pvPortMalloc(size3);
-   xPortFree(ptr3);
+   vPortFree(ptr3);
    ptr4 = pvPortMalloc(size4);
-   xPortFree(ptr4);
+   vPortFree(ptr4);
 
    ptr5 = pvPortMalloc(size5);
 

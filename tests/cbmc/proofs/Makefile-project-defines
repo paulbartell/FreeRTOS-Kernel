@@ -23,7 +23,7 @@
 # include directories in your project.
 #
 # INCLUDES =
-INCLUDES += -I$(SRCDIR)/Include
+INCLUDES += -I$(SRCDIR)/include
 INCLUDES += -I.
 INCLUDES += -I$(SRCDIR)/portable/ThirdParty/GCC/Posix
 
