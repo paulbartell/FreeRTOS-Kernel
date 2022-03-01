@@ -79,7 +79,7 @@ typedef struct A_BLOCK_LINK
 } BlockLink_t;
 
 
-static const uint16_t heapSTRUCT_SIZE = ( ( sizeof( BlockLink_t ) + ( portBYTE_ALIGNMENT - 1 ) ) & ~portBYTE_ALIGNMENT_MASK );
+static const uint16_t heapSTRUCT_SIZE = ( ( sizeof( BlockLink_t ) + ( portBYTE_ALIGNMENT - 1 ) ) & (size_t)(~(size_t)portBYTE_ALIGNMENT_MASK) );
 #define heapMINIMUM_BLOCK_SIZE    ( ( size_t ) ( heapSTRUCT_SIZE * 2 ) )
 
 /* Create a couple of list links to mark the start and end of the list. */

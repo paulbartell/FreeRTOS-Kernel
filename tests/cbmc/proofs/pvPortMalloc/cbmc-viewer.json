@@ -1,0 +1,7 @@
+{ "expected-missing-functions":
+  [
+    vTaskSuspendAll, vTaskResumeAll
+  ],
+  "proof-name": "pvPortMalloc",
+  "proof-root": "tests/cbmc/proofs"
+}
