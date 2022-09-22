@@ -1,0 +1,116 @@
+
+if(${CONFIG_TOOLCHAIN_GNU})
+    list(APPEND PORT_TUPLE "GCC")
+elseif(${CONFIG_TOOLCHAIN_LLVM_CLANG} OR ${CONFIG_TOOLCHAIN_ARM_EMBEDDED_LLVM} OR ${CONFIG_TOOLCHAIN_TI_CGT_CLANG})
+    list(APPEND PORT_TUPLE "GCC")
+elseif(${CONFIG_TOOLCHAIN_ARM_RVDS})
+    list(APPEND PORT_TUPLE "RVDS")
+elseif(${CONFIG_TOOLCHAIN_ARM_EMBEDDED})
+    list(APPEND PORT_TUPLE "RVDS")
+elseif(${CONFIG_TOOLCHAIN_IAR})
+    list(APPEND PORT_TUPLE "IAR")
+elseif(${CONFIG_TOOLCHAIN_TI_CGT})
+    list(APPEND PORT_TUPLE "CCS")
+elseif(${CONFIG_TOOLCHAIN_MICROCHIP_XC})
+    list(APPEND PORT_TUPLE "MPLAB")
+endif()
+
+if(${CONFIG_TARGET_ARCH_ARM})
+    list(APPEND PORT_TUPLE "ARM")
+    if(${CONFIG_TARGET_ARCH_ARMV6M})
+        # Use CM0 port for ARMv6-M targets: Cortex-M0, Cortex-M0 Plus, Cortex-M1
+        list(APPEND PORT_TUPLE "CM0")
+    elseif(${TARGET_ARCH_ARMV7M})
+        # Use CM3 ports: GCC_ARM_CM3, RVDS_ARM_CM3, CCS_ARM_CM3, IAR_ARM_CM3
+        # GCC_ARM_CM3_MPU
+        list(APPEND PORT_TUPLE "CM3")
+        if(${CONFIG_configENABLE_MPU} AND ${CONFIG_TOOLCHAIN_GNU})
+            list(APPEND PORT_TUPLE "MPU")
+        elseif(${CONFIG_configENABLE_MPU})
+            message(FATAL_ERROR "Cortex-M3 MPU is only supported for GCC / GNU targets.")
+        endif()
+    # Cortex-M7 Errata workaround
+    elseif( (${ARM_CORE_CORTEX_M7_R0P0} OR ${ARM_CORE_CORTEX_M7_R0P1}) AND NOT ${CONFIG_configENABLE_MPU} )
+        # GCC_ARM_CM7, IAR_ARM_CM7, RVDS_ARM_CM7
+        list(APPEND PORT_TUPLE "CM7")
+    # ARMv7E-M: Cortex-M4, Cortex-M7 (MPU Enabled) and similar
+    elseif(${CONFIG_TARGET_ARCH_ARMV7EM})
+        if(NOT ${CONFIG_configENABLE_FPU})
+            message(FATAL_ERROR "ARMv7E-M / Cortex-M4 ports require a Floating Point Unit.")
+        elseif(${CONFIG_configENABLE_MPU} AND NOT ${CONFIG_TOOLCHAIN_IAR})
+            # GCC_ARM_CM4_MPU, RVDS_ARM_CM4_MPU
+            list(APPEND PORT_TUPLE "CM4")
+        else()
+            # IAR_ARM_CM4F_MPU
+            # CCS_ARM_CM4F, GCC_ARM_CM4F, RVDS_ARM_CM4F, IAR_ARM_CM4F, TASKING_ARM_CM4F
+            list(APPEND PORT_TUPLE "CM4F")
+        endif()
+        if(${CONFIG_configENABLE_MPU})
+            list(APPEND PORT_TUPLE "MPU")
+        endif()
+    elseif(${CONFIG_ARM_CORE_CORTEX_M23})
+        list(APPEND PORT_TUPLE "CM23")
+    elseif(${CONFIG_ARM_CORE_CORTEX_M33})
+        list(APPEND PORT_TUPLE "CM33")
+    elseif(${CONFIG_ARM_CORE_CORTEX_M35P})
+        list(APPEND PORT_TUPLE "CM33")
+    elseif(${CONFIG_TARGET_ARCH_ARMV81M})
+        # Cortex-M35P, Cortex-M55, Cortex-M85
+        list(APPEND PORT_TUPLE "CM55")
+    elseif(${CONFIG_TARGET_ARCH_ARMV7R})
+        if(NOT ${CONFIG_configENABLE_FPU})
+            message(FATAL_ERROR "ARMv7-R ports require a Floating Point Unit.")
+        elseif(${CONFIG_TOOLCHAIN_TI_CGT})
+            # CCS_ARM_CR4
+            list(APPEND PORT_TUPLE "CR4")
+        elseif(${CONFIG_TOOLCHAIN_GNU} AND ${CONFIG_TARGET_ARM_HAS_GIC})
+            # GCC_ARM_CR5
+            list(APPEND PORT_TUPLE "CR5")
+        elseif(${CONFIG_TOOLCHAIN_IAR})
+            # GCC_ARM_CRX_NOGIC, IAR_ARM_CRX_NOGIC
+            list(APPEND PORT_TUPLE "CRX")
+            list(APPEND PORT_TUPLE "NOGIC")
+        endif()
+    endif()
+
+    if(${CONFIG_configENABLE_TRUSTZONE})
+        if(${configRUN_FREERTOS_SECURE_ONLY})
+            list(APPEND PORT_TUPLE "SECURE")
+        else()
+            list(APPEND PORT_TUPLE "NONSECURE")
+        endif()
+    else()
+        list(APPEND PORT_TUPLE "NTZ")
+        list(APPEND PORT_TUPLE "NONSECURE")
+    endif()
+elseif(${CONFIG_TARGET_ARCH_AVR})
+    # GCC_AVR_AVRDX, IAR_AVR_AVRDX
+    # GCC_AVR_MEGA0, IAR_AVR_MEGA0
+    # GCC_ATMEGA,
+    # GCC_ATMEGA323, IAR_ATMEGA323,
+    if(${CONFIG_TARGET_ARCH_AVR_ATMEGA323})
+        list(APPEND PORT_TUPLE "ATMEGA323")
+    elseif(${CONFIG_TARGET_ARCH_AVR_ATMEGA})
+        list(APPEND PORT_TUPLE "ATMEGA")
+    else()
+        list(APPEND PORT_TUPLE "AVR")
+        if(${CONFIG_TARGET_ARCH_AVR_MEGA0})
+            list(APPEND PORT_TUPLE "MEGA0")
+        elseif(${CONFIG_TARGET_ARCH_AVR_AVRDX})
+            list(APPEND PORT_TUPLE "AVRDX")
+        endif()
+    endif()
+elseif(${CONFIG_TARGET_ARCH_AVR32})
+    list(APPEND PORT_TUPLE "AVR32")
+    if(${CONFIG_TARGET_AVR32_UC3})
+        list(APPEND PORT_TUPLE "UC3")
+    endif()
+elseif(${CONFIG_TARGET_ARCH_M68HC1X})
+    if(${CONFIG_TARGET_ARCH_M68HC1X_HCS12})
+        list(APPEND PORT_TUPLE "HCS12")
+    endif()
+endif()
+
+list(JOIN PORT_TUPLE "_" FREERTOS_PORT)
+
+message("Port Tuple: ${FREERTOS_PORT}")

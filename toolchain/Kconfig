@@ -1,0 +1,189 @@
+menu "Toolchain"
+    choice
+        prompt "Toolchain"
+        config TOOLCHAIN_GNU
+            bool "GNU GCC"
+            depends on !( TARGET_ARCH_SIM_WIN32 || TARGET_ARCH_PIC || TARGET_ARCH_8051 )
+
+        config TOOLCHAIN_LLVM_CLANG
+            bool "LLVM CLANG"
+
+        config TOOLCHAIN_ARM_RVDS
+            bool "ARM Compiler 4 / RVDS"
+            depends on TARGET_ARCH_ARM
+
+        config TOOLCHAIN_ARM_EMBEDDED
+            bool "ARM Compiler 5"
+            depends on TARGET_ARCH_ARM
+
+        config TOOLCHAIN_ARM_EMBEDDED_LLVM
+            bool "ARM Compiler 6"
+            depends on TARGET_ARCH_ARM
+
+        config TOOLCHAIN_TI_CGT
+            bool "Texas Instruments CGT"
+            depends on TARGET_ARCH_ARM || TARGET_ARCH_MSP430
+
+        config TOOLCHAIN_TI_CGT_CLANG
+            bool "Texas Instruments CGT-CLANG"
+            depends on TARGET_ARCH_ARM
+
+        config TOOLCHAIN_IAR
+            bool "IAR Toolchain"
+            depends on TARGET_ARCH_ARM || TARGET_ARCH_RISCV || TARGET_ARCH_AVR8 || TARGET_ARCH_AVR32
+
+        config TOOLCHAIN_MICROCHIP_XC
+            bool "Microchip XC Toolchain"
+            depends on TARGET_ARCH_ARM || TARGET_ARCH_MIPS || TARGET_ARCH_AVR
+    endchoice
+
+    choice
+        prompt "C Standard Library"
+
+        config TARGET_LIBC_NEWLIB
+            bool "newlibc"
+            depends on TOOLCHAIN_GNU || TOOLCHAIN_LLVM_CLANG
+
+        config TARGET_LIBC_PICOLIBC
+            bool "picolibc"
+            depends on TOOLCHAIN_GNU || TOOLCHAIN_LLVM_CLANG
+
+        config TARGET_LIBC_AVRLIBC
+            bool "avr-libc"
+            depends on TARGET_ARCH_AVR8 && ( TOOLCHAIN_GNU || TOOLCHAIN_LLVM_CLANG )
+
+        config TARGET_LIBC_GLIBC
+            bool "glibc"
+            depends on TARGET_ARCH_SIM_POSIX && ( TOOLCHAIN_GNU || TOOLCHAIN_LLVM_CLANG )
+
+        config TARGET_LIBC_LLVM_LIBC
+            bool "llvm-libc"
+            depends on TARGET_ARCH_SIM_POSIX && TOOLCHAIN_LLVM_CLANG
+
+        config TARGET_LIBC_IAR_DLIB
+            bool "IAR DLIB"
+            depends on TOOLCHAIN_IAR
+
+        config TARGET_LIBC_IAR_CLIB
+            bool "IAR CLIB"
+            depends on TOOLCHAIN_IAR
+
+        config TARGET_LIBC_ARM_MICROLIB
+            bool "microlibc"
+            depends on TOOLCHAIN_ARM_EMBEDDED || TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        config TARGET_LIBC_ARM_ARMLIB
+            bool "armlibc"
+            depends on TOOLCHAIN_ARM_EMBEDDED || TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        config TARGET_LIBC_MICROCHIP_LEGACY
+            bool "legac"
+            depends on TOOLCHAIN_MICROCHIP_XC && TARGET_ARCH_MIPS
+    endchoice
+
+    config TOOLCHAIN_PREFIX
+        string "Toolchain Prefix"
+        default "arm-none-eabi-" if ( TOOLCHAIN_GNU && TARGET_ARCH_ARM )
+        default "avr-" if TOOLCHAIN_GNU && TARGET_ARCH_AVR8
+        default "avr32-" if TOOLCHAIN_GNU && TARGET_ARCH_AVR32
+        default ""
+
+    config TOOLCHAIN_SUFFIX
+        string "Toolchain Suffix"
+        default ""
+
+    config TOOLCHAIN_COMPILER
+        string "Compiler"
+        # GCC
+        default "gcc" if TOOLCHAIN_GNU
+
+        # LLVM / CLANG
+        default "clang" if TOOLCHAIN_LLVM_CLANG
+
+        # ARM
+        default "armcc" if TOOLCHAIN_ARM_EMBEDDED
+        default "armclang" if TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        # TI CGT
+        default "tiarmclang" if TOOLCHAIN_TI_CGT_CLANG
+        default "armcl" if TOOLCHAIN_TI_CGT && TARGET_ARCH_ARM
+        default "cl430" if TOOLCHAIN_TI_CGT && TARGET_ARCH_MSP430
+
+        # IAR
+        default "iccarm" if TOOLCHAIN_IAR && TARGET_ARCH_ARM
+        default "iccriscv" if TOOLCHAIN_IAR && TARGET_ARCH_RISCV
+        default "iccavr" if TOOLCHAIN_IAR && TARGET_ARCH_AVR8
+        default "iccavr32" if TOOLCHAIN_IAR && TARGET_ARCH_AVR32
+        default "icc430" if TOOLCHAIN_IAR && TARGET_ARCH_MSP430
+        default ""
+
+    config TOOLCHAIN_ASSEMBLER
+        string "Assembler"
+        # GCC
+        default "gcc" if TOOLCHAIN_GNU
+
+        # LLVM / CLANG
+        default "clang" if TOOLCHAIN_LLVM_CLANG
+
+        # ARM
+        default "armasm" if TOOLCHAIN_ARM_EMBEDDED
+        default "armclang" if TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        # Texas Instruments CGT
+        default "tiarmclang" if TOOLCHAIN_TI_CGT_CLANG
+        default "armasm" if TOOLCHAIN_TI_CGT && TARGET_ARCH_ARM
+        default "asm430" if TOOLCHAIN_TI_CGT && TARGET_ARCH_MSP430
+
+        # IAR
+        default "iasmarm" if TOOLCHAIN_IAR && TARGET_ARCH_ARM
+        default "iasmriscv" if TOOLCHAIN_IAR && TARGET_ARCH_RISCV
+        default "aavr" if TOOLCHAIN_IAR && TARGET_ARCH_AVR8
+        default "aavr32" if TOOLCHAIN_IAR && TARGET_ARCH_AVR32
+        default "a430" if TOOLCHAIN_IAR && TARGET_ARCH_MSP430
+        default ""
+
+    config TOOLCHAIN_LINKER
+        string "Linker"
+        # GCC
+        default "gcc" if TOOLCHAIN_GNU
+
+        # LLVM / CLANG
+        default "clang" if TOOLCHAIN_LLVM_CLANG
+
+        # ARM
+        default "armlink" if TOOLCHAIN_ARM_EMBEDDED
+        default "armclang" if TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        # Texas Instruments CGT
+        default "tiarmclang" if TOOLCHAIN_TI_CGT_CLANG
+        default "armlnk" if TOOLCHAIN_TI_CGT && TARGET_ARCH_ARM
+        default "lnk430" if TOOLCHAIN_TI_CGT && TARGET_ARCH_MSP430
+
+        # IAR
+        default "ilinkmarm" if TOOLCHAIN_IAR && TARGET_ARCH_ARM
+        default "ilinkriscv" if TOOLCHAIN_IAR && TARGET_ARCH_RISCV
+        default "xlink" if TOOLCHAIN_IAR && ( TARGET_ARCH_AVR8 || TARGET_ARCH_AVR32 || TARGET_ARCH_MSP430 )
+        default ""
+
+    config TOOLCHAIN_ARCHIVER
+        string "Archiver"
+        # GCC
+        default "gcc-ar" if TOOLCHAIN_GNU
+
+        # LLVM / CLANG
+        default "llvm-ar" if TOOLCHAIN_LLVM_CLANG
+
+        # ARM
+        default "armar" if TOOLCHAIN_ARM_EMBEDDED
+        default "armllvm-ar" if TOOLCHAIN_ARM_EMBEDDED_LLVM
+
+        # Texas Instruments CGT
+        default "tiarmar" if TOOLCHAIN_TI_CGT_CLANG
+        default "armar" if TOOLCHAIN_TI_CGT && TARGET_ARCH_ARM
+        default "ar430" if TOOLCHAIN_TI_CGT && TARGET_ARCH_MSP430
+
+        # IAR
+        default "iarchive" if TOOLCHAIN_IAR && ( TARGET_ARCH_ARM || TARGET_ARCH_RISCV )
+        default "xar" if TOOLCHAIN_IAR && ( TARGET_ARCH_AVR8 || TARGET_ARCH_AVR32 || TARGET_ARCH_MSP430 )
+        default ""
+endmenu

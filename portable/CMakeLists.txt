@@ -1,6 +1,9 @@
 # FreeRTOS internal cmake file. Do not use it in user top-level project
 
-add_library(freertos_kernel_port STATIC
+message("PORT: ${FREERTOS_PORT}")
+
+add_library(freertos_kernel_port INTERFACE)
+target_sources(freertos_kernel_port INTERFACE
     $<$<STREQUAL:${FREERTOS_PORT},BCC_16BIT_DOS_FLSH186>:
         BCC/16BitDOS/common/portcomn.c
         BCC/16BitDOS/Flsh186/port.c>
@@ -70,6 +73,17 @@ add_library(freertos_kernel_port STATIC
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM33_NTZ_NONSECURE>:
         GCC/ARM_CM33_NTZ/non_secure/port.c
         GCC/ARM_CM33_NTZ/non_secure/portasm.c>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_NONSECURE>:
+        GCC/ARM_CM55/non_secure/port.c
+        GCC/ARM_CM55/non_secure/portasm.c>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_SECURE>:
+        GCC/ARM_CM55/secure/secure_context_port.c
+        GCC/ARM_CM55/secure/secure_context.c
+        GCC/ARM_CM55/secure/secure_heap.c
+        GCC/ARM_CM55/secure/secure_init.c>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_NTZ_NONSECURE>:
+        GCC/ARM_CM55_NTZ/non_secure/port.c
+        GCC/ARM_CM55_NTZ/non_secure/portasm.c>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CR5>:
         GCC/ARM_CR5/port.c
         GCC/ARM_CR5/portASM.S>
@@ -184,7 +198,7 @@ add_library(freertos_kernel_port STATIC
         ThirdParty/GCC/Xtensa_ESP32/xtensa_overlay_os_hook.c
         ThirdParty/GCC/Xtensa_ESP32/xtensa_vector_defaults.S
         ThirdParty/GCC/Xtensa_ESP32/xtensa_vectors.S>
-    $<$<STREQUAL:${FREERTOS_PORT},GCC_AVRDX>:
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_AVR_AVRDX>:
         ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx/port.c>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_AVR_MEGA0>:
         ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0/port.c>
@@ -234,6 +248,17 @@ add_library(freertos_kernel_port STATIC
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM33_NTZ_NONSECURE>:
         IAR/ARM_CM33_NTZ/non_secure/port.c
         IAR/ARM_CM33_NTZ/non_secure/portasm.s>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_NONSECURE>:
+        IAR/ARM_CM55/non_secure/port.c
+        IAR/ARM_CM55/non_secure/portasm.s>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_SECURE>:
+        IAR/ARM_CM55/secure/secure_context_port_asm.s
+        IAR/ARM_CM55/secure/secure_context.c
+        IAR/ARM_CM55/secure/secure_heap.c
+        IAR/ARM_CM55/secure/secure_init.c>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_NTZ_NONSECURE>:
+        IAR/ARM_CM55_NTZ/non_secure/port.c
+        IAR/ARM_CM55_NTZ/non_secure/portasm.s>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CRX_NOGIC>:
         IAR/ARM_CRx_No_GIC/port.c
         IAR/ARM_CRx_No_GIC/portASM.s>
@@ -397,20 +422,24 @@ if(
     FREERTOS_PORT STREQUAL "GCC_ARM_CM23_NTZ_NONSECURE" OR
     FREERTOS_PORT STREQUAL "GCC_ARM_CM23_NONSECURE" OR
     FREERTOS_PORT STREQUAL "GCC_ARM_CM33_NTZ_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "GCC_ARM_CM33_NONSECURE" OR
     FREERTOS_PORT STREQUAL "GCC_ARM_CM3_MPU" OR
     FREERTOS_PORT STREQUAL "GCC_ARM_CM4_MPU" OR
-    FREERTOS_PORT STREQUAL "GCC_ARM_CM33_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "GCC_ARM_CM55_NTZ_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "GCC_ARM_CM55_NONSECURE" OR
     FREERTOS_PORT STREQUAL "IAR_ARM_CM23_NTZ_NONSECURE" OR
     FREERTOS_PORT STREQUAL "IAR_ARM_CM23_NONSECURE" OR
     FREERTOS_PORT STREQUAL "IAR_ARM_CM33_NTZ_NONSECURE" OR
-    FREERTOS_PORT STREQUAL "IAR_ARM_CM4F_MPU" OR
     FREERTOS_PORT STREQUAL "IAR_ARM_CM33_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "IAR_ARM_CM55_NTZ_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "IAR_ARM_CM55_NONSECURE" OR
+    FREERTOS_PORT STREQUAL "IAR_ARM_CM4F_MPU" OR
     FREERTOS_PORT STREQUAL "RVDS_ARM_CM4_MPU"
 )
-    target_sources(freertos_kernel_port PRIVATE Common/mpu_wrappers.c)
+    target_sources(freertos_kernel_port INTERFACE Common/mpu_wrappers.c)
 endif()
 
-target_include_directories(freertos_kernel_port PUBLIC
+target_include_directories(freertos_kernel_port INTERFACE
     $<$<STREQUAL:${FREERTOS_PORT},BCC_16BIT_DOS_FLSH186>:
         ${CMAKE_CURRENT_LIST_DIR}/BCC/16BitDOS/common
         ${CMAKE_CURRENT_LIST_DIR}/BCC/16BitDOS/Flsh186>
@@ -439,6 +468,9 @@ target_include_directories(freertos_kernel_port PUBLIC
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM33_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM33/non_secure>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM33_SECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM33/secure>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM33_NTZ_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM33_NTZ/non_secure>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM55/non_secure>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_SECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM55/secure>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CM55_NTZ_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CM55_NTZ/non_secure>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CR5>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CR5>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM_CRX_NOGIC>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM_CRx_No_GIC>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_ARM7_AT91FR40008>:${CMAKE_CURRENT_LIST_DIR}/GCC/ARM7_AT91FR40008>
@@ -483,7 +515,7 @@ target_include_directories(freertos_kernel_port PUBLIC
     $<$<STREQUAL:${FREERTOS_PORT},GCC_XTENSA_ESP32>:
         ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/GCC/Xtensa_ESP32
         ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/GCC/Xtensa_ESP32/include>
-    $<$<STREQUAL:${FREERTOS_PORT},GCC_AVRDX>:${CMAKE_CURRENT_LIST_DIR}/ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx>
+    $<$<STREQUAL:${FREERTOS_PORT},GCC_AVR_AVRDX>:${CMAKE_CURRENT_LIST_DIR}/ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx>
     $<$<STREQUAL:${FREERTOS_PORT},GCC_AVR_MEGA0>:${CMAKE_CURRENT_LIST_DIR}/ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_78K0K>:${CMAKE_CURRENT_LIST_DIR}/IAR/78K0R>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CA5_NOGIC>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CA5_No_GIC>
@@ -499,6 +531,9 @@ target_include_directories(freertos_kernel_port PUBLIC
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM33_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM33/non_secure>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM33_SECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM33/secure>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM33_NTZ_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM33_NTZ/non_secure>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM55/non_secure>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_SECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM55/secure>
+    $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CM55_NTZ_NONSECURE>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CM55_NTZ/non_secure>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ARM_CRX_NOGIC>:${CMAKE_CURRENT_LIST_DIR}/IAR/ARM_CRx_No_GIC>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ATMEGA323>:${CMAKE_CURRENT_LIST_DIR}/IAR/ATMega323>
     $<$<STREQUAL:${FREERTOS_PORT},IAR_ATMEL_SAM7S64>:${CMAKE_CURRENT_LIST_DIR}/IAR/AtmelSAM7S64>
@@ -561,11 +596,12 @@ target_include_directories(freertos_kernel_port PUBLIC
 )
 
 target_link_libraries(freertos_kernel_port
-    PUBLIC
+    INTERFACE
         $<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:pico_base_headers>
         $<$<STREQUAL:${FREERTOS_PORT},GCC_XTENSA_ESP32>:idf::esp32>
-    PRIVATE
         freertos_kernel
         "$<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:hardware_clocks;hardware_exception>"
         $<$<STREQUAL:${FREERTOS_PORT},MSVC_MINGW>:winmm> # Windows library which implements timers
 )
+
+# target_include_directories(freertos_kernel_port PRIVATE ${CMAKE_SOURCE_DIR}/../include)

@@ -1,0 +1,237 @@
+# Supported Architecture Families are listed in this file.
+# Architecture variants are also specified in this file iff
+# they affect the compilers available for a given architecture.
+
+choice
+    prompt "Target Architecture"
+
+    config TARGET_ARCH_UNSPECIFIED
+        bool "Unspecified"
+
+    config TARGET_ARCH_ARM
+        bool "ARM"
+        help
+            Target the 32 and 64-bit ARM family of RISC microcontrollers and application processors.
+
+    config TARGET_ARCH_RISCV
+        bool "RISC-V"
+        help
+            Target RISC-V RV32 (32-bit) and RV64 (64-bit) instruction set architecture cores.
+
+    config TARGET_ARCH_SIM_POSIX
+        bool "Posix [Simulator]"
+        help
+            Target the posix / linux simulator port.
+
+    config TARGET_ARCH_SIM_WIN32
+        bool "Windows [Simulator]"
+        help
+            Target the Microsoft Windows simulator port.
+
+    config TARGET_ARCH_XTENSA
+        bool "Xtensa [Tensilica]"
+        help
+            Target Tensilica Xtensa 32-bit RISC microcontrollers.
+
+    config TARGET_ARCH_X86
+        bool "x88"
+        help
+            Target bare-metal x86/IA32 microcontrollers such as Intel Quark and similar.
+
+    config TARGET_ARCH_MIPS
+        bool "MIPS"
+        help
+            Target MIPS 32 and 64-bit RISC microcontrollers developed by MIPS Technologies and Imagination Technologies.
+
+    config TARGET_ARCH_AVR
+        bool "AVR [Atmel, Microchip]"
+        help
+            Target Atmel AVR 8-bit RISC microcontrollers.
+
+    config TARGET_ARCH_AVR32
+        bool "AVR32 [Atmel]"
+        help
+            Target Atmel AVR32 32-bit RISC microcontrollers.
+
+    config TARGET_ARCH_PIC18
+        bool "PIC18 [Microchip]"
+        help
+            Target Microchip PIC18 series 8-bit microcontrollers.
+
+    config TARGET_ARCH_PIC24
+        bool "PIC24 [Microchip]"
+        help
+            Target Microchip PIC24 / dsPIC microcontrollers.
+
+    config TARGET_ARCH_ARC
+        bool "ARC [DesignWare]"
+        help
+            Target Synopsys DesignWare ARC microcontrollers.
+
+    config TARGET_ARCH_8051
+        bool "8051 [Cygnal, Silicon Labs]"
+        help
+            Target 8051 compatible microcontrollers from Cygnal / Silicon Labs.
+
+    config TARGET_ARCH_MSP430
+        bool "MSP430 [TI]"
+        help
+            Target Texas Instruments MSP430 16-bit RISC microcontrollers.
+
+    config TARGET_ARCH_M68HCS1X
+        bool "m68HCS1X [Motorola, Freescale, NXP]"
+        help
+            Target Motorola / Freescale / NXP 68HCS12 16-bit CISC microcontrollers.
+
+    config TARGET_ARCH_M68K
+        bool "m68k [Motorola, Freescale, NXP]"
+        help
+            Target Motorola 68000 derived CISC 32-bit microcontrollers.
+
+    config TARGET_ARCH_COLDFIRE
+        bool "Coldfire [Freescale, NXP]"
+        help
+            Target Freescale / NXP ColdFire CISC 32-bit microcontrollers.
+
+    config TARGET_ARCH_V850
+        bool "V850 [NEC, Renesas]"
+        help
+            Target NEC / Renesas V850 32-bit RISC microcontrollers.
+
+    config TARGET_ARCH_SUPERH
+        bool "SuperH [Hitachi, Renesas]"
+        help
+            Target Hitachi / Renesas SuperH microcontrollers.
+
+    config TARGET_ARCH_RX
+        bool "RX [Renesas]"
+        help
+            Target Renesas RX series 32-bit microcontrollers.
+
+    config TARGET_ARCH_78K
+        bool "78K [NEC, Renesas]"
+        help
+            Target NEC / Renesas 78K family 16-bit CISC microcontrollers.
+
+    config TARGET_ARCH_RL78
+        bool "RL78 [Renesas]"
+        help
+            Target Renesas RL78 16-bit CISC microcontrollers (successor to the 78k series).
+
+    config TARGET_ARCH_TRICORE
+        bool "TriCore [Infineon]"
+        help
+            Target Infineon TriCore 32-bit RISC microcontrollers.
+
+    config TARGET_ARCH_PPC
+        bool "Power PC [Xilinx]"
+        help
+            Target 32-bit PowerPC architecture cores.
+
+    config TARGET_ARCH_MICROBLAZE
+        bool "Microblaze [Xilinx, AMD]"
+        help
+            Target Xilinx Microblaze 32-bit RISC soft cores.
+
+    config TARGET_ARCH_NIOS
+        bool "Nios-II [Altera, Intel]"
+        help
+            Target Altera Nios-II 32-bit RISC soft cores.
+endchoice
+
+choice
+    prompt "Xtensa Target"
+    depends on TARGET_ARCH_XTENSA
+
+    config TARGET_ARCH_XTENSA_GENERIC
+        bool "Xtensa Simulator"
+
+    config TARGET_ARCH_XTENSA_ESP32
+        bool "Expressif ESP32 (LX6, LX7)"
+endchoice
+
+choice
+    depends on TARGET_ARCH_RX
+    prompt "Architecture Revision"
+
+    config TARGET_ARCH_RX_V1
+        bool "RXv1"
+
+    config TARGET_ARCH_RX_V2
+        bool "RXv2"
+
+    config TARGET_ARCH_RX_V3
+        bool "RXv3"
+endchoice
+
+choice
+    depends on TARGET_ARCH_ARC
+    prompt "Architecture Revision"
+
+    config TARGET_ARCH_ARC_V1
+        bool "ARCv1 [ARC600, ARC700]"
+
+    config TARGET_ARCH_ARC_V2
+        bool "ARCv2 [EM4, EM6, HS3x, HS4x, HS4xD]"
+
+    config TARGET_ARCH_ARC_V3
+        bool "ARCv3 [HS5x, HS6x]"
+endchoice
+
+choice
+    depends on TARGET_ARCH_AVR32
+    prompt "Target Core"
+
+    config TARGET_AVR32_UC3
+        bool "AVR32 UC3 Core"
+endchoice
+
+choice
+    depends on TARGET_ARCH_AVR
+    prompt "Target Core"
+
+    config TARGET_ARCH_AVR_AVR5
+        bool "AVR5 [ Enhanced, 16 - 64KiB ]"
+
+    config TARGET_ARCH_AVR_AVR51
+        bool "AVR51 [ Enhanced, 128 KiB ]"
+
+    config TARGET_ARCH_AVR_XMEGA2
+        bool "AVR XMEGA 2"
+        help
+            Target the AVR Xmega 2 core with 8 - 64 KiB Program Memory.
+
+    config TARGET_ARCH_AVR_XMEGA3
+        bool "AVR XMEGA 3"
+        help
+            Target the AVR Xmega 3 core with up to 64 KiB of combined Program Memory and RAM.
+
+    config TARGET_ARCH_AVR_XMEGA4
+        bool "AVR XMEGA 4"
+        help
+            Target the AVR Xmega 4 core with 64 - 128 KiB of Program Memory.
+endchoice
+
+
+choice
+    depends on TARGET_ARCH_PPC
+    prompt "Target Core"
+
+    config TARGET_ARCH_PPC405_XILINX
+        bool "Xilinx PPC405"
+
+    config TARGET_ARCH_PPC405_XILINX
+        bool "Xilinx PPC440"
+endchoice
+
+choice
+    depends on TARGET_ARCH_M68HC1X
+    prompt "Target Core"
+
+    config TARGET_ARCH_M68HC1X_HCS12
+        bool "Freescale / NXP HCS12"
+endchoice
+
+
+source "portable/arch_arm.Kconfig"
+#source "portable/arch_risc_v.Kconfig"

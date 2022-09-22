@@ -1,0 +1,464 @@
+# FreeRTOS Kernel Kconfig file for ARM architecture targets
+
+config TARGET_ARM_HAS_SYSTICK
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_SYSTICK
+    bool
+    depends on TARGET_ARCH_ARM
+
+config TARGET_ARM_HAS_VTOR
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_VTOR
+    bool
+    depends on TARGET_ARCH_ARM
+
+config TARGET_ARM_HAS_TRUSTZONE
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_TRUSTZONE
+    bool
+    depends on TARGET_ARCH_ARM
+
+# ARM DSP Extension (Cortex-M7, -M33, -M35P, -M55)
+config TARGET_ARM_HAS_DSP
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_DSP
+    bool
+    depends on TARGET_ARCH_ARM
+
+# ARM Memory Protection Unit (Cortex-M0+, M3, M4, M7, M23, M33, M55)
+config ARCH_ARM_OPTIONAL_MPU
+    bool
+    depends on TARGET_ARCH_ARM
+
+# ARM Floating Point Unit
+config ARCH_ARM_OPTIONAL_FPU
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_MVE
+    bool
+    depends on TARGET_ARCH_ARM
+
+config TARGET_ARM_HAS_GIC
+    bool
+    depends on TARGET_ARCH_ARM
+
+config ARCH_ARM_OPTIONAL_GIC
+    bool
+    depends on TARGET_ARCH_ARM
+
+config configENABLE_ERRATA_837070_WORKAROUND
+    bool
+    depends on TARGET_ARCH_ARM
+
+config configFPU_D32
+    bool
+    depends on TARGET_ARCH_ARM
+
+choice TARGET_ARM_CORE
+    depends on TARGET_ARCH_ARM
+    depends on !TARGET_ARM_REVISION
+    default ARM_CORE_OTHER
+
+    prompt "ARM: Core"
+
+    config ARM_CORE_ARM7TDMI
+        bool "ARM7TDMI"
+        select TARGET_ARCH_ARMV4T
+
+    config ARM_CORE_ARM926EJ_S
+        bool "ARM926EJ-S"
+        select TARGET_ARCH_ARMV5TE
+
+    config ARM_CORE_CORTEX_MO
+        bool "ARM Cortex-M0"
+        select TARGET_ARCH_ARMV6M
+        select ARCH_ARM_OPTIONAL_SYSTICK
+
+    config ARM_CORE_CORTEX_MO_PLUS
+        bool "ARM Cortex-M0 Plus"
+        select TARGET_ARCH_ARMV6M
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+
+    config ARM_CORE_CORTEX_M1
+        bool "ARM Cortex-M1"
+        select TARGET_ARCH_ARMV6M
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_SYSTICK
+
+    config ARM_CORE_CORTEX_M3
+        bool "ARM Cortex-M3"
+        select TARGET_ARCH_ARMV7M
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+
+    config ARM_CORE_CORTEX_M4
+        bool "ARM Cortex-M4"
+        select TARGET_ARCH_ARMV7EM
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+
+    config ARM_CORE_CORTEX_M7
+        bool "ARM Cortex-M7"
+        select TARGET_ARCH_ARMV7EM
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_DSP
+
+        # Cortex-M7 r0p0, r0p1 require an errata workaround
+        choice ARM_CORE_CORTEX_M7_REVISION
+            depends on ARM_CORE_CORTEX_M7
+            prompt "Revision"
+            config ARM_CORE_CORTEX_M7_R0P0
+                bool "r0p0"
+                select configENABLE_ERRATA_837070_WORKAROUND
+
+            config ARM_CORE_CORTEX_M7_R0P1
+                bool "r0p1"
+                select configENABLE_ERRATA_837070_WORKAROUND
+
+            config ARM_CORE_CORTEX_M7_R0P2
+                bool "r0p2"
+
+            config ARM_CORE_CORTEX_M7_R1P0
+                bool "r1p0"
+
+            config ARM_CORE_CORTEX_M7_R1P2
+                bool "r1p2"
+        endchoice
+
+    # ARMv8 Cortex-M
+    config ARM_CORE_CORTEX_M23
+        bool "ARM Cortex-M23"
+        select TARGET_ARCH_ARMV8M
+        select ARCH_ARM_OPTIONAL_VTOR
+        select ARCH_ARM_OPTIONAL_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+
+    config ARM_CORE_CORTEX_M33
+        bool "ARM Cortex-M33"
+        select TARGET_ARCH_ARMV8M
+        select TARGET_ARM_HAS_SYSTICK
+        select TARGET_ARM_HAS_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_DSP
+
+    config ARM_CORE_CORTEX_M35P
+        bool "ARM Cortex-M35P"
+        select TARGET_ARCH_ARMV81M
+        select TARGET_ARM_HAS_SYSTICK
+        select TARGET_ARM_HAS_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_DSP
+
+    config ARM_CORE_CORTEX_M55
+        bool "ARM Cortex-M55"
+        select TARGET_ARCH_ARMV81M
+        select TARGET_ARM_HAS_SYSTICK
+        select TARGET_ARM_HAS_VTOR
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_DSP
+        select ARCH_ARM_OPTIONAL_MVE
+
+    # ARMv7 Cortex-Rx
+    # Feature Table: https://developer.arm.com/documentation/102788
+    config ARM_CORE_CORTEX_R4
+        bool "ARM Cortex-R4"
+        select TARGET_ARCH_ARMV7R
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_R5
+        bool "ARM Cortex-R5"
+        select TARGET_ARCH_ARMV7R
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_R7
+        bool "ARM Cortex-R7"
+        select TARGET_ARCH_ARMV7R
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_HAS_GIC
+
+    config ARM_CORE_CORTEX_R8
+        bool "ARM Cortex-R8"
+        select TARGET_ARCH_ARMV7R
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_HAS_GIC
+
+    # ARM Cortex-Ax
+    config ARM_CORE_CORTEX_A5
+        bool "ARM Cortex-A5"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A7
+        bool "ARM Cortex-A7"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A8
+        bool "ARM Cortex-A8"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A9
+        bool "ARM Cortex-A9"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A12
+        bool "ARM Cortex-A12"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A15
+        bool "ARM Cortex-A15"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A17
+        bool "ARM Cortex-A17"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_CORTEX_A32
+        bool "ARM Cortex-A32"
+        select TARGET_ARCH_ARMV7A
+        select TARGET_ARM_HAS_SYSTICK
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_GIC
+
+    config ARM_CORE_OTHER
+        bool "Other"
+endchoice
+
+choice TARGET_ARM_REVISION
+    depends on TARGET_ARCH_ARM
+    depends on ARM_CORE_OTHER
+    prompt "ARM: ISA Revision"
+
+    config ARCH_CHOICE_ARMV4T
+        bool "ARMv4T"
+        select TARGET_ARCH_ARMV4T
+
+    config ARCH_CHOICE_ARMV5TE
+        bool "ARMv5TE"
+        select TARGET_ARCH_ARMV5TE
+
+    config ARCH_CHOICE_ARMV6M
+        bool "ARMv6-M"
+        select TARGET_ARCH_ARMV6M
+
+    config ARCH_CHOICE_ARMV7A
+        bool "ARMv7-A"
+        select TARGET_ARCH_ARMV7A
+
+    config ARCH_CHOICE_ARMV7M
+        bool "ARMv7-M"
+        select TARGET_ARCH_ARMV7M
+        select ARCH_ARM_OPTIONAL_FPU
+
+    config ARCH_CHOICE_ARMV7EM
+        bool "ARMv7E-M"
+        select TARGET_ARCH_ARMV7EM
+        select ARCH_ARM_OPTIONAL_FPU
+
+    config ARCH_CHOICE_ARMV7R
+        bool "ARMv7-R"
+        select TARGET_ARCH_ARMV7R
+        select ARCH_ARM_OPTIONAL_FPU
+
+    config ARCH_CHOICE_ARMV8A
+        bool "ARMv8-A"
+        select TARGET_ARCH_ARMV8A
+
+    config ARCH_CHOICE_ARMV8M
+        bool "ARMv8-M"
+        select TARGET_ARCH_ARMV8M
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+
+    config ARCH_CHOICE_ARMV81M
+        bool "ARMv8.1-M"
+        select TARGET_ARCH_ARMV81M
+        select ARCH_ARM_OPTIONAL_MPU
+        select ARCH_ARM_OPTIONAL_TRUSTZONE
+        select ARCH_ARM_OPTIONAL_DSP
+        select ARCH_ARM_OPTIONAL_FPU
+        select ARCH_ARM_OPTIONAL_MVE
+endchoice
+
+config ARCH_ARM_HAS_SYSTICK
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_SYSTICK
+    bool "24-Bit SysTick Timer (SYSTICK)"
+
+config TARGET_ARM_HAS_VTOR
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_VTOR
+    bool "Vector Table Offset Register (VTOR)"
+
+config TARGET_HAS_FPU
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_FPU
+    bool
+    default n
+
+comment "Extensions"
+
+menuconfig TARGET_ARM_FPU
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_FPU
+    bool "ARM: Floating Point Unit"
+    default y
+
+    # Cortex-R4, R5, R7, R8
+    config TARGET_ARM_FPU_VFPV3_D16
+        bool "VFPv3-D16"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7A || ARCH_CHOICE_ARMV7R
+        select TARGET_HAS_FPU
+        help
+            16 x 64-bit register VFPv3 FPU without half-precision (16-bit) support.
+
+
+    config TARGET_ARM_FPU_VFPV3_D32
+        bool "VFPv3(-D32)"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7A || ARCH_CHOICE_ARMV7R
+        select TARGET_HAS_FPU
+        select configFPU_D32
+        help
+            32 x 64-bit register VFPv3 FPU without half-precision (16-bit) support.
+
+    config TARGET_ARM_FPU_VFPV3_D16_FP16
+        bool "VFPv3-D16-FP16"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7A || ARCH_CHOICE_ARMV7R
+        select TARGET_HAS_FPU
+        help
+            16 x 64-bit register VFPv3 FPU with half-precision (16-bit) support.
+
+    config TARGET_ARM_FPU_VFPV3_D32_FP16
+        bool "VFPv3(-D32)-FP16"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7A || ARCH_CHOICE_ARMV7R
+        select TARGET_HAS_FPU
+        select configFPU_D32
+        help
+            32 x 64-bit register VFPv3 FPU with half-precision (16-bit) support.
+
+    config TARGET_ARM_FPU_VFPV4
+        bool "VFPv4"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7EM || ARM_CORE_CORTEX_M4
+        select TARGET_HAS_FPU
+        select configFPU_D32
+
+    config TARGET_ARM_FPU_VFPV4_D16
+        bool "VFPv4"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7EM || ARM_CORE_CORTEX_M4
+        select TARGET_HAS_FPU
+
+    config TARGET_ARM_FPU_FPV4_SP
+        bool "FPv4-SP"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7EM || ARM_CORE_CORTEX_M4
+        select TARGET_HAS_FPU
+        select configFPU_D32
+
+    config TARGET_ARM_FPU_VFPV4_D32
+        bool "VFPv4-D32 (VFPv4)"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7A
+        select TARGET_HAS_FPU
+        select configFPU_D32
+
+    # Cortex-M7 FPv5 extension
+    config TARGET_ARM_FPU_FPV5_DP_D16
+        bool "FPv5-DP-D16"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7EM || ARCH_CHOICE_ARMV8M || ARM_CORE_CORTEX_M7 || ARM_CORE_CORTEX_M55
+        help
+            ARM FPv5 Double-Presion FPU. An option on ARM Cortex-M7 and Cortex-M55.
+
+    # Cortex-M33 FPv5 variant (Single Precision)
+    config TARGET_ARM_FPU_FPV5_SP_D16
+        bool "FPv5-SP-D16"
+        depends on TARGET_ARM_FPU
+        depends on ARCH_CHOICE_ARMV7EM || ARCH_CHOICE_ARMV8M || ARM_CORE_CORTEX_M7 || ARM_CORE_CORTEX_M33 || ARM_CORE_CORTEX_M35P || ARM_CORE_CORTEX_M55
+        help
+            ARM FPv5 Single-Precision FPU. An option on the Cortex-M33.
+
+config TARGET_ARM_HAS_MPU
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_MPU
+    bool "ARM: Memory Protection Unit (MPU)"
+    select TARGET_HAS_MPU
+
+config TARGET_ARM_HAS_TRUSTZONE
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_TRUSTZONE
+    bool "ARM: TrustZone"
+
+config TARGET_ARM_HAS_DSP
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_DSP
+    bool "ARM: DSP"
+
+config TARGET_ARM_HAS_MVE
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_MVE
+    bool "ARM: M-Profile Vector / Helium"
+
+config TARGET_ARM_HAS_GIC_CHOICE
+    depends on TARGET_ARCH_ARM
+    depends on ARCH_ARM_OPTIONAL_GIC
+    bool "ARM: Generic Interrupt Controller (GIC)"
+    select TARGET_ARM_HAS_GIC

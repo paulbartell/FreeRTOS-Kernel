@@ -1,0 +1,510 @@
+# FreeRTOS Configuration options in Kconfig format.
+comment "Port Selection"
+
+source "portable/arch.Kconfig"
+source "portable/Kconfig"
+
+comment "Toolchain Configuration"
+source "toolchain/Kconfig"
+
+comment "Memory Management"
+menuconfig configSUPPORT_DYNAMIC_ALLOCATION
+    bool "Heap Allocation"
+    default y
+
+    choice HEAP_IMPLEMENTATION
+        config HEAP_IMPLEMENTATION_1
+            bool "Heap 1"
+
+        config HEAP_IMPLEMENTATION_2
+            bool "Heap 2"
+
+        config HEAP_IMPLEMENTATION_3
+            bool "Heap 3"
+
+        config HEAP_IMPLEMENTATION_4
+            bool "Heap 4"
+
+        config HEAP_IMPLEMENTATION_5
+            bool "Heap 5"
+
+    endchoice
+
+
+    config configTOTAL_HEAP_SIZE
+        int "Total amount of RAM available in the FreeRTOS heap."
+        depends on configSUPPORT_DYNAMIC_ALLOCATION
+        default 32768
+
+    config configAPPLICATION_ALLOCATED_HEAP
+        bool "Use Application-Allocated heap"
+        default n
+        depends on configSUPPORT_DYNAMIC_ALLOCATION
+
+    config configHEAP_CLEAR_MEMORY_ON_FREE
+        bool "Clear heap allocations when vPortFree is called"
+        default n
+        depends on configSUPPORT_DYNAMIC_ALLOCATION
+
+    config configUSE_MALLOC_FAILED_HOOK
+        bool "Enable vApplicationMallocFailedHook"
+        help
+            If enabled, the application must define a hook function to be called
+            when a heap allocation fails.
+            void vApplicationMallocFailedHook( void );
+        default y
+        depends on configSUPPORT_DYNAMIC_ALLOCATION
+
+config configSUPPORT_STATIC_ALLOCATION
+    bool "Static Allocation"
+    default y
+
+comment "Context Switching"
+choice TASK_SCHEDULER_MODEL
+    prompt "Scheduler"
+
+    config TASK_SCHEDULER_MODEL_PREEMPTIVE
+        bool "Preemptive, Priority Based"
+
+    config TASK_SCHEDULER_MODEL_PREEMPTIVE_RR
+        bool "Preemptive, Round Robin"
+
+    config TASK_SCHEDULER_MODEL_PORT_SPECIFIC
+        bool "Preemptive, Port Specific"
+
+    config TASK_SCHEDULER_MODEL_COOPERATIVE
+        bool "Cooperative"
+endchoice
+
+config configMAX_PRIORITIES
+    int "Maximum Task Priority"
+    help
+        The number of priorities available to the application tasks.
+        Any number of tasks can share the same priority.
+        The maximum permissible value will be capped if
+        configUSE_PORT_OPTIMISED_TASK_SELECTION is set to 1.
+    default 32
+
+menu "Interrupt Handling"
+    config configKERNEL_INTERRUPT_PRIORITY
+        int "configKERNEL_INTERRUPT_PRIORITY"
+        default 0
+
+    config configMAX_SYSCALL_INTERRUPT_PRIORITY
+        int "configMAX_SYSCALL_INTERRUPT_PRIORITY"
+        default 64
+
+    config configMAX_API_CALL_INTERRUPT_PRIORITY
+        int "configMAX_API_CALL_INTERRUPT_PRIORITY"
+        default 0
+
+    config configKERNEL_YIELD_PRIORITY
+        int "configKERNEL_YIELD_PRIORITY"
+        depends on TARGET_ARCH_TRICORE
+        default 0
+
+    config configUNIQUE_INTERRUPT_PRIORITIES
+        int "Number of Unique Interrupt Priorities implemented on the target"
+        default 32
+endmenu
+
+menu "Tick Handling"
+    config configUSE_TICK_HOOK
+        bool "Enable vApplicationTickHook callback."
+        default y
+
+    config configINITIAL_TICK_COUNT
+        int "Initial Tick Count"
+        default 0
+
+    config configTICK_RATE_HZ
+        int "Tick Rate (Hz)"
+        default 1000
+
+    config configCPU_CLOCK_HZ
+        int "CPU Core Clock Frequency in Hz."
+        default 48000000
+
+    config configSYSTICK_CLOCK_HZ
+        int "SysTick Frequency in Hz, if different from CPU Core Frequency"
+        default 48000000
+
+    config configUSE_16_BIT_TICKS
+        bool "Use 16-bit ticks."
+        default n
+endmenu
+
+menu "Event List Options"
+
+    config configUSE_LIST_DATA_INTEGRITY_CHECK_BYTES
+        bool "Enable Task Control Block Integrity Check Bytes"
+        default y
+
+    config configUSE_MINI_LIST_ITEM
+        bool "Use Mini-List Item to save some RAM"
+        default n
+
+    config LIST_USE_VOLATILE_POINTERS
+        bool "Use volatile keyword for members of event list struct."
+endmenu
+
+menu "Task Control"
+
+    config configMINIMAL_STACK_SIZE
+        int "Minimum Stack Size"
+        default 1024
+
+    config configSTACK_DEPTH_TYPE
+        string "Stack Depth Type"
+        default "UBaseType_t"
+
+
+    config configRECORD_STACK_HIGH_ADDRESS
+        bool "Record Stack High Water Mark during each context switch."
+        default y
+
+    config configMAX_TASK_NAME_LEN
+        int "Task Name Maimum Length"
+        default 8
+
+    config configUSE_TASK_NOTIFICATIONS
+        bool "Enable Task Notifications"
+        default y
+
+    config configTASK_NOTIFICATION_ARRAY_ENTRIES
+        int "Number of Task Notification Entries"
+        depends on configUSE_TASK_NOTIFICATIONS
+        default 1
+
+
+
+    config USE_THREAD_LOCAL_STORAGE
+        bool "Enable Thread Local Storage"
+        default y
+
+    config configNUM_THREAD_LOCAL_STORAGE_POINTERS
+        int "Number of Thread Local Storage Pointers per task"
+        default 1
+        depends on USE_THREAD_LOCAL_STORAGE
+
+    config configUSE_APPLICATION_TASK_TAG
+        bool "configUSE_APPLICATION_TASK_TAG"
+        default y
+
+    config configUSE_NEWLIB_REENTRANT
+        bool "Enable Newlib reent structure"
+        default y if TARGET_LIBC_NEWLIB
+
+    config configUSE_POSIX_ERRNO
+        bool "Enable per-task errno storage."
+        default y
+endmenu
+
+config ENABLE_STACK_OVERFLOW_DETECTION
+    bool "Stack Overflow Detection"
+    default y
+
+    choice
+        depends on ENABLE_STACK_OVERFLOW_DETECTION
+        prompt "Overflow Detection Method"
+        config STACK_OVERFLOW_CHOICE_BOUNDED_PSP
+            bool "Process Stack Pointer Bounds Check"
+
+        config STACK_OVERFLOW_CHOICE_CANARY
+            bool "Stack Canary"
+endchoice
+
+config configCHECK_FOR_STACK_OVERFLOW
+    int
+    default 0 if !ENABLE_STACK_OVERFLOW_DETECTION
+    default 1 if STACK_OVERFLOW_CHOICE_BOUNDED_PSP
+    default 2 if STACK_OVERFLOW_CHOICE_CANARY
+
+menu "Scheduler API"
+    config INCLUDE_xTaskResumeFromISR
+        bool "Enable xTaskResumeFromISR"
+        default y
+
+    config INCLUDE_xTaskGetSchedulerState
+        bool "Enable xTaskGetSchedulerState"
+        default y
+
+    config INCLUDE_xTaskAbortDelay
+        bool "Enable xTaskAbortDelay"
+        default y
+
+    config INCLUDE_xTaskGetCurrentTaskHandle
+        bool "Enable xTaskGetCurrentTaskHandle"
+        default y
+
+    config INCLUDE_xTaskGetHandle
+        bool "Enable xTaskGetHandle"
+        default y
+
+    config INCLUDE_xTaskGetIdleTaskHandle
+        bool "Enable xTaskGetIdleTaskHandle"
+        default y
+
+    config INCLUDE_eTaskGetState
+        bool "Enable eTaskGetState"
+        default y
+
+    config INCLUDE_uxTaskGetStackHighWaterMark
+        bool "Enable uxTaskGetStackHighWaterMark"
+        default y
+
+    config INCLUDE_uxTaskGetStackHighWaterMark2
+        bool "Enable uxTaskGetStackHighWaterMark2"
+        default y
+
+    config INCLUDE_uxTaskPriorityGet
+        bool "Enable uxTaskPriorityGet"
+        default y
+
+    config INCLUDE_vTaskDelay
+        bool "Enable vTaskDelay"
+        default y
+
+    config INCLUDE_vTaskDelayUntil
+        bool
+        default n
+
+    config INCLUDE_xTaskDelayUntil
+        bool "Enable xTaskDelayUntil"
+        default y
+
+    config INCLUDE_vTaskDelete
+        bool "Enable vTaskDelete"
+        default y
+
+    config INCLUDE_vTaskPrioritySet
+        bool "Enable vTaskPrioritySet"
+        default y
+
+    config INCLUDE_vTaskSuspend
+        bool "Enable vTaskSuspend"
+        default y
+endmenu
+
+config configUSE_PORT_OPTIMISED_TASK_SELECTION
+    bool "Use Port-Specific scheduler implementation."
+    depends on TASK_SCHEDULER_MODEL_PORT_SPECIFIC
+
+config configUSE_PREEMPTION
+    bool
+    default y if TASK_SCHEDULER_MODEL_PREEMPTIVE || TASK_SCHEDULER_MODEL_PREEMPTIVE_RR || TASK_SCHEDULER_MODEL_PORT_SPECIFIC
+    default n if TASK_SCHEDULER_MODEL_COOPERATIVE
+
+config configUSE_TIME_SLICING
+    bool
+    default y if TASK_SCHEDULER_MODEL_PREEMPTIVE_RR
+    default n
+    help
+        If Time Slicing is enabled, the RTOS scheduler will always run the highest priority task that is in the Ready state and will switch between tasks of equal priority on every RTOS tick interrupt.
+        Otherwise, the RTOS scheduler will still run the highest priority task that is in the Ready state, but will not switch between tasks of equal priority just because a tick interrupt has occurred.
+
+
+config configENABLE_FPU
+    bool
+    prompt "Enable Floating Point Unit"
+    default y if TARGET_HAS_FPU
+    default n
+
+config configUSE_TASK_FPU_SUPPORT
+    int
+    default 2 if configENABLE_FPU
+    depends on configENABLE_FPU
+
+
+config configENABLE_MVE
+    bool "Enable MVE Extensions"
+    depends on TARGET_ARM_HAS_HELIUM_MVE
+
+menuconfig configGENERATE_RUN_TIME_STATS
+    bool "Enable Runtime Statistics Generation"
+    default n
+
+    config configRUN_TIME_COUNTER_TYPE
+        string "Type to store runtime counter data"
+        default "TickType_t"
+        depends on configGENERATE_RUN_TIME_STATS
+
+menu "Idle Processing"
+    config configIDLE_SHOULD_YIELD
+        bool "Yield from IDLE Task"
+
+    config configIDLE_TASK_NAME
+        string "Idle Task Name"
+        default "IDLE"
+
+    config configUSE_IDLE_HOOK
+        bool "Enable IDLE Hook"
+        default y
+
+    config configUSE_TICKLESS_IDLE
+        bool "Enable Tickless Idle"
+
+    config configEXPECTED_IDLE_TIME_BEFORE_SLEEP
+        int "configEXPECTED_IDLE_TIME_BEFORE_SLEEP"
+        depends on configUSE_TICKLESS_IDLE
+        default 20
+
+    config configPRE_SLEEP_PROCESSING
+        string "Pre-Sleep Processing Callback"
+        depends on configUSE_TICKLESS_IDLE
+
+    config configPOST_SLEEP_PROCESSING
+        string "Post-Sleep Processing Callback"
+        depends on configUSE_TICKLESS_IDLE
+
+endmenu
+
+menuconfig configUSE_TIMERS
+    bool "Software Timers"
+    default y
+
+    config configTIMER_SERVICE_TASK_NAME
+        string "Timer Service Task Name"
+        default "TimerSVC"
+        depends on configUSE_TIMERS
+
+    config configTIMER_TASK_PRIORITY
+        int "Timer Service Task Priority"
+        default 0
+        depends on configUSE_TIMERS
+
+    config configTIMER_TASK_STACK_DEPTH
+        int "Timer Task Stack Depth"
+        default 1024
+        depends on configUSE_TIMERS
+
+    config configTIMER_QUEUE_LENGTH
+        int "Timer Event Queue Length"
+        default 8
+        depends on configUSE_TIMERS
+
+    config INCLUDE_xTimerPendFunctionCall
+        bool "Enable xTimerPendFunctionCall"
+        default y
+        depends on configUSE_TIMERS
+
+    config configUSE_DAEMON_TASK_STARTUP_HOOK
+        bool "Call Timer Service Task startup hook"
+        help
+            If enabled, the application must define a hook function that has
+            the exact name and prototype as shown below. The hook function will
+            be called exactly once when the RTOS daemon / timer service task)
+            executes for the first time. Any application initialisation code
+            that requires the RTOS to be running can be placed in the hook function.
+            void vApplicationDaemonTaskStartupHook( void );
+        default y
+        depends on configUSE_TIMERS
+
+comment "Synchronization Primitives"
+config configUSE_COUNTING_SEMAPHORES
+    bool "Counting Semaphore"
+    default y
+
+menuconfig configUSE_MUTEXES
+    bool "Mutex"
+    default y
+
+    config configUSE_RECURSIVE_MUTEXES
+        bool "Recursive Mutex"
+        default y
+        depends on configUSE_MUTEXES
+
+    config INCLUDE_xQueueGetMutexHolder
+        bool "Enable xSemaphoreGetMutexHolder syscall"
+        default y
+        depends on configUSE_MUTEXES
+
+config configUSE_QUEUE_SETS
+    bool "Queue Sets"
+    default y
+
+menuconfig ENABLE_QUEUE_REGISTRY
+    bool "Queue Registry"
+    default n
+    help
+        Enables vQueueAddToRegistry and vQueueUnregisterQueue functions.
+
+    config configQUEUE_REGISTRY_SIZE
+        int "Queue Registry Size"
+        default 8
+        depends on ENABLE_QUEUE_REGISTRY
+
+menuconfig configUSE_STREAM_BUFFERS
+    bool "Stream Buffer"
+    default y
+    depends on configUSE_TASK_NOTIFICATIONS
+    imply INCLUDE_xTaskGetCurrentTaskHandle
+
+    config configUSE_SB_COMPLETED_CALLBACK
+        bool "Enable Stream Buffer Completed callback"
+        default y
+        depends on configUSE_STREAM_BUFFERS
+
+    config configUSE_MESSAGE_BUFFERS
+        bool "Message Buffer"
+        default y
+        depends on configUSE_STREAM_BUFFERS
+
+    config configMESSAGE_BUFFER_LENGTH_TYPE
+        string "Message Buffer Length Type"
+        default "size_t"
+        depends on configUSE_MESSAGE_BUFFERS
+
+
+comment "Security Features"
+menuconfig configENABLE_MPU
+    bool "Memory Protection Unit"
+    depends on TARGET_HAS_MPU
+
+    config configTOTAL_MPU_REGIONS
+        depends on configENABLE_MPU
+        int "Number of Supported MPU Regions"
+        default 8
+
+    config configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS
+        bool "Include Application Defined Privileged Functions"
+        depends on configENABLE_MPU
+
+    config configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS
+        bool "Allow unprivileged tasks to disable interrupts via taskENTER_CRITICAL / taskEXIT_CRITICAL."
+        depends on configENABLE_MPU
+
+    config configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
+        bool "Restrict calls to xPortRaisePrivilege based on caller linker region."
+        default y
+        depends on configENABLE_MPU
+
+menuconfig configENABLE_TRUSTZONE
+    bool "Secure Processing Environment"
+
+    config configRUN_FREERTOS_SECURE_ONLY
+        bool "Build FreeRTOS for the Secure Processing Environment only"
+        depends on configENABLE_TRUSTZONE
+
+    config configMINIMAL_SECURE_STACK_SIZE
+        int "Secure Stack Size"
+        depends on configENABLE_TRUSTZONE && !configRUN_FREERTOS_SECURE_ONLY
+
+    config secureconfigMAX_SECURE_CONTEXTS
+        int "Maximum Number of Secure Contexts"
+        depends on configENABLE_TRUSTZONE && !configRUN_FREERTOS_SECURE_ONLY
+
+comment "Debugging"
+
+config configUSE_TRACE_FACILITY
+    bool "Enable FreeRTOS Trace Macros"
+    default n
+
+config configUSE_STATS_FORMATTING_FUNCTIONS
+    bool "Enable vTaskList and vTaskGetRunTimeStates syscalls"
+    default n
+    depends on configUSE_TRACE_FACILITY
+
+config configASSERT_DEFINED
+    bool "Enable configASSERT macro usage."
+    default y

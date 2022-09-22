@@ -1,0 +1,23 @@
+diff --git a/scripts/crosstool-NG.sh b/scripts/crosstool-NG.sh
+index f695613c..66815ae3 100644
+--- a/scripts/crosstool-NG.sh
++++ b/scripts/crosstool-NG.sh
+@@ -25,12 +25,12 @@ CT_LoadConfig
+ CT_LogEnable clean=yes
+
+ # Check running as root
+-if [ -z "${CT_ALLOW_BUILD_AS_ROOT_SURE}" ]; then
+-    if [ $(id -u) -eq 0 ]; then
+-        CT_DoLog ERROR "You must NOT be root to run crosstool-NG"
+-        exit 1
+-    fi
+-fi
++#if [ -z "${CT_ALLOW_BUILD_AS_ROOT_SURE}" ]; then
++#    if [ $(id -u) -eq 0 ]; then
++#        CT_DoLog ERROR "You must NOT be root to run crosstool-NG"
++#        exit 1
++#    fi
++#fi
+
+ CT_TestAndAbort "Invalid configuration. Run 'ct-ng menuconfig' and check which options select INVALID_CONFIGURATION." -n "${CT_INVALID_CONFIGURATION}"
+

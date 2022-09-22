@@ -1,0 +1,13 @@
+config TARGET_HAS_MPU
+    bool
+
+config TARGET_HAS_FPU
+    bool
+
+comment "Port specific Options"
+
+config configCALL_STACK_SIZE
+    bool "Call Stack Size"
+    depends on TARGET_ARCH_AVR && TOOLCHAIN_IAR
+
+
