@@ -1,0 +1,160 @@
+/*
+ * FreeRTOS V202112.00
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * https://www.FreeRTOS.org
+ * https://github.com/FreeRTOS
+ *
+ */
+
+#ifndef FREERTOS_CONFIG_H
+#define FREERTOS_CONFIG_H
+
+/*-----------------------------------------------------------
+ * Application specific definitions.
+ *
+ * These definitions should be adjusted for your particular hardware and
+ * application requirements.
+ *
+ * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE
+ * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE.
+ *
+ * See http://www.freertos.org/a00110.html.
+ *----------------------------------------------------------*/
+
+/* The size (in words) of the stack allocated to the idle task. */
+#cmakedefine configMINIMAL_STACK_SIZE				( ( unsigned short ) @configMINIMAL_STACK_SIZE@ )
+
+#cmakedefine configMAX_PRIORITIES					( @configMAX_PRIORITIES@ )
+
+#cmakedefine01 configUSE_PREEMPTION
+#cmakedefine01 configUSE_IDLE_HOOK
+#cmakedefine01 configUSE_TICK_HOOK
+#cmakedefine01 configUSE_16_BIT_TICKS
+
+/* Co-routine definitions. */
+#define configUSE_CO_ROUTINES 						0
+#define configMAX_CO_ROUTINE_PRIORITIES 			0
+
+#cmakedefine configCPU_CLOCK_HZ						( @configCPU_CLOCK_HZ@ )
+#cmakedefine configTICK_RATE_HZ						( ( TickType_t ) @configTICK_RATE_HZ@ )
+#cmakedefine configTOTAL_HEAP_SIZE					( ( size_t ) @configTOTAL_HEAP_SIZE@ )
+#cmakedefine configMAX_TASK_NAME_LEN				( @configMAX_TASK_NAME_LEN@ )
+
+#cmakedefine01 configUSE_TRACE_FACILITY
+
+/* Software timer definitions. */
+
+#define INCLUDE_vTaskPrioritySet					1
+#define INCLUDE_uxTaskPriorityGet					1
+#define INCLUDE_vTaskDelete							1
+#define INCLUDE_vTaskSuspend						1
+#define INCLUDE_xTaskDelayUntil						1
+#define INCLUDE_vTaskDelay							1
+#define INCLUDE_xTaskGetIdleTaskHandle				1
+#define INCLUDE_xTaskAbortDelay						1
+#define INCLUDE_xQueueGetMutexHolder				1
+#define INCLUDE_xSemaphoreGetMutexHolder			1
+#define INCLUDE_xTaskGetHandle						1
+#define INCLUDE_uxTaskGetStackHighWaterMark			1
+#define INCLUDE_uxTaskGetStackHighWaterMark2 		1
+#define INCLUDE_eTaskGetState						1
+#define INCLUDE_xTaskResumeFromISR					1
+#define INCLUDE_xTimerPendFunctionCall				1
+#define INCLUDE_xTaskGetSchedulerState				1
+#define INCLUDE_xTaskGetCurrentTaskHandle			1
+#define INCLUDE_vTaskCleanUpResources				1
+
+#cmakedefine01 configUSE_DAEMON_TASK_STARTUP_HOOK
+#cmakedefine01 configUSE_APPLICATION_TASK_TAG
+#cmakedefine configNUM_THREAD_LOCAL_STORAGE_POINTERS ( @configNUM_THREAD_LOCAL_STORAGE_POINTERS@ )
+
+#cmakedefine01 configUSE_MUTEXES
+#cmakedefine01 configUSE_RECURSIVE_MUTEXES
+#cmakedefine01 configUSE_COUNTING_SEMAPHORES
+
+#cmakedefine01 configIDLE_SHOULD_YIELD
+
+/* Assert definitions. */
+void vAssertCalled( void );
+#define configASSERT_DEFINED                   		1
+#define configASSERT( x )                      		do { if ( !(x) ) vAssertCalled(); } while(0)
+
+
+#define configUSE_ALTERNATIVE_API					0
+
+#cmakedefine01 configUSE_TIMERS
+#cmakedefine configTIMER_TASK_PRIORITY				( @configTIMER_TASK_PRIORITY@ )
+#cmakedefine configTIMER_QUEUE_LENGTH				( @configTIMER_QUEUE_LENGTH@ )
+#cmakedefine configTIMER_TASK_STACK_DEPTH			( @configTIMER_TASK_STACK_DEPTH@ )
+#cmakedefine configQUEUE_REGISTRY_SIZE				( @configQUEUE_REGISTRY_SIZE@ )
+
+
+#define configUSE_MINI_LIST_ITEM 					0
+
+#cmakedefine01 configCHECK_FOR_STACK_OVERFLOW
+#cmakedefine01 configRECORD_STACK_HIGH_ADDRESS
+#cmakedefine01 configINCLUDE_FREERTOS_TASK_C_ADDITIONS_H
+#cmakedefine01 configGENERATE_RUN_TIME_STATS
+
+#cmakedefine01 configUSE_MALLOC_FAILED_HOOK
+#cmakedefine configEXPECTED_IDLE_TIME_BEFORE_SLEEP 	( @configEXPECTED_IDLE_TIME_BEFORE_SLEEP@ )
+
+#cmakedefine01 configUSE_TICKLESS_IDLE
+#cmakedefine01 configUSE_QUEUE_SETS
+#cmakedefine01 configUSE_TIME_SLICING
+#cmakedefine01 configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS
+#cmakedefine01 configUSE_STATS_FORMATTING_FUNCTIONS
+#cmakedefine01 configUSE_TRACE_FACILITY
+#cmakedefine01 configUSE_PORT_OPTIMISED_TASK_SELECTION
+#cmakedefine01 configAPPLICATION_ALLOCATED_HEAP
+#cmakedefine01 configUSE_TASK_NOTIFICATIONS
+
+#cmakedefine configTASK_NOTIFICATION_ARRAY_ENTRIES ( @configTASK_NOTIFICATION_ARRAY_ENTRIES@ )
+
+#cmakedefine01 configUSE_POSIX_ERRNO
+#cmakedefine01 configSUPPORT_STATIC_ALLOCATION
+#cmakedefine01 configSUPPORT_DYNAMIC_ALLOCATION
+
+#cmakedefine configSTACK_DEPTH_TYPE					@configSTACK_DEPTH_TYPE@
+#cmakedefine configRUN_TIME_COUNTER_TYPE			@configRUN_TIME_COUNTER_TYPE@
+#cmakedefine configMESSAGE_BUFFER_LENGTH_TYPE		@configMESSAGE_BUFFER_LENGTH_TYPE@
+#cmakedefine configINITIAL_TICK_COUNT				@configINITIAL_TICK_COUNT@
+
+#define configENABLE_BACKWARD_COMPATIBILITY 		0
+
+#cmakedefine01 configUSE_TASK_FPU_SUPPORT
+#cmakedefine01 configENABLE_MPU
+#cmakedefine01 configENABLE_FPU
+#cmakedefine01 configENABLE_MVE
+#cmakedefine01 configENABLE_TRUSTZONE
+#cmakedefine01 configRUN_FREERTOS_SECURE_ONLY
+
+#cmakedefine configKERNEL_INTERRUPT_PRIORITY 		@configKERNEL_INTERRUPT_PRIORITY@
+#cmakedefine configMAX_SYSCALL_INTERRUPT_PRIORITY 	@configMAX_SYSCALL_INTERRUPT_PRIORITY@
+#cmakedefine configMAX_API_CALL_INTERRUPT_PRIORITY	@configMAX_API_CALL_INTERRUPT_PRIORITY@
+
+// /* Port Specific */
+// #define configMTIME_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIME )
+// #define configMTIMECMP_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIMECMP )
+// /* RISC-V definitions */
+// #define configISR_STACK_SIZE_WORDS				( 2048 )
+
+#endif /* FREERTOS_CONFIG_H */
