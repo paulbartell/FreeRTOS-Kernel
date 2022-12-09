@@ -93,10 +93,9 @@
 #cmakedefine01 configIDLE_SHOULD_YIELD
 
 /* Assert definitions. */
-void vAssertCalled( void );
+extern void vAssertCalled( void );
 #define configASSERT_DEFINED                   		1
 #define configASSERT( x )                      		do { if ( !(x) ) vAssertCalled(); } while(0)
-
 
 #define configUSE_ALTERNATIVE_API					0
 
@@ -147,9 +146,14 @@ void vAssertCalled( void );
 #cmakedefine01 configENABLE_TRUSTZONE
 #cmakedefine01 configRUN_FREERTOS_SECURE_ONLY
 
-#cmakedefine configKERNEL_INTERRUPT_PRIORITY 		@configKERNEL_INTERRUPT_PRIORITY@
-#cmakedefine configMAX_SYSCALL_INTERRUPT_PRIORITY 	@configMAX_SYSCALL_INTERRUPT_PRIORITY@
-#cmakedefine configMAX_API_CALL_INTERRUPT_PRIORITY	@configMAX_API_CALL_INTERRUPT_PRIORITY@
+#cmakedefine configKERNEL_INTERRUPT_PRIORITY 		        @configKERNEL_INTERRUPT_PRIORITY@
+#cmakedefine configMAX_SYSCALL_INTERRUPT_PRIORITY 	        @configMAX_SYSCALL_INTERRUPT_PRIORITY@
+#cmakedefine configMAX_API_CALL_INTERRUPT_PRIORITY	        @configMAX_API_CALL_INTERRUPT_PRIORITY@
+
+#cmakedefine01 configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
+#cmakedefine01 configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS
+
+#cmakedefine configTOTAL_MPU_REGIONS                        @configTOTAL_MPU_REGIONS@
 
 // /* Port Specific */
 // #define configMTIME_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIME )

@@ -5,9 +5,9 @@
 ###############################################################################
 
 ###############################################################################
-# ARMv8-M / ARMv8.1-M Non-Secure / Non-TrustZone
+# ARMv8-M / ARMv8.1-M Secure
 ###############################################################################
-add_library( port_armv8m_s
+add_library( freertos_port_armv8m_s
              INTERFACE
              init/secure_init.h
              init/secure_init.c
@@ -17,7 +17,7 @@ add_library( port_armv8m_s
              heap/secure_heap.c
              macros/secure_port_macros.h )
 
-target_include_directories( port_armv8m_s
+target_include_directories( freertos_port_armv8m_s
                             INTERFACE
                             init
                             context
@@ -35,27 +35,31 @@ endif()
 ###############################################################################
 # Cortex-M23 S
 ###############################################################################
-add_library( port_armv8m_cm23_s
+add_library( freertos_port_armv8m_cm23_s
              INTERFACE
              context/portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23/${ARMV8M_S_CONTEXT_PORT} )
 
-target_link_libraries( port_armv8m_cm23_s INTERFACE port_armv8m_s )
+target_link_libraries( freertos_port_armv8m_cm23_s INTERFACE freertos_port_armv8m_s )
+add_library( FreeRTOS::Kernel::Port::Cortex-M23::S ALIAS freertos_port_armv8m_cm23_s )
 
 ###############################################################################
 # Cortex-M33 S
 ###############################################################################
-add_library( port_armv8m_cm33_s
+add_library( freertos_port_armv8m_cm33_s
              INTERFACE
              context/portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33/${ARMV8M_S_CONTEXT_PORT} )
 
-target_link_libraries( port_armv8m_cm33_s INTERFACE port_armv8m_s )
+target_link_libraries( freertos_port_armv8m_cm33_s INTERFACE freertos_port_armv8m_s )
+add_library( FreeRTOS::Kernel::Port::Cortex-M33::S ALIAS freertos_port_armv8m_cm33_s )
 
 ###############################################################################
 # Cortex-M55 S
 ###############################################################################
-add_library( port_armv8m_cm55_s ALIAS port_armv8m_cm33_s )
+add_library( freertos_port_armv8m_cm55_s ALIAS freertos_port_armv8m_cm33_s )
+add_library( FreeRTOS::Kernel::Port::Cortex-M55::S ALIAS freertos_port_armv8m_cm33_s )
 
 ###############################################################################
 # Cortex-M85 S
 ###############################################################################
-add_library( port_armv8m_cm85_s ALIAS port_armv8m_cm33_s )
+add_library( freertos_port_armv8m_cm85_s ALIAS freertos_port_armv8m_cm33_s )
+add_library( FreeRTOS::Kernel::Port::Cortex-M85::S ALIAS freertos_port_armv8m_cm33_s )

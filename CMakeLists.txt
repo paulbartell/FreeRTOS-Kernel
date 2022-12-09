@@ -5,6 +5,7 @@
 ###############################################################################
 
 cmake_minimum_required(VERSION 3.16)
+project(FreeRTOS-Kernel C)
 
 ###############################################################################
 # Detect target toolchain / compiler
@@ -86,7 +87,6 @@ endif()
 add_library( freertos_kernel_core INTERFACE )
 
 set(FREERTOS_KERNEL_CORE_SRC_FILES
-    croutine.c
     event_groups.c
     list.c
     queue.c
@@ -98,7 +98,6 @@ set(FREERTOS_KERNEL_CORE_HDR_FILES
     FreeRTOS.h
     StackMacros.h
     atomic.h
-    croutine.h
     deprecated_definitions.h
     event_groups.h
     list.h
@@ -143,82 +142,8 @@ endif()
 add_library( FreeRTOS::Kernel::Core ALIAS freertos_kernel_core )
 
 ###############################################################################
-# FreeRTOS Kernel Configuration (Defaults)
-###############################################################################
-set( configMINIMAL_STACK_SIZE 2048 )
-set( configMAX_PRIORITIES 32 )
-
-option( configUSE_PREEMPTION "" ON )
-option( configUSE_IDLE_HOOK "" OFF )
-option( configUSE_TICK_HOOK "" OFF )
-option( configUSE_16_BIT_TICKS "" OFF )
-
-set( configCPU_CLOCK_HZ 1000000 )
-set( configTICK_RATE_HZ 1000 )
-
-set( configTOTAL_HEAP_SIZE 8192 )
-option( configUSE_TRACE_FACILITY "" OFF )
-
-option( configUSE_DAEMON_TASK_STARTUP_HOOK "" OFF )
-
-option( configUSE_APPLICATION_TASK_TAG "" OFF )
-set( configNUM_THREAD_LOCAL_STORAGE_POINTERS 1 )
-
-option( configUSE_RECURSIVE_MUTEXES "" ON )
-option( configUSE_MUTEXES "" ON )
-option( configUSE_TIMERS "" ON )
-option( configUSE_COUNTING_SEMAPHORES "" ON )
-
-set( configMAX_TASK_NAME_LEN 16 )
-
-option( configIDLE_SHOULD_YIELD "" OFF )
-set( configTIMER_TASK_PRIORITY 1 )
-set( configTIMER_QUEUE_LENGTH 8 )
-set( configTIMER_TASK_STACK_DEPTH 256 )
-set( configQUEUE_REGISTRY_SIZE 0 )
-
-option( configCHECK_FOR_STACK_OVERFLOW "" ON )
-option( configRECORD_STACK_HIGH_ADDRESS "" ON )
-option( configINCLUDE_FREERTOS_TASK_C_ADDITIONS_H "" OFF )
-option( configGENERATE_RUN_TIME_STATS "" OFF )
-
-option( configUSE_MALLOC_FAILED_HOOK "" OFF )
-
-set( configEXPECTED_IDLE_TIME_BEFORE_SLEEP 0 )
-
-
-option( configUSE_TICKLESS_IDLE "" OFF )
-option( configUSE_QUEUE_SETS "" ON )
-option( configUSE_TIME_SLICING "" ON )
-option( configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS "" OFF )
-option( configUSE_STATS_FORMATTING_FUNCTIONS "" OFF )
-option( configUSE_TRACE_FACILITY "" OFF )
-option( configUSE_PORT_OPTIMISED_TASK_SELECTION "" OFF )
-option( configAPPLICATION_ALLOCATED_HEAP "" OFF )
-option( configUSE_TASK_NOTIFICATIONS "" ON )
-
-set( configTASK_NOTIFICATION_ARRAY_ENTRIES 2 )
-
-option( configUSE_POSIX_ERRNO "" ON )
-option( configSUPPORT_STATIC_ALLOCATION "" OFF )
-option( configSUPPORT_DYNAMIC_ALLOCATION "" ON )
-
-set( configSTACK_DEPTH_TYPE size_t )
-set( configRUN_TIME_COUNTER_TYPE size_t )
-set( configMESSAGE_BUFFER_LENGTH_TYPE size_t )
-set( configINITIAL_TICK_COUNT 0 )
-
-option( configUSE_TASK_FPU_SUPPORT "" ON )
-option( configENABLE_MPU "" ON )
-option( configENABLE_FPU "" ON )
-option( configENABLE_MVE "" ON )
-option( configENABLE_TRUSTZONE "" ON )
-option( configRUN_FREERTOS_SECURE_ONLY "" OFF )
-
-set( configMAX_SYSCALL_INTERRUPT_PRIORITY 1 )
-
-###############################################################################
 # Ports (including MPU wrappers and heap implementations )
 ###############################################################################
 add_subdirectory( portable )
 
+add_subdirectory( target )

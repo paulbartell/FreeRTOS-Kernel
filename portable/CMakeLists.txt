@@ -7,7 +7,6 @@
 ###############################################################################
 # Export Heap Implementations as interface targets
 ###############################################################################
-
 add_library( freertos_kernel_heap_1 INTERFACE MemMang/heap_1.c )
 add_library( freertos_kernel_heap_2 INTERFACE MemMang/heap_2.c )
 add_library( freertos_kernel_heap_3 INTERFACE MemMang/heap_3.c )
@@ -27,7 +26,7 @@ if(NOT CMAKE_CROSSCOMPILING)
     endif()
 
     if(CMAKE_C_COMPILER_IS_MSVC)
-        add_subdirectory(MSVC-MingW)
+        # add_subdirectory(MSVC-MingW)
     endif()
 
 ###############################################################################
@@ -35,34 +34,30 @@ if(NOT CMAKE_CROSSCOMPILING)
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^78K$")
     if(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/78K0R )
+        # add_subdirectory( IAR/78K0R )
     endif()
 
 ###############################################################################
 # 8051 targets
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^8051$")
-
     if(CMAKE_C_COMPILER_IS_SDCC)
-        add_subdirectory( SDCC/Cygnal )
+        # add_subdirectory( SDCC/Cygnal )
     endif()
 
 ###############################################################################
 # ARC
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(ARC|arc).*$")
-
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( ThirdParty/GCC/ARC_EM_HS )
-        add_subdirectory( ThirdParty/GCC/ARC_v1 )
-
+        # add_subdirectory( ThirdParty/GCC/ARC_EM_HS )
+        # add_subdirectory( ThirdParty/GCC/ARC_v1 )
     endif()
 
 ###############################################################################
 # ARM targets
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
-
     set( configKERNEL_INTERRUPT_PRIORITY 255 )
     set( configMAX_SYSCALL_INTERRUPT_PRIORITY 191 )
 
@@ -88,22 +83,22 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
     # Compatible with Keil MDK, ARM DS-5, and ARM RVDS
     ###########################################################################
     if(CMAKE_C_COMPILER_IS_ARMCC)
-        # ARMv4T / ARM7TDMI
-        add_subdirectory( RVDS/ARM7_LPC21xx )
+        # # ARMv4T / ARM7TDMI
+        # add_subdirectory( RVDS/ARM7_LPC21xx )
 
-        # ARMv7-A
-        add_subdirectory( RVDS/ARM_CA9 )
+        # # ARMv7-A
+        # add_subdirectory( RVDS/ARM_CA9 )
 
-        # ARMv6-M
-        add_subdirectory( RVDS/ARM_CM0 )
+        # # ARMv6-M
+        # add_subdirectory( RVDS/ARM_CM0 )
 
-        # ARMv7-M
-        add_subdirectory( RVDS/ARM_CM3 )
+        # # ARMv7-M
+        # add_subdirectory( RVDS/ARM_CM3 )
 
-        # ARMv7E-M
-        add_subdirectory( RVDS/ARM_CM4F )
-        add_subdirectory( RVDS/ARM_CM4_MPU )
-        add_subdirectory( RVDS/ARM_CM7 )
+        # # ARMv7E-M
+        # add_subdirectory( RVDS/ARM_CM4F )
+        # add_subdirectory( RVDS/ARM_CM4_MPU )
+        # add_subdirectory( RVDS/ARM_CM7/r0p1 )
     endif()
 
     ###########################################################################
@@ -127,9 +122,9 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
         add_subdirectory( GCC/ARM_CM3_MPU )
 
         # ARMv7E-M
-        # add_subdirectory( GCC/ARM_CM4F )
-        # add_subdirectory( GCC/ARM_CM4_MPU )
-        # add_subdirectory( GCC/ARM_CM7 )
+        add_subdirectory( GCC/ARM_CM4F )
+        add_subdirectory( GCC/ARM_CM4_MPU )
+        add_subdirectory( GCC/ARM_CM7/r0p1 )
 
         # ARMv7-R
         # add_subdirectory( GCC/ARM_CR5 )
@@ -145,47 +140,47 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
     ###########################################################################
     if(CMAKE_C_COMPILER_IS_TI_CGT)
         # TI CGT-ARM ARMv7-M
-        add_subdirectory( CCS/ARM_CM3 )
+        # add_subdirectory( CCS/ARM_CM3 )
 
         # TI CGT-ARM ARMv7E-M
-        add_subdirectory( CCS/ARM_CM4F )
+        # add_subdirectory( CCS/ARM_CM4F )
 
         # TI CGT-ARM ARMv7-R
-        add_subdirectory( CCS/ARM_Cortex-R4 )
+        # add_subdirectory( CCS/ARM_Cortex-R4 )
     endif()
 
     if(CMAKE_C_COMPILER_IS_IAR)
-        # ARMv4T / ARM7TDMI
-        add_subdirectory( IAR/AtmelSAM7S64 )
-        add_subdirectory( IAR/LPC2000 )
-        add_subdirectory( IAR/STR71x )
-        add_subdirectory( IAR/STR75x )
+        # # ARMv4T / ARM7TDMI
+        # add_subdirectory( IAR/AtmelSAM7S64 )
+        # add_subdirectory( IAR/LPC2000 )
+        # add_subdirectory( IAR/STR71x )
+        # add_subdirectory( IAR/STR75x )
 
-        # ARMv5T / ARM9TDMI
-        add_subdirectory( IAR/AtmelSAM9XE )
-        add_subdirectory( IAR/STR91x )
+        # # ARMv5T / ARM9TDMI
+        # add_subdirectory( IAR/AtmelSAM9XE )
+        # add_subdirectory( IAR/STR91x )
 
-        # ARMv7-A
-        add_subdirectory( IAR/ARM_CA5_No_GIC )
-        add_subdirectory( IAR/ARM_CA9 )
+        # # ARMv7-A
+        # add_subdirectory( IAR/ARM_CA5_No_GIC )
+        # add_subdirectory( IAR/ARM_CA9 )
 
-        # ARMv6-M
-        add_subdirectory( IAR/ARM_CM0 )
+        # # ARMv6-M
+        # add_subdirectory( IAR/ARM_CM0 )
 
-        # ARMv7-M
-        add_subdirectory( IAR/ARM_CM3 )
+        # # ARMv7-M
+        # add_subdirectory( IAR/ARM_CM3 )
 
-        # ARMv7E-M
-        add_subdirectory( IAR/ARM_CM4F )
-        add_subdirectory( IAR/ARM_CM4F_MPU )
-        add_subdirectory( IAR/ARM_CM7 )
+        # # ARMv7E-M
+        # add_subdirectory( IAR/ARM_CM4F )
+        # add_subdirectory( IAR/ARM_CM4F_MPU )
+        # add_subdirectory( IAR/ARM_CM7 )
 
-        # ARMv7-R
-        add_subdirectory( IAR/ARM_CRx_No_GIC )
+        # # ARMv7-R
+        # add_subdirectory( IAR/ARM_CRx_No_GIC )
     endif()
 
     if(CMAKE_C_COMPILER_IS_TASKING)
-        add_subdirectory( Tasking/ARM_CM4F )
+        # add_subdirectory( Tasking/ARM_CM4F )
     endif()
 
     # TODO: MikroC/ARM_CM4F
@@ -197,16 +192,16 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)8?$")
 
     # GCC / Clang and compatible for 8-bit AVR
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC OR CMAKE_C_COMPILER_IS_MCHP_XC)
-        add_subdirectory( GCC/ATMega323 )
-        add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx )
-        add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0 )
-        add_subdirectory( ThirdParty/GCC/ATmega )
+        # add_subdirectory( GCC/ATMega323 )
+        # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx )
+        # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0 )
+        # add_subdirectory( ThirdParty/GCC/ATmega )
 
     # IAR for AVR8
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/ATMega323 )
-        add_subdirectory( IAR/AVR_Mega0 )
-        add_subdirectory( IAR/AVR_AVRDx )
+        # add_subdirectory( IAR/ATMega323 )
+        # add_subdirectory( IAR/AVR_Mega0 )
+        # add_subdirectory( IAR/AVR_AVRDx )
     endif()
 
 ###############################################################################
@@ -214,9 +209,9 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)8?$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)32$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/AVR32_UC3 )
+        # add_subdirectory( GCC/AVR32_UC3 )
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/AVR32_UC3 )
+        # add_subdirectory( IAR/AVR32_UC3 )
     endif()
 
 ###############################################################################
@@ -224,7 +219,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)32$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(m68k|M68K|coldfire|ColdFire|COLDFIRE)$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/ColdFire_V2 )
+        # add_subdirectory( GCC/ColdFire_V2 )
     endif()
     # TODO: CodeWarrior/ColdFire_V1
     # TODO: CodeWarrior/ColdFire_V2
@@ -234,7 +229,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(m68k|M68K|coldfire|ColdFire|COLDFIRE)$"
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^m68hc1x$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/HCS12 )
+        # add_subdirectory( GCC/HCS12 )
     endif()
     # TODO: CodeWarrior/HCS12
 
@@ -242,30 +237,30 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^m68hc1x$")
 # Xilinx 32-bit MicroBlaze
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(mblaze|MBLAZE|microblaze|MicroBlaze|MICROBLAZE).*$")
-    add_subdirectory( GCC/MicroBlaze )
-    add_subdirectory( GCC/MicroBlazeV8 )
-    add_subdirectory( GCC/MicroBlazeV9 )
+    # add_subdirectory( GCC/MicroBlaze )
+    # add_subdirectory( GCC/MicroBlazeV8 )
+    # add_subdirectory( GCC/MicroBlazeV9 )
 
 ###############################################################################
 # 32-bit MIPS targets (including Microchip PIC32)
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(MIPS|mips).*$")
-    add_subdirectory( MPLAB/PIC32MEC14xx )
-    add_subdirectory( MPLAB/PIC32MX )
-    add_subdirectory( MPLAB/PIC32MZ )
+    # add_subdirectory( MPLAB/PIC32MEC14xx )
+    # add_subdirectory( MPLAB/PIC32MX )
+    # add_subdirectory( MPLAB/PIC32MZ )
 
 ###############################################################################
 # 16-bit Texas Instruments MSP430
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(MSP|msp)?430$")
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/MSP430F449 )
-        add_subdirectory( ThirdParty/Community-Supported-Ports/GCC/MSP430FR5969 )
+        # add_subdirectory( GCC/MSP430F449 )
+        # add_subdirectory( ThirdParty/Community-Supported-Ports/GCC/MSP430FR5969 )
     elseif(CMAKE_C_COMPILER_IS_TI_CGT)
-        add_subdirectory( CCS/MSP430X )
+        # add_subdirectory( CCS/MSP430X )
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/MSP430 )
-        add_subdirectory( IAR/MSP430X )
+        # add_subdirectory( IAR/MSP430 )
+        # add_subdirectory( IAR/MSP430X )
     endif()
     # TODO: Rowley/MSP430F449
 
@@ -274,7 +269,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(MSP|msp)?430$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(PIC24|pic24)$")
     if(CMAKE_C_COMPILER_IS_MCHP_XC)
-        add_subdirectory( MPLAB/PIC24_dsPIC )
+        # add_subdirectory( MPLAB/PIC24_dsPIC )
     endif()
 
 ###############################################################################
@@ -282,24 +277,24 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(PIC24|pic24)$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(PIC18|pic18)[fF]?$")
     if(CMAKE_C_COMPILER_IS_MCHP_XC)
-        add_subdirectory( MPLAB/PIC18F )
+        # add_subdirectory( MPLAB/PIC18F )
     endif()
 
 ###############################################################################
 # 32-Bit PowerPC
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(PPC|ppc).*$")
-    add_subdirectory( GCC/PPC405_Xilinx )
-    add_subdirectory( GCC/PPC440_Xilinx )
+    # add_subdirectory( GCC/PPC405_Xilinx )
+    # add_subdirectory( GCC/PPC440_Xilinx )
 
 ###############################################################################
 # RISC-V
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(RISC-?V|risc-?v)$")
     if(CMAKE_C_COMPILER_IS_GCC OR CMAKE_C_COMPILER_IS_CLANG)
-        add_subdirectory( GCC/RISC-V )
+        # add_subdirectory( GCC/RISC-V )
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/RISC-V )
+        # add_subdirectory( IAR/RISC-V )
     endif()
 
 ###############################################################################
@@ -307,9 +302,9 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(RISC-?V|risc-?v)$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(RL78|rl78)$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/RL78 )
+        # add_subdirectory( GCC/RL78 )
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/RL78 )
+        # add_subdirectory( IAR/RL78 )
     endif()
 
 ###############################################################################
@@ -317,31 +312,31 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(RL78|rl78)$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(RX|rx)$")
     if(CMAKE_C_COMPILER_IS_CCRX)
-        add_subdirectory( Renesas/RX100 )
-        add_subdirectory( Renesas/RX200 )
-        add_subdirectory( Renesas/RX600 )
-        add_subdirectory( Renesas/RX600v2 )
-        add_subdirectory( Renesas/RX700v3_DPFPU )
+        # add_subdirectory( Renesas/RX100 )
+        # add_subdirectory( Renesas/RX200 )
+        # add_subdirectory( Renesas/RX600 )
+        # add_subdirectory( Renesas/RX600v2 )
+        # add_subdirectory( Renesas/RX700v3_DPFPU )
 
     elseif(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/RX100 )
-        add_subdirectory( GCC/RX200 )
-        add_subdirectory( GCC/RX600 )
-        add_subdirectory( GCC/RX600v2 )
-        add_subdirectory( GCC/RX700v3_DPFPU )
+        # add_subdirectory( GCC/RX100 )
+        # add_subdirectory( GCC/RX200 )
+        # add_subdirectory( GCC/RX600 )
+        # add_subdirectory( GCC/RX600v2 )
+        # add_subdirectory( GCC/RX700v3_DPFPU )
 
     elseif(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/RX100 )
-        add_subdirectory( IAR/RX600 )
-        add_subdirectory( IAR/RX700v3_DPFPU )
-        add_subdirectory( IAR/RXv2 )
+        # add_subdirectory( IAR/RX100 )
+        # add_subdirectory( IAR/RX600 )
+        # add_subdirectory( IAR/RX700v3_DPFPU )
+        # add_subdirectory( IAR/RXv2 )
     endif()
 
 ###############################################################################
 # Renesas SuperH
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(SH|sh)$")
-    add_subdirectory( Renesas/SH2A_FPU )
+    # add_subdirectory( Renesas/SH2A_FPU )
 
 ###############################################################################
 # Infineon TriCore
@@ -349,8 +344,8 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(SH|sh)$")
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(TRICORE|TriCore|tricore).*$")
 
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/TriCore_1782 )
-        add_subdirectory( Community-Supported-Ports/GCC/TriCore_38xa )
+        # add_subdirectory( GCC/TriCore_1782 )
+        # add_subdirectory( Community-Supported-Ports/GCC/TriCore_38xa )
     endif()
 
 ###############################################################################
@@ -358,7 +353,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(TRICORE|TriCore|tricore).*$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^v850.*$")
     if(CMAKE_C_COMPILER_IS_IAR)
-        add_subdirectory( IAR/V850ES )
+        # add_subdirectory( IAR/V850ES )
     endif()
 
 ###############################################################################
@@ -367,15 +362,15 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^v850.*$")
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86(_64)?|i.86)$")
 
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( GCC/IA32_flat )
+        # add_subdirectory( GCC/IA32_flat )
 
     elseif(CMAKE_C_COMPILER_IS_OPEN_WATCOM)
-        add_subdirectory( oWatcom/16BitDOS/Flsh186 )
-        add_subdirectory( oWatcom/16BitDOS/PC )
+        # add_subdirectory( oWatcom/16BitDOS/Flsh186 )
+        # add_subdirectory( oWatcom/16BitDOS/PC )
 
     elseif(CMAKE_C_COMPILER_IS_BORLAND)
-        add_subdirectory( BCC/16BitDOS/Flsh186 )
-        add_subdirectory( BCC/16BitDOS/PC )
+        # add_subdirectory( BCC/16BitDOS/Flsh186 )
+        # add_subdirectory( BCC/16BitDOS/PC )
     endif()
 
 ###############################################################################
@@ -383,8 +378,8 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86(_64)?|i.86)$")
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(Xtensa|XTENSA|xtensa).*$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        add_subdirectory( ThirdParty/GCC/Xtensa_ESP32 )
-        add_subdirectory( ThirdParty/XCC/Xtensa )
+        # add_subdirectory( ThirdParty/GCC/Xtensa_ESP32 )
+        # add_subdirectory( ThirdParty/XCC/Xtensa )
     endif()
 else()
 

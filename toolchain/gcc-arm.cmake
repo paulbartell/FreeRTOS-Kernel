@@ -27,7 +27,7 @@ else()
     set(TC_PREFIX arm-none-eabi-)
 endif()
 
-set(CMAKE_C_FLAGS "-nostdlib --specs=nosys.specs ${ARM_GCC_FLAGS} -fdata-sections -ffunction-sections -Wl,--gc-sections" CACHE INTERNAL "")
-set(CMAKE_CXX_FLAGS "-nostdlib ${APP_CXX_FLAGS} ${CMAKE_C_FLAGS} -fno-exceptions" CACHE INTERNAL "")
+add_compile_options(-nostdlib --specs=nosys.specs -fdata-sections -ffunction-sections -Wl,--gc-sections)
+add_link_options(-nostdlib -fno-exceptions)
 
 include(${CMAKE_CURRENT_LIST_DIR}/gcc-common.cmake)
