@@ -154,6 +154,7 @@ extern void vAssertCalled( void );
 #cmakedefine01 configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS
 
 #cmakedefine configTOTAL_MPU_REGIONS                        @configTOTAL_MPU_REGIONS@
+#cmakedefine01 configENABLE_ERRATA_837070_WORKAROUND
 
 // /* Port Specific */
 // #define configMTIME_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIME )

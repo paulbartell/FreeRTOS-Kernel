@@ -466,6 +466,7 @@ endif()
 ###############################################################################
 if(TARGET freertos_port_armv7em_mpu)
     set(configTOTAL_MPU_REGIONS 8)
+    set(configENABLE_ERRATA_837070_WORKAROUND ON)
 
     # # Cortex-M7 r0p1 MPU
     # add_static_kernel_target( freertos_kernel_cortex_m7_r0p1_mpu8 freertos_port_armv7em_mpu )
@@ -517,6 +518,7 @@ endif()
 ###############################################################################
 if(TARGET freertos_port_armv7em_mpu)
     set(configTOTAL_MPU_REGIONS 16)
+    set(configENABLE_ERRATA_837070_WORKAROUND ON)
 
     # # Cortex-M7 r0p1 MPU
     # add_static_kernel_target( freertos_kernel_cortex_m7_r0p1_mpu16 freertos_port_armv7em_mpu )

@@ -1,3 +1,9 @@
+###############################################################################
+# FreeRTOS Kernel
+# Copyright (C) 2022 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+# SPDX-License-Identifier: MIT
+###############################################################################
+
 # Determine Toolchain binary path
 if(DEFINED TOOLCHAIN_PATH)
     set(TC_BIN_PATH                     ${TOOLCHAIN_PATH}/bin/)
