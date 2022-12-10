@@ -121,15 +121,15 @@ target_sources(
 set(KERNEL_CORE_HEADERS)
 
 if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
-	set( FREERTOS_KERNEL_CORE_HDR_PATHS "" )
-   foreach(source ${FREERTOS_KERNEL_CORE_HDR_FILES})
-	   string(PREPEND source "include/")
-	   list(APPEND FREERTOS_KERNEL_CORE_HDR_PATHS ${source})
-   endforeach()
-   target_sources(
+    set( FREERTOS_KERNEL_CORE_HDR_PATHS "" )
+    foreach(source ${FREERTOS_KERNEL_CORE_HDR_FILES})
+        string(PREPEND source "include/")
+        list(APPEND FREERTOS_KERNEL_CORE_HDR_PATHS ${source})
+    endforeach()
+    target_sources(
         freertos_kernel_core
         INTERFACE
-	${FREERTOS_KERNEL_CORE_HDR_PATHS} )
+    ${FREERTOS_KERNEL_CORE_HDR_PATHS} )
 
     target_include_directories(
         freertos_kernel_core
