@@ -13,7 +13,7 @@ target_sources( freertos_port_armv7m INTERFACE port.c )
 
 if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
     target_sources( freertos_port_armv7m PUBLIC portmacro.h )
-    target_include_directories( freertos_port_armv7m PUBLIC . )
+    target_include_directories( freertos_port_armv7m INTERFACE . )
 else()
     target_sources( freertos_port_armv7m
         PUBLIC
