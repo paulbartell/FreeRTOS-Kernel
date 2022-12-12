@@ -13,7 +13,8 @@ if(TARGET freertos_port_armv7m)
 
     target_compile_options( freertos_kernel_armv7m
                             PUBLIC
-                                "-march=armv7-m" )
+                                "-march=armv7-m"
+                                "-mthumb" )
 
     target_add_freertos_config( freertos_kernel_armv7m )
 
@@ -22,7 +23,8 @@ if(TARGET freertos_port_armv7m)
 
     target_compile_options( freertos_kernel_cortex_m3
                             PUBLIC
-                                "-mcpu=cortex-m3" )
+                                "-mcpu=cortex-m3"
+                                "-mthumb" )
 
     target_add_freertos_config( freertos_kernel_cortex_m3 )
 endif()
@@ -36,7 +38,8 @@ if(TARGET freertos_port_armv7m_mpu)
 
     target_compile_options( freertos_kernel_armv7m_mpu
                             PUBLIC
-                                "-march=armv7-m" )
+                                "-march=armv7-m"
+                                "-mthumb" )
 
     target_add_freertos_config( freertos_kernel_armv7m_mpu )
 
@@ -45,7 +48,8 @@ if(TARGET freertos_port_armv7m_mpu)
 
     target_compile_options( freertos_kernel_cortex_m3_mpu
                             PUBLIC
-                                "-mcpu=cortex-m3" )
+                                "-mcpu=cortex-m3"
+                                "-mthumb" )
 
     target_add_freertos_config( freertos_kernel_cortex_m3_mpu )
 endif()
