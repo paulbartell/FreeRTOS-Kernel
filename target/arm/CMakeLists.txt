@@ -111,7 +111,7 @@ if(TARGET freertos_port_armv7em)
     #                         PUBLIC
     #                             "-march=armv7e-m"
     #                             "-mfloat-abi=softfp"
-    #                             "-mfpu=auto" )
+    #                             "-mfpu=fpv4-sp-d16" )
 
     # target_add_freertos_config( freertos_kernel_armv7em_softfp )
 
@@ -166,7 +166,7 @@ if(TARGET freertos_port_armv7em)
                             PUBLIC
                                 "-mcpu=cortex-m4"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv4-sp-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m4_softfp )
 
@@ -198,7 +198,7 @@ if(TARGET freertos_port_armv7em)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_softfp )
 
@@ -246,7 +246,7 @@ if(TARGET freertos_port_armv7em_cortex_m7_r0p1)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_r0p1_softfp )
 
@@ -297,7 +297,7 @@ if(TARGET freertos_port_armv7em_mpu)
     #                         PUBLIC
     #                             "-march=armv7e-m"
     #                             "-mfloat-abi=softfp"
-    #                             "-mfpu=auto" )
+    #                             "-mfpu=fpv4-sp-d16" )
 
     # target_add_freertos_config( freertos_kernel_armv7em_softfp_mpu8 )
 
@@ -360,7 +360,7 @@ if(TARGET freertos_port_armv7em_mpu)
     #                         PUBLIC
     #                             "-march=armv7e-m"
     #                             "-mfloat-abi=softfp"
-    #                             "-mfpu=auto" )
+    #                             "-mfpu=fpv4-sp-d16" )
 
     # target_add_freertos_config( freertos_kernel_armv7em_softfp_mpu16 )
 
@@ -422,7 +422,7 @@ if(TARGET freertos_port_armv7em_mpu)
                             PUBLIC
                                 "-mcpu=cortex-m4"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv4-sp-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m4_softfp_mpu8 )
 
@@ -461,7 +461,7 @@ if(TARGET freertos_port_armv7em_mpu)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_softfp_mpu8 )
 
@@ -511,7 +511,7 @@ if(TARGET freertos_port_armv7em_mpu)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_softfp_mpu16 )
 
@@ -561,7 +561,7 @@ if(TARGET freertos_port_armv7em_mpu)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_r0p1_softfp_mpu8 )
 
@@ -612,7 +612,7 @@ if(TARGET freertos_port_armv7em_mpu)
                             PUBLIC
                                 "-mcpu=cortex-m7"
                                 "-mfloat-abi=softfp"
-                                "-mfpu=auto" )
+                                "-mfpu=fpv5-d16" )
 
     target_add_freertos_config( freertos_kernel_cortex_m7_r0p1_softfp_mpu16 )
 
