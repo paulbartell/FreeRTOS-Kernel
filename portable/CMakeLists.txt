@@ -192,7 +192,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)8?$")
 
     # GCC / Clang and compatible for 8-bit AVR
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC OR CMAKE_C_COMPILER_IS_MCHP_XC)
-        # add_subdirectory( GCC/ATMega323 )
+        add_subdirectory( GCC/ATMega323 )
         # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx )
         # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0 )
         # add_subdirectory( ThirdParty/GCC/ATmega )

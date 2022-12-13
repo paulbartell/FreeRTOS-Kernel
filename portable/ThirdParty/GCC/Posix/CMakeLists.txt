@@ -20,7 +20,7 @@ if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
                     portmacro.h
                     utils/wait_for_event.h )
     target_include_directories( freertos_port_posix
-                                PUBLIC
+                                INTERFACE
                                 .
                                 utils )
 else()

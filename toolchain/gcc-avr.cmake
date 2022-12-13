@@ -26,7 +26,7 @@ set(CMAKE_SYSTEM_NAME Generic)
 
 set(ARM_GCC_FLAGS "")
 
-set(CMAKE_C_FLAGS "-nostdlib --specs=nosys.specs -fdata-sections -ffunction-sections -Wl,--gc-sections" CACHE INTERNAL "")
-set(CMAKE_CXX_FLAGS "-nostdlib ${CMAKE_C_FLAGS} -fno-exceptions" CACHE INTERNAL "")
+add_compile_options(-nostdlib -fdata-sections -ffunction-sections -Wl,--gc-sections)
+add_link_options(-nostdlib -fno-exceptions)
 
 include(${CMAKE_CURRENT_LIST_DIR}/gcc-common.cmake)
