@@ -29,92 +29,92 @@ endif()
 ###############################################################################
 # Cortex-M23 NS
 ###############################################################################
-add_library( freertos_port_armv8m_cm23_ns
+add_library( freertos_port_armv8m_base_ns
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm23_ns
+target_include_directories( freertos_port_armv8m_base_ns
                             INTERFACE
                             portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23 )
 
-target_link_libraries( freertos_port_armv8m_cm23_ns INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M23::NS ALIAS freertos_port_armv8m_cm23_ns )
+target_link_libraries( freertos_port_armv8m_base_ns INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M23::NS ALIAS freertos_port_armv8m_base_ns )
 
 ###############################################################################
 # Cortex-M23 NTZ
 ###############################################################################
-add_library( freertos_port_armv8m_cm23_ntz
+add_library( freertos_port_armv8m_base_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23_NTZ/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23_NTZ/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm23_ntz
+target_include_directories( freertos_port_armv8m_base_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM23_NTZ )
 
-target_link_libraries( freertos_port_armv8m_cm23_ntz INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M23::NTZ ALIAS freertos_port_armv8m_cm23_ntz )
+target_link_libraries( freertos_port_armv8m_base_ntz INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M23::NTZ ALIAS freertos_port_armv8m_base_ntz )
 
 ###############################################################################
 # Cortex-M33 NS
 ###############################################################################
-add_library( freertos_port_armv8m_cm33_ns
+add_library( freertos_port_armv8m_main_ns
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm33_ns
+target_include_directories( freertos_port_armv8m_main_ns
                             INTERFACE
                             portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33 )
 
-target_link_libraries( freertos_port_armv8m_cm33_ns INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M33::NS ALIAS freertos_port_armv8m_cm33_ns )
+target_link_libraries( freertos_port_armv8m_main_ns INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M33::NS ALIAS freertos_port_armv8m_main_ns )
 
 ###############################################################################
 # Cortex-M33 NTZ
 ###############################################################################
-add_library( freertos_port_armv8m_cm33_ntz
+add_library( freertos_port_armv8m_main_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33_NTZ/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33_NTZ/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm33_ntz
+target_include_directories( freertos_port_armv8m_main_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33_NTZ )
 
-target_link_libraries( freertos_port_armv8m_cm33_ntz INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M33::NTZ ALIAS freertos_port_armv8m_cm33_ntz )
+target_link_libraries( freertos_port_armv8m_main_ntz INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M33::NTZ ALIAS freertos_port_armv8m_main_ntz )
 
 ###############################################################################
 # Cortex-M55 NS
 ###############################################################################
-add_library( freertos_port_armv8m_cm55_ns
+add_library( freertos_port_armv8_1m_main_ns
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM55/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm55_ns
+target_include_directories( freertos_port_armv8_1m_main_ns
                             INTERFACE
                             portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM55 )
 
-target_link_libraries( freertos_port_armv8m_cm55_ns INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M55::NS ALIAS freertos_port_armv8m_cm55_ns )
+target_link_libraries( freertos_port_armv8_1m_main_ns INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M55::NS ALIAS freertos_port_armv8_1m_main_ns )
 
 ###############################################################################
 # Cortex-M55 NTZ
 ###############################################################################
-add_library( freertos_port_armv8m_cm55_ntz
+add_library( freertos_port_armv8_1m_main_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33_NTZ/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM55/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm55_ntz
+target_include_directories( freertos_port_armv8_1m_main_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM55 )
 
-target_link_libraries( freertos_port_armv8m_cm55_ntz INTERFACE freertos_port_armv8m_ns )
-add_library( FreeRTOS::Kernel::Port::Cortex-M55::NTZ ALIAS freertos_port_armv8m_cm55_ntz )
+target_link_libraries( freertos_port_armv8_1m_main_ntz INTERFACE freertos_port_armv8m_ns )
+add_library( FreeRTOS::Kernel::Port::Cortex-M55::NTZ ALIAS freertos_port_armv8_1m_main_ntz )
 
 ###############################################################################
 # Cortex-M85 NS

@@ -74,6 +74,7 @@ macro(config_set_defaults)
     set_default( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY ON )
     set_default( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS OFF )
     set_default( configENABLE_ERRATA_837070_WORKAROUND OFF )
+    set_default( configMINIMAL_SECURE_STACK_SIZE 1024 )
 endmacro()
 
 ###############################################################################

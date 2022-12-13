@@ -156,6 +156,8 @@ extern void vAssertCalled( void );
 #cmakedefine configTOTAL_MPU_REGIONS                        @configTOTAL_MPU_REGIONS@
 #cmakedefine01 configENABLE_ERRATA_837070_WORKAROUND
 
+#cmakedefine configMINIMAL_SECURE_STACK_SIZE                @configMINIMAL_SECURE_STACK_SIZE@
+
 // /* Port Specific */
 // #define configMTIME_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIME )
 // #define configMTIMECMP_BASE_ADDRESS				( CLINT_ADDR + CLINT_MTIMECMP )

@@ -35,5 +35,5 @@ endfunction()
 add_subdirectory(armv6-m)
 add_subdirectory(armv7-m)
 add_subdirectory(armv7e-m)
-
+add_subdirectory(armv8-m)
 add_subdirectory(avr)
