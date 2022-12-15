@@ -3,6 +3,10 @@
 # Copyright (C) 2022 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 # SPDX-License-Identifier: MIT
 ###############################################################################
+
+list(FIND gcc_arm_allowed_march_options "armv7e-m" index)
+if(NOT index EQUAL -1)
+
 macro(define_arch_fp_variant arch_variant_name float_abi_opt fpu_opt )
     add_library( ${arch_variant_name} INTERFACE )
 
@@ -15,14 +19,17 @@ macro(define_arch_fp_variant arch_variant_name float_abi_opt fpu_opt )
 endmacro()
 
 macro(define_cpu_fp_variant arch_variant_name cpu_opt float_abi_opt fpu_opt )
-    add_library( ${arch_variant_name} INTERFACE )
+    gcc_is_flag_allowed( "${gcc_arm_allowed_mcpu_options}" ${cpu_opt} is_allowed )
+    if(${is_allowed} EQUAL 1)
+        add_library( ${arch_variant_name} INTERFACE )
 
-    target_compile_options( ${arch_variant_name}
-                            INTERFACE
-                                ${cpu_opt}
-                                "-mthumb"
-                                ${float_abi_opt}
-                                ${fpu_opt} )
+        target_compile_options( ${arch_variant_name}
+                                INTERFACE
+                                    ${cpu_opt}
+                                    "-mthumb"
+                                    ${float_abi_opt}
+                                    ${fpu_opt} )
+    endif()
 endmacro()
 
 ###############################################################################
@@ -500,3 +507,5 @@ if(TARGET freertos_port_armv7em_mpu)
                               freertos_port_armv7em_mpu
                               cortex_m7_r0p1_hard_fpv5_sp_d16 )
 endif()
+
+endif() # if(NOT index EQUAL -1)
