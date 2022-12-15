@@ -58,7 +58,7 @@ function(add_fr_config_variants target_suffix port arch_variant  )
                               ${arch_variant} )
 
     # "main" cpu variants support up to 16 mpu regions
-    if(${arch_variant} MATCHES "_main_" OR ${arch_variant} MATCHES "cortex_m(33|55|85)")
+    if(${arch_variant} MATCHES "armv8m_main|armv81m_main" OR ${arch_variant} MATCHES "cm33|cm55|cm85")
         # set(configTOTAL_MPU_REGIONS 12)
         # add_static_kernel2target( ${target_suffix}_mpu12
         #                           ${port}
@@ -515,106 +515,212 @@ define_cpu_fp_variant( arm_cm55
 
 # Single Precision FP
 define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_softfp
-                       "-mcpu=cortex-m55+nomve+fp"
+                       "-mcpu=cortex-m55+nomve"
                        "-mfloat-abi=softfp"
                        "-mfpu=fpv5-sp-d16" )
 
 define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_hard
-                       "-mcpu=cortex-m55+nomve+fp"
+                       "-mcpu=cortex-m55+nomve"
                        "-mfloat-abi=hard"
                        "-mfpu=fpv5-sp-d16" )
 
 # Double Precision FP
 define_cpu_fp_variant( arm_cm55_fpv5_d16_softfp
-                       "-mcpu=cortex-m55+nomve+fp.dp"
+                       "-mcpu=cortex-m55+nomve"
                        "-mfloat-abi=softfp"
                        "-mfpu=fpv5-d16" )
 
 define_cpu_fp_variant( arm_cm55_fpv5_d16_hard
-                       "-mcpu=cortex-m55+nomve+fp.dp"
+                       "-mcpu=cortex-m55+nomve"
                        "-mfloat-abi=hard"
                        "-mfpu=fpv5-d16" )
 
-if(TARGET freertos_port_armv81m_main_ns)
+if(TARGET freertos_port_arm_cm55_ns)
     add_fr_config_variants( ns
-                            freertos_port_armv81m_main_ns
+                            freertos_port_arm_cm55_ns
                             arm_cm55 )
 
     # Single Precision FP
     add_fr_config_variants( ns
-                            freertos_port_armv81m_main_ns
+                            freertos_port_arm_cm55_ns
                             arm_cm55_fpv5_sp_d16_softfp )
 
     add_fr_config_variants( ns
-                            freertos_port_armv81m_main_ns
+                            freertos_port_arm_cm55_ns
                             arm_cm55_fpv5_sp_d16_hard )
 
     # Double Precision FP
     add_fr_config_variants( ns
-                            freertos_port_armv81m_main_ns
+                            freertos_port_arm_cm55_ns
                             arm_cm55_fpv5_d16_softfp )
 
     add_fr_config_variants( ns
-                            freertos_port_armv81m_main_ns
+                            freertos_port_arm_cm55_ns
                             arm_cm55_fpv5_d16_hard )
 endif()
 
-if(TARGET freertos_port_armv81m_main_ntz)
+if(TARGET freertos_port_arm_cm55_ntz)
     add_fr_config_variants( ntz
-                            freertos_port_armv81m_main_ntz
+                            freertos_port_arm_cm55_ntz
                             arm_cm55 )
 
     # Single Precision FP
     add_fr_config_variants( ntz
-                            freertos_port_armv81m_main_ntz
+                            freertos_port_arm_cm55_ntz
                             arm_cm55_fpv5_sp_d16_softfp )
 
     add_fr_config_variants( ntz
-                            freertos_port_armv81m_main_ntz
+                            freertos_port_arm_cm55_ntz
                             arm_cm55_fpv5_sp_d16_hard )
 
     # Double Precision FP
     add_fr_config_variants( ntz
-                            freertos_port_armv81m_main_ntz
+                            freertos_port_arm_cm55_ntz
                             arm_cm55_fpv5_d16_softfp )
 
     add_fr_config_variants( ntz
-                            freertos_port_armv81m_main_ntz
+                            freertos_port_arm_cm55_ntz
                             arm_cm55_fpv5_d16_hard )
 endif()
 ###############################################################################
 # ARM Cortex-M55 MVE
 ###############################################################################
 define_cpu_fp_variant( arm_cm55_mve
-                       "-mcpu=cortex-m55+mve+nofp"
+                       "-mcpu=cortex-m55+nofp"
                        "-mfloat-abi=soft"
                        "" )
 
 define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_mve_softfp
-                       "-mcpu=cortex-m55+mve+fp"
+                       "-mcpu=cortex-m55"
                        "-mfloat-abi=softfp"
                        "-mfpu=fpv5-sp-d16" )
 
 define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_mve_hard
-                       "-mcpu=cortex-m55+mve+fp"
+                       "-mcpu=cortex-m55"
                        "-mfloat-abi=hard"
                        "-mfpu=fpv5-sp-d16" )
 
 # Double Precision FP
 define_cpu_fp_variant( arm_cm55_fpv5_d16_mve_softfp
-                       "-mcpu=cortex-m55+mve+fp.dp"
+                       "-mcpu=cortex-m55"
                        "-mfloat-abi=softfp"
                        "-mfpu=fpv5-d16" )
 
 define_cpu_fp_variant( arm_cm55_fpv5_d16_mve_hard
-                       "-mcpu=cortex-m55+mve+fp.dp"
+                       "-mcpu=cortex-m55"
                        "-mfloat-abi=hard"
                        "-mfpu=fpv5-d16" )
 
+if(TARGET freertos_port_arm_cm55_ns)
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_mve )
+
+    # Single Precision FP
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_sp_d16_mve_softfp )
+
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_sp_d16_mve_hard )
+
+    # Double Precision FP
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_d16_mve_softfp )
+
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_d16_mve_hard )
+endif()
+
+if(TARGET freertos_port_arm_cm55_ntz)
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_mve )
+
+    # Single Precision FP
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_sp_d16_mve_softfp )
+
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_sp_d16_mve_hard )
+
+    # Double Precision FP
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_d16_mve_softfp )
+
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_d16_mve_hard )
+endif()
 ###############################################################################
 # ARM Cortex-M55 MVE.fp
 ###############################################################################
+define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_mve_fp_softfp
+                       "-mcpu=cortex-m55"
+                       "-mfloat-abi=softfp"
+                       "-mfpu=fpv5-sp-d16" )
 
+define_cpu_fp_variant( arm_cm55_fpv5_sp_d16_mve_fp_hard
+                       "-mcpu=cortex-m55"
+                       "-mfloat-abi=hard"
+                       "-mfpu=fpv5-sp-d16" )
+
+# Double Precision FP
+define_cpu_fp_variant( arm_cm55_fpv5_d16_mve_fp_softfp
+                       "-mcpu=cortex-m55"
+                       "-mfloat-abi=softfp"
+                       "-mfpu=fpv5-d16" )
+
+define_cpu_fp_variant( arm_cm55_fpv5_d16_mve_fp_hard
+                       "-mcpu=cortex-m55"
+                       "-mfloat-abi=hard"
+                       "-mfpu=fpv5-d16" )
+
+if(TARGET freertos_port_arm_cm55_ns)
+    # Single Precision FP
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_sp_d16_mve_fp_softfp )
+
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_sp_d16_mve_fp_hard )
+
+    # Double Precision FP
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_d16_mve_fp_softfp )
+
+    add_fr_config_variants( ns
+                            freertos_port_arm_cm55_ns
+                            arm_cm55_fpv5_d16_mve_fp_hard )
+endif()
+
+if(TARGET freertos_port_arm_cm55_ntz)
+    # Single Precision FP
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_sp_d16_mve_fp_softfp )
+
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_sp_d16_mve_fp_hard )
+
+    # Double Precision FP
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_d16_mve_fp_softfp )
+
+    add_fr_config_variants( ntz
+                            freertos_port_arm_cm55_ntz
+                            arm_cm55_fpv5_d16_mve_fp_hard )
+endif()
 ###############################################################################
 # ARM Cortex-M85
 ###############################################################################
