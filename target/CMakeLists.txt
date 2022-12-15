@@ -6,13 +6,17 @@
 
 include(config.cmake)
 
+if(NOT BUILD_ALL_TARGETS)
+    set(EXCLUDE_FLAG EXCLUDE_FROM_ALL)
+endif()
+
 ###############################################################################
 # Helper function to add a new static kernel build configuration
 ###############################################################################
 function(add_static_kernel_target target_basename port_target_name arch_target_variant )
     set( static_target_name ${target_basename}_${arch_target_variant} )
 
-    add_library( ${static_target_name} STATIC )
+    add_library( ${static_target_name} STATIC ${EXCLUDE_FLAG} )
 
     target_link_libraries( ${static_target_name}
                             PRIVATE
@@ -33,9 +37,9 @@ function(add_static_kernel_target target_basename port_target_name arch_target_v
 endfunction()
 
 function(add_static_kernel2target target_suffix port_target_name arch_target_variant )
-    set( static_target_name frkernel_${arch_target_variant}_${target_suffix})
+    set( static_target_name freertos_kernel_${arch_target_variant}_${target_suffix})
 
-    add_library( ${static_target_name} STATIC )
+    add_library( ${static_target_name} STATIC ${EXCLUDE_FLAG} )
 
     target_link_libraries( ${static_target_name}
                             PRIVATE
