@@ -40,7 +40,7 @@ if(TARGET freertos_port_armv7m)
 
     # Cortex-M3
     add_static_kernel_target( freertos_kernel
-    freertos_port_armv7m
+                              freertos_port_armv7m
                               cortex_m3 )
 endif()
 
