@@ -17,16 +17,25 @@ if(NOT index EQUAL -1)
                                     ${fpu_opt} )
     endmacro()
 
-    macro(define_cpu_fp_variant arch_variant cpu_opt arch_opt float_abi_opt fpu_opt )
-        add_library( ${arch_variant} INTERFACE )
+    macro(define_cpu_fp_variant arch_variant arch_opt cpu_opt float_abi_opt fpu_opt )
+        gcc_is_flag_allowed( "${gcc_arm_allowed_march_options}" ${arch_opt} arch_valid)
+        gcc_is_flag_allowed( "${gcc_arm_allowed_mcpu_options}" ${cpu_opt} cpu_valid)
+        gcc_is_flag_allowed( "${gcc_arm_allowed_fp_abi_options}" ${float_abi_opt} abi_valid)
+        set(fpu_valid 1)
+        if(NOT ${fpu_opt} STREQUAL "")
+            gcc_is_flag_allowed( "${gcc_arm_allowed_mfpu_options}" ${fpu_opt} fpu_valid)
+        endif()
+        if(arch_valid EQUAL 1 AND cpu_valid EQUAL 1 AND abi_valid EQUAL 1 AND fpu_valid EQUAL 1)
+            add_library( ${arch_variant} INTERFACE )
 
-        target_compile_options( ${arch_variant}
-                                INTERFACE
-                                    ${arch_opt}
-                                    ${cpu_opt}
-                                    "-mthumb"
-                                    ${float_abi_opt}
-                                    ${fpu_opt} )
+            target_compile_options( ${arch_variant}
+                                    INTERFACE
+                                        ${arch_opt}
+                                        ${cpu_opt}
+                                        "-mthumb"
+                                        ${float_abi_opt}
+                                        ${fpu_opt} )
+        endif()
     endmacro()
 
     function(add_fr_config_variants target_suffix port arch_variant)
