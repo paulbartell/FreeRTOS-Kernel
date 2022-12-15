@@ -143,7 +143,7 @@ add_library( freertos_port_arm_cm85_ntz
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM33_NTZ/${ARMV8M_PORTASM}
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM85/portmacro.h )
 
-target_include_directories( freertos_port_armv8m_cm85_ntz
+target_include_directories( freertos_port_arm_cm85_ntz
              INTERFACE
              portable/${ARMV8M_COMPILER_FAMILY}/ARM_CM85 )
 
