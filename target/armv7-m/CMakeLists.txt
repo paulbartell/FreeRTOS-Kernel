@@ -4,23 +4,22 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
-list(FIND gcc_arm_allowed_march_options "armv7-m" index)
-if(NOT index EQUAL -1)
-
 macro(define_arch_variant arch_variant_name )
-    add_library( ${arch_variant_name} INTERFACE )
-
-    target_compile_options( ${arch_variant_name}
-                            INTERFACE
-                                "-march=armv7-m"
-                                "-mthumb" )
+    can_compile_with_flags( "-march=armv7-m" can_compile )
+    if(can_compile EQUAL 1)
+        add_library( ${arch_variant_name} INTERFACE )
+        target_compile_options( ${arch_variant_name}
+                                INTERFACE
+                                    "-march=armv7-m"
+                                    "-mthumb" )
+    endif()
 endmacro()
 
 macro(define_cpu_variant arch_variant_name cpu_opt )
-    gcc_is_flag_allowed( "${gcc_arm_allowed_mcpu_options}" ${cpu_opt} is_allowed )
-    if(${is_allowed} EQUAL 1)
+    can_compile_with_flags( "${cpu_opt}" can_compile )
+    if(can_compile EQUAL 1)
         add_library( ${arch_variant_name} INTERFACE )
-    
+
         target_compile_options( ${arch_variant_name}
                                 INTERFACE
                                     ${cpu_opt}
@@ -65,5 +64,3 @@ if(TARGET freertos_port_armv7m_mpu)
                               freertos_port_armv7m_mpu
                               cortex_m3 )
 endif()
-
-endif()  # if(NOT index EQUAL -1)

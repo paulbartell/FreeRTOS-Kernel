@@ -31,8 +31,3 @@ add_compile_options(-nostdlib --specs=nosys.specs -fdata-sections -ffunction-sec
 add_link_options(-nostdlib -fno-exceptions)
 
 include(${CMAKE_CURRENT_LIST_DIR}/gcc-common.cmake)
-
-gcc_get_allowed_options("mfpu" gcc_arm_allowed_mfpu_options)
-gcc_get_allowed_options("march" gcc_arm_allowed_march_options)
-gcc_get_allowed_options("mcpu" gcc_arm_allowed_mcpu_options)
-gcc_get_allowed_options("mfloat-abi" gcc_arm_allowed_fp_abi_options)

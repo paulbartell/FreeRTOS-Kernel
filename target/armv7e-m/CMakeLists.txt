@@ -4,29 +4,33 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
-list(FIND gcc_arm_allowed_march_options "armv7e-m" index)
-if(NOT index EQUAL -1)
     macro(define_arch_fp_variant arch_variant_name arch_opt float_abi_opt fpu_opt )
-        add_library( ${arch_variant_name} INTERFACE )
+        can_compile_with_flags( "${arch_opt};${fpu_opt}" can_compile )
+        if(can_compile EQUAL 1)
+            add_library( ${arch_variant_name} INTERFACE )
 
-        target_compile_options( ${arch_variant_name}
-                                INTERFACE
-                                    ${arch_opt}
-                                    "-mthumb"
-                                    ${float_abi_opt}
-                                    ${fpu_opt} )
+            target_compile_options( ${arch_variant_name}
+                                    INTERFACE
+                                        ${arch_opt}
+                                        "-mthumb"
+                                        ${float_abi_opt}
+                                        ${fpu_opt} )
+        endif()
     endmacro()
 
-    macro(define_cpu_fp_variant arch_variant cpu_opt arch_opt float_abi_opt fpu_opt )
-        add_library( ${arch_variant} INTERFACE )
+    macro(define_cpu_fp_variant arch_variant arch_opt cpu_opt float_abi_opt fpu_opt )
+        can_compile_with_flags( "${arch_opt};${cpu_opt};${fpu_opt}" can_compile )
+        if(can_compile EQUAL 1)
+            add_library( ${arch_variant} INTERFACE )
 
-        target_compile_options( ${arch_variant}
-                                INTERFACE
-                                    ${arch_opt}
-                                    ${cpu_opt}
-                                    "-mthumb"
-                                    ${float_abi_opt}
-                                    ${fpu_opt} )
+            target_compile_options( ${arch_variant}
+                                    INTERFACE
+                                        ${arch_opt}
+                                        ${cpu_opt}
+                                        "-mthumb"
+                                        ${float_abi_opt}
+                                        ${fpu_opt} )
+        endif()
     endmacro()
 
     ###############################################################################
@@ -524,5 +528,3 @@ if(NOT index EQUAL -1)
                                 freertos_port_armv7em_mpu
                                 cortex_m7_r0p1_fpv5_sp_d16_hard )
     endif()
-
-endif() # if(NOT index EQUAL -1)

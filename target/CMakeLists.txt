@@ -11,13 +11,32 @@ if(NOT BUILD_ALL_TARGETS)
 endif()
 
 ###############################################################################
+# Helper function to check compiler flags
+###############################################################################
+include(CheckCCompilerFlag)
+function ( can_compile_with_flags flags can_compile )
+    foreach(flag IN LISTS flags)
+        if(NOT flag STREQUAL "")
+            string(REPLACE "-" "" flag_no_hyphen ${flag})
+            check_c_compiler_flag( ${flag} compiler_supports_${flag_no_hyphen} )
+            if( NOT compiler_supports_${flag_no_hyphen} EQUAL 1 )
+                set( can_compile 0 PARENT_SCOPE )
+                return()
+            endif()
+        endif()
+    endforeach()
+    set( can_compile 1 PARENT_SCOPE )
+endfunction()
+
+###############################################################################
 # Helper function to add a new static kernel build configuration
 ###############################################################################
 function(add_static_kernel_target target_basename port_target_name arch_target_variant )
     # TODO: we want to do this check elsewhere to prevent cases where a target is improperly
     # defined by a developer
     if(NOT TARGET ${arch_target_variant})
-        message( AUTHOR_WARNING "Target Variant ${arch_target_variant} is not defined." )
+        # message( AUTHOR_WARNING "Target Variant ${arch_target_variant} is not defined." )
+        return()
     endif()
 
     if(NOT TARGET ${port_target_name})
@@ -43,7 +62,7 @@ function(add_static_kernel2target target_suffix port_target_name arch_target_var
     # TODO: we want to do this check elsewhere to prevent cases where a target is improperly
     # defined by a developer
     if(NOT TARGET ${arch_target_variant})
-        message( AUTHOR_WARNING "Target Variant ${arch_target_variant} is not defined." )
+        # message( AUTHOR_WARNING "Target Variant ${arch_target_variant} is not defined." )
         return()
     endif()
 

@@ -3,17 +3,18 @@
 # Copyright (C) 2022 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
 # SPDX-License-Identifier: MIT
 ###############################################################################
-list(FIND gcc_arm_allowed_march_options "armv6-m" index)
 
-if(NOT index EQUAL -1)
     macro(define_armv6m_cpu arch_variant_name arch_opt cpu_opt )
-        add_library( ${arch_variant_name} INTERFACE )
+        can_compile_with_flags( "${arch_opt};${cpu_opt}" can_compile )
+        if(can_compile EQUAL 1)
+            add_library( ${arch_variant_name} INTERFACE )
 
-        target_compile_options( ${arch_variant_name}
-                                INTERFACE
-                                    ${arch_opt}
-                                    ${cpu_opt}
-                                    "-mthumb" )
+            target_compile_options( ${arch_variant_name}
+                                    INTERFACE
+                                        ${arch_opt}
+                                        ${cpu_opt}
+                                        "-mthumb" )
+        endif()
     endmacro()
 
     ###############################################################################
@@ -89,4 +90,3 @@ if(NOT index EQUAL -1)
                                 freertos_port_armv6m
                                 arm_cm1_small_multiply )
     endif()
-endif() # if(NOT index EQUAL -1)
