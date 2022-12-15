@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
+list(FIND gcc_arm_allowed_march_options "armv6-m" index)
+if(NOT index EQUAL -1)
+
 macro(define_arch_variant arch_variant_name )
     add_library( ${arch_variant_name} INTERFACE )
 
@@ -14,14 +17,16 @@ macro(define_arch_variant arch_variant_name )
 endmacro()
 
 macro(define_cpu_variant arch_variant_name cpu_opt )
-    add_library( ${arch_variant_name} INTERFACE )
+    gcc_is_flag_allowed( "${gcc_arm_allowed_mcpu_options}" ${cpu_opt} is_allowed )
+    if(${is_allowed} EQUAL 1)
+        add_library( ${arch_variant_name} INTERFACE )
 
-    target_compile_options( ${arch_variant_name}
-                            INTERFACE
-                                ${cpu_opt}
-                                "-mthumb" )
+        target_compile_options( ${arch_variant_name}
+                                INTERFACE
+                                    ${cpu_opt}
+                                    "-mthumb" )
+    endif()
 endmacro()
-
 
 ###############################################################################
 # Define ARMv6-M architecture variants
@@ -61,3 +66,5 @@ if(TARGET freertos_port_armv6m)
                               freertos_port_armv6m
                               cortex_m1 )
 endif()
+
+endif() # if(NOT index EQUAL -1)
