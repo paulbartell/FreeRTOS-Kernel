@@ -72,8 +72,14 @@ function( gcc_get_allowed_options switch_to_test allowed_options )
 endfunction()
 
 function( gcc_is_flag_allowed allowed_options switch_to_test is_allowed )
-    string(REPLACE "=" ";" switch_to_test ${switch_to_test} )
+    # list index:        0    1    2
+    # expected format: "-flag=name+extensions"
+    # extract name from flag and extensions
+    string(REPLACE "=" ";" switch_to_test "${switch_to_test}" )
+    string(REPLACE "+" ";" switch_to_test "${switch_to_test}" )
     list(GET switch_to_test 1 switch_to_test)
+
+    # find name in allow list
     list(FIND allowed_options ${switch_to_test} index)
 
     if(index EQUAL -1)
