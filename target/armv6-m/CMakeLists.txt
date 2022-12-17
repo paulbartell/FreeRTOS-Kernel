@@ -17,6 +17,19 @@
         endif()
     endmacro()
 
+    macro(define_cpu arch_variant cpu_opt )
+        can_compile_with_flags( "${cpu_opt};-mthumb" ${arch_variant} can_compile )
+        if(can_compile EQUAL 1)
+            add_library( ${arch_variant} INTERFACE )
+
+            target_compile_options( ${arch_variant}
+                                    INTERFACE
+                                        ${cpu_opt}
+                                        "-mthumb" )
+        endif()
+    endmacro()
+
+
     ###############################################################################
     # Define ARMv6-M architecture variants
     ###############################################################################
@@ -31,24 +44,21 @@
                     "-march=armv6s-m"
                     "-mcpu=cortex-m0" )
 
-    define_armv6m_cpu( arm_cm0_small_multiply
-                    "-march=armv6s-m"
+    define_cpu( arm_cm0_small_multiply
                     "-mcpu=cortex-m0.small-multiply" )
 
     define_armv6m_cpu( arm_cm0plus
                     "-march=armv6s-m"
                     "-mcpu=cortex-m0plus" )
 
-    define_armv6m_cpu( arm_cm0plus_small_multiply
-                    "-march=armv6s-m"
+    define_cpu( arm_cm0plus_small_multiply
                     "-mcpu=cortex-m0plus.small-multiply" )
 
     define_armv6m_cpu( arm_cm1
                     "-march=armv6s-m"
                     "-mcpu=cortex-m1" )
 
-    define_armv6m_cpu( arm_cm1_small_multiply
-                    "-march=armv6s-m"
+    define_cpu( arm_cm1_small_multiply
                     "-mcpu=cortex-m1.small-multiply" )
 
     ###############################################################################
