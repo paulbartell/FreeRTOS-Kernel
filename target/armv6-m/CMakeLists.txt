@@ -4,12 +4,12 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
-    macro(define_armv6m_cpu arch_variant_name arch_opt cpu_opt )
-        can_compile_with_flags( "${arch_opt};${cpu_opt}" can_compile )
+    macro(define_armv6m_cpu arch_variant arch_opt cpu_opt )
+        can_compile_with_flags( "${arch_opt};${cpu_opt};-mthumb" ${arch_variant} can_compile )
         if(can_compile EQUAL 1)
-            add_library( ${arch_variant_name} INTERFACE )
+            add_library( ${arch_variant} INTERFACE )
 
-            target_compile_options( ${arch_variant_name}
+            target_compile_options( ${arch_variant}
                                     INTERFACE
                                         ${arch_opt}
                                         ${cpu_opt}

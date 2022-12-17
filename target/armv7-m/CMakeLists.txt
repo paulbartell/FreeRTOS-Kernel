@@ -4,23 +4,23 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
-macro(define_arch_variant arch_variant_name )
-    can_compile_with_flags( "-march=armv7-m" can_compile )
+macro(define_arch_variant arch_variant )
+    can_compile_with_flags( "-march=armv7-m;-mthumb" ${arch_variant} can_compile )
     if(can_compile EQUAL 1)
-        add_library( ${arch_variant_name} INTERFACE )
-        target_compile_options( ${arch_variant_name}
+        add_library( ${arch_variant} INTERFACE )
+        target_compile_options( ${arch_variant}
                                 INTERFACE
                                     "-march=armv7-m"
                                     "-mthumb" )
     endif()
 endmacro()
 
-macro(define_cpu_variant arch_variant_name cpu_opt )
-    can_compile_with_flags( "${cpu_opt}" can_compile )
+macro(define_cpu_variant arch_variant cpu_opt )
+    can_compile_with_flags( "${cpu_opt};-mthumb" ${arch_variant} can_compile )
     if(can_compile EQUAL 1)
-        add_library( ${arch_variant_name} INTERFACE )
+        add_library( ${arch_variant} INTERFACE )
 
-        target_compile_options( ${arch_variant_name}
+        target_compile_options( ${arch_variant}
                                 INTERFACE
                                     ${cpu_opt}
                                     "-mthumb" )

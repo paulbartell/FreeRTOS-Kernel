@@ -5,7 +5,7 @@
 ###############################################################################
 
     macro(define_arch_fp_variant arch_variant_name arch_opt float_abi_opt fpu_opt )
-        can_compile_with_flags( "${arch_opt};${fpu_opt}" can_compile )
+        can_compile_with_flags( "${arch_opt};${fpu_opt};-mthumb" ${arch_variant_name} can_compile )
         if(can_compile EQUAL 1)
             add_library( ${arch_variant_name} INTERFACE )
 
@@ -19,7 +19,7 @@
     endmacro()
 
     macro(define_cpu_fp_variant arch_variant arch_opt cpu_opt float_abi_opt fpu_opt )
-        can_compile_with_flags( "${arch_opt};${cpu_opt};${fpu_opt}" can_compile )
+        can_compile_with_flags( "${arch_opt};${cpu_opt};${fpu_opt}" ${arch_variant} can_compile )
         if(can_compile EQUAL 1)
             add_library( ${arch_variant} INTERFACE )
 
