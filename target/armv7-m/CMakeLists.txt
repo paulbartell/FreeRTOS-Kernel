@@ -32,7 +32,7 @@ endmacro()
 ###############################################################################
 define_arch_variant( armv7m )
 
-define_cpu_variant( cortex_m3
+define_cpu_variant( arm_cm3
                     "-mcpu=cortex-m3" )
 
 ###############################################################################
@@ -47,7 +47,7 @@ if(TARGET freertos_port_armv7m)
     # Cortex-M3
     add_static_kernel_target( freertos_kernel
                               freertos_port_armv7m
-                              cortex_m3 )
+                              arm_cm3 )
 endif()
 
 ###############################################################################
@@ -62,5 +62,5 @@ if(TARGET freertos_port_armv7m_mpu)
     # Cortex-M3
     add_static_kernel_target( freertos_kernel_mpu
                               freertos_port_armv7m_mpu
-                              cortex_m3 )
+                              arm_cm3 )
 endif()
