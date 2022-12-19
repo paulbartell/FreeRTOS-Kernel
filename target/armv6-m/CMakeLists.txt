@@ -66,37 +66,37 @@
     ###############################################################################
     if(TARGET freertos_port_armv6m)
         # Generic ARMv6-M
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 armv6m )
 
         # Cortex-M0
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm0 )
 
         # Cortex-M0 Small Multiply
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm0_small_multiply )
 
         # Cortex-M0+
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm0plus )
 
         # Cortex-M0+ Small Multiply
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm0plus_small_multiply )
 
         # Cortex-M1
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm1 )
 
         # Cortex-M1 Small Multiply
-        add_static_kernel_target( fr_kernel
+        add_static_kernel2target( ""
                                 freertos_port_armv6m
                                 arm_cm1_small_multiply )
     endif()
