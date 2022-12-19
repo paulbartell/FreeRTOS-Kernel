@@ -75,81 +75,81 @@
                             "-mfpu=fpv5-sp-d16" )
 
     # Cortex-M4
-    define_cpu_fp_variant( cortex_m4
+    define_cpu_fp_variant( arm_cm4
                         "-march=armv7e-m"
                         "-mcpu=cortex-m4"
                         "-mfloat-abi=soft"
                         "" )
 
-    define_cpu_fp_variant( cortex_m4_fpv4_sp_d16_softfp
+    define_cpu_fp_variant( arm_cm4_fpv4_sp_d16_softfp
                         "-march=armv7e-m"
                         "-mcpu=cortex-m4"
                         "-mfloat-abi=softfp"
                         "-mfpu=fpv4-sp-d16" )
 
-    define_cpu_fp_variant( cortex_m4_fpv4_sp_d16_hard
+    define_cpu_fp_variant( arm_cm4_fpv4_sp_d16_hard
                         "-march=armv7e-m"
                         "-mcpu=cortex-m4"
                         "-mfloat-abi=hard"
                         "-mfpu=fpv4-sp-d16" )
 
     # Cortex-M7
-    define_cpu_fp_variant( cortex_m7
+    define_cpu_fp_variant( arm_cm7
                         "-march=armv7e-m"
                         "-mcpu=cortex-m7"
                         "-mfloat-abi=soft"
                         "" )
 
-    define_cpu_fp_variant( cortex_m7_fpv5_d16_softfp
+    define_cpu_fp_variant( arm_cm7_fpv5_d16_softfp
                         "-march=armv7e-m"
                         "-mcpu=cortex-m7"
                         "-mfloat-abi=softfp"
                         "-mfpu=fpv5-d16" )
 
-    define_cpu_fp_variant( cortex_m7_fpv5_sp_d16_softfp
+    define_cpu_fp_variant( arm_cm7_fpv5_sp_d16_softfp
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=softfp"
                             "-mfpu=fpv5-sp-d16" )
 
-    define_cpu_fp_variant( cortex_m7_fpv5_d16_hard
+    define_cpu_fp_variant( arm_cm7_fpv5_d16_hard
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=hard"
                             "-mfpu=fpv5-d16" )
 
-    define_cpu_fp_variant( cortex_m7_fpv5_sp_d16_hard
+    define_cpu_fp_variant( arm_cm7_fpv5_sp_d16_hard
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=hard"
                             "-mfpu=fpv5-sp-d16" )
 
     # Cortex-M7 r0p1
-    define_cpu_fp_variant( cortex_m7_r0p1
+    define_cpu_fp_variant( arm_cm7_r0p1
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=soft"
                             "" )
 
-    define_cpu_fp_variant( cortex_m7_r0p1_fpv5_d16_softfp
+    define_cpu_fp_variant( arm_cm7_r0p1_fpv5_d16_softfp
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=softfp"
                             "-mfpu=fpv5-d16" )
 
-    define_cpu_fp_variant( cortex_m7_r0p1_fpv5_sp_d16_softfp
+    define_cpu_fp_variant( arm_cm7_r0p1_fpv5_sp_d16_softfp
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=softfp"
                             "-mfpu=fpv5-sp-d16" )
 
-    define_cpu_fp_variant( cortex_m7_r0p1_fpv5_d16_hard
+    define_cpu_fp_variant( arm_cm7_r0p1_fpv5_d16_hard
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=hard"
                             "-mfpu=fpv5-d16" )
 
-    define_cpu_fp_variant( cortex_m7_r0p1_fpv5_sp_d16_hard
+    define_cpu_fp_variant( arm_cm7_r0p1_fpv5_sp_d16_hard
                             "-march=armv7e-m"
                             "-mcpu=cortex-m7"
                             "-mfloat-abi=hard"
@@ -207,17 +207,17 @@
         # Cortex-M4
         add_static_kernel2target( ""
                                 freertos_port_armv7m
-                                cortex_m4 )
+                                arm_cm4 )
 
         # Cortex-M4 with FPv4 Single Precision Soft FP (FPv4-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m4_fpv4_sp_d16_softfp )
+                                arm_cm4_fpv4_sp_d16_softfp )
 
         # Cortex-M4 with FPv4 Single Precision Hard FP (FPv4-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m4_fpv4_sp_d16_hard )
+                                arm_cm4_fpv4_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -229,59 +229,59 @@
         # Cortex-M7
         add_static_kernel2target( ""
                                 freertos_port_armv7m
-                                cortex_m7 )
+                                arm_cm7 )
 
         # Cortex-M7 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_fpv5_d16_softfp )
+                                arm_cm7_fpv5_d16_softfp )
 
         # Cortex-M7 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_fpv5_d16_hard )
+                                arm_cm7_fpv5_d16_hard )
 
         # Cortex-M7 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_fpv5_sp_d16_softfp )
+                                arm_cm7_fpv5_sp_d16_softfp )
 
         # Cortex-M7 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_fpv5_sp_d16_hard )
+                                arm_cm7_fpv5_sp_d16_hard )
     endif()
 
     ###############################################################################
     # ARMv7E-M Cortex-M7 with r0p1 erratam
     ###############################################################################
-    if(TARGET freertos_port_armv7em_cortex_m7_r0p1)
+    if(TARGET freertos_port_armv7em_arm_cm7_r0p1)
         set(configENABLE_ERRATA_837070_WORKAROUND ON)
 
         # Cortex-M7 r0p1
         add_static_kernel2target( ""
                                 freertos_port_armv7m
-                                cortex_m7_r0p1 )
+                                arm_cm7_r0p1 )
 
         # Cortex-M7 r0p1 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_r0p1_fpv5_d16_softfp )
+                                arm_cm7_r0p1_fpv5_d16_softfp )
 
         # Cortex-M7 r0p1 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_r0p1_fpv5_d16_hard )
+                                arm_cm7_r0p1_fpv5_d16_hard )
 
         # Cortex-M7 r0p1 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_r0p1_fpv5_sp_d16_softfp )
+                                arm_cm7_r0p1_fpv5_sp_d16_softfp )
 
         # Cortex-M7 r0p1 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( ""
                                 freertos_port_armv7em
-                                cortex_m7_r0p1_fpv5_sp_d16_hard )
+                                arm_cm7_r0p1_fpv5_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -384,17 +384,17 @@
         # Cortex-M4
         add_static_kernel2target( mpu8
                                 freertos_port_armv7m_mpu
-                                cortex_m4 )
+                                arm_cm4 )
 
         # Cortex-M4 with FPv4 Single Precision Soft FP (FPv4-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m4_fpv4_sp_d16_softfp )
+                                arm_cm4_fpv4_sp_d16_softfp )
 
         # Cortex-M4 with FPv4 Single Precision Hard FP (FPv4-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m4_fpv4_sp_d16_hard )
+                                arm_cm4_fpv4_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -407,27 +407,27 @@
         # Cortex-M7
         add_static_kernel2target( mpu8
                                 freertos_port_armv7m_mpu
-                                cortex_m7 )
+                                arm_cm7 )
 
         # Cortex-M7 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_d16_softfp )
+                                arm_cm7_fpv5_d16_softfp )
 
         # Cortex-M7 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_d16_hard )
+                                arm_cm7_fpv5_d16_hard )
 
         # Cortex-M7 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_sp_d16_softfp )
+                                arm_cm7_fpv5_sp_d16_softfp )
 
         # Cortex-M7 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_sp_d16_hard )
+                                arm_cm7_fpv5_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -440,27 +440,27 @@
         # Cortex-M7
         add_static_kernel2target( mpu16
                                 freertos_port_armv7m_mpu
-                                cortex_m7 )
+                                arm_cm7 )
 
         # Cortex-M7 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_d16_softfp )
+                                arm_cm7_fpv5_d16_softfp )
 
         # Cortex-M7 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_d16_hard )
+                                arm_cm7_fpv5_d16_hard )
 
         # Cortex-M7 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_sp_d16_softfp )
+                                arm_cm7_fpv5_sp_d16_softfp )
 
         # Cortex-M7 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_fpv5_sp_d16_hard )
+                                arm_cm7_fpv5_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -473,27 +473,27 @@
         # Cortex-M7
         add_static_kernel2target( mpu8
                                 freertos_port_armv7m_mpu
-                                cortex_m7_r0p1 )
+                                arm_cm7_r0p1 )
 
         # Cortex-M7 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_d16_softfp )
+                                arm_cm7_r0p1_fpv5_d16_softfp )
 
         # Cortex-M7 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_d16_hard )
+                                arm_cm7_r0p1_fpv5_d16_hard )
 
         # Cortex-M7 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_sp_d16_softfp )
+                                arm_cm7_r0p1_fpv5_sp_d16_softfp )
 
         # Cortex-M7 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu8
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_sp_d16_hard )
+                                arm_cm7_r0p1_fpv5_sp_d16_hard )
     endif()
 
     ###############################################################################
@@ -506,25 +506,25 @@
         # Cortex-M7
         add_static_kernel2target( mpu16
                                 freertos_port_armv7m_mpu
-                                cortex_m7_r0p1 )
+                                arm_cm7_r0p1 )
 
         # Cortex-M7 with FPv5 Double Precision Soft FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_d16_softfp )
+                                arm_cm7_r0p1_fpv5_d16_softfp )
 
         # Cortex-M7 with FPv5 Double Precision Hard FP ABI (FPv5-DP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_d16_hard )
+                                arm_cm7_r0p1_fpv5_d16_hard )
 
         # Cortex-M7 with FPv5 Single Precision Soft FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_sp_d16_softfp )
+                                arm_cm7_r0p1_fpv5_sp_d16_softfp )
 
         # Cortex-M7 with FPv5 Single Precision Hard FP ABI (FPv5-SP-D16)
         add_static_kernel2target( mpu16
                                 freertos_port_armv7em_mpu
-                                cortex_m7_r0p1_fpv5_sp_d16_hard )
+                                arm_cm7_r0p1_fpv5_sp_d16_hard )
     endif()
