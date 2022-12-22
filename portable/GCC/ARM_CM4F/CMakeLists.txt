@@ -8,9 +8,13 @@
 # ARMv7E-M Port
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_armv7em
-    ALIAS ARMv7-M Cortex-M5 Cortex-M7
+    ALIAS
+        ARMv7-M
+        Cortex-M5
+        Cortex-M7
+        GCC_ARM_CM4F
     HEADERS
         portmacro.h
     SOURCES

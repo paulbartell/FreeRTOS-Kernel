@@ -7,24 +7,16 @@
 ###############################################################################
 # ARMv7E-M MPU
 ###############################################################################
-add_library( freertos_port_armv7em_mpu INTERFACE )
 
-target_sources( freertos_port_armv7em_mpu
-                INTERFACE
-                    port.c
-                    ../../Common/mpu_wrappers.c )
-
-if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
-    target_sources( freertos_port_armv7em_mpu PUBLIC portmacro.h )
-    target_include_directories( freertos_port_armv7em_mpu INTERFACE . )
-else()
-    target_sources( freertos_port_armv7em_mpu
-        PUBLIC
-            FILE_SET HEADERS
-                BASE_DIRS .
-                FILES portmacro.h )
-endif()
-
-add_library( FreeRTOS::Kernel::Port::ARMv7E-M+MPU ALIAS freertos_port_armv7em_mpu )
-add_library( FreeRTOS::Kernel::Port::Cortex-M4+MPU ALIAS freertos_port_armv7em_mpu )
-add_library( FreeRTOS::Kernel::Port::Cortex-M7+MPU ALIAS freertos_port_armv7em_mpu )
+freertos_define_port(
+    NAME freertos_port_armv7em_mpu
+    ALIAS
+        ARMv7E-M+MPU
+        Cortex-M4+MPU
+        Cortex-M7+MPU
+        GCC_ARM_CM4_MPU
+    HEADERS
+        portmacro.h
+    SOURCES
+        port.c
+        ${CMAKE_CURRENT_SOURCE_DIR}../../../Common/mpu_wrappers.c )
