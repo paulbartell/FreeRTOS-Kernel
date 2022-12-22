@@ -13,7 +13,7 @@ freertos_define_port(
     ALIAS
         ARMv7-M
         Cortex-M3
-        GCC_ARM_CM7
+        GCC_ARM_CM3
     HEADERS
         portmacro.h
     SOURCES

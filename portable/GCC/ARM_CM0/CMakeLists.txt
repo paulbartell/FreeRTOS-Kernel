@@ -13,7 +13,7 @@ freertos_define_port(
     ALIAS
         ARMv6-M
         Cortex-M0
-        ARM_CM0
+        GCC_ARM_CM0
     HEADERS
         portmacro.h
     SOURCES

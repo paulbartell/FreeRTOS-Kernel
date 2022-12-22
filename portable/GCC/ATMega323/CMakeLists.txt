@@ -8,9 +8,9 @@
 # ATMEGA323 for IAR
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_atmega323
-    ALIAS IAR_ATMEGA323
+    ALIAS GCC_ATMEGA323
     HEADERS
         portmacro.h
     SOURCES
