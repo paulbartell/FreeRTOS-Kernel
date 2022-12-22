@@ -8,11 +8,11 @@
 # YOUR PORT
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_tricore_1782
     ALIAS GCC_TRICORE_1782
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         porttrap.c )

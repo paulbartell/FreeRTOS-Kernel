@@ -8,7 +8,7 @@
 # ARMv6-M Port
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_armv6m
     ALIAS ARMv6-M Cortex-M0
     HEADERS

@@ -8,12 +8,12 @@
 # GCC IA32 FLAT
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_ia32_flat
-    ALIAS GCC_IA32_FLAT                
+    ALIAS GCC_IA32_FLAT
     HEADERS
         portmacro.h
         ISR_Support.h
     SOURCES
-        port.c 
+        port.c
         portASM.S )

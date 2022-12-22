@@ -10,7 +10,7 @@
 
 freertos_define_port(
     NAME freertos_port_renesas_rx700v3_dpfpu
-    ALIAS GCC_RX700_V3_DPFPU 
+    ALIAS GCC_RX700_V3_DPFPU
     HEADERS
         portmacro.h
     SOURCES

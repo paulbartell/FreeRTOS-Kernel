@@ -23,7 +23,7 @@ add_library( FreeRTOS::Kernel::Heap4 ALIAS freertos_kernel_heap_4 )
 ###############################################################################
 macro( freertos_define_port )
     set(oneValueArgs
-        NAME    # current naming convention
+        NAME    # name to give to port library
         )
 
     set(multiValueArgs
@@ -41,17 +41,17 @@ macro( freertos_define_port )
         message( FATAL_ERROR "Provide a backwards-compatible ALIAS for the port!")
     endif()
 
+    message( STATUS "Configuring port ${PORT_NAME} AKA ${PORT_ALIAS}" )
+
     list(FIND PORT_HEADERS "portmacro.h" index )
     if(index EQUAL -1)
-        message( AUTHOR_WARNING "${PORT_NAME} does not have a portmacro.h" )
+        message( AUTHOR_WARNING "${PORT_NAME} does not have a portmacro.h under HEADERS" )
     endif()
 
     list(FIND PORT_SOURCES "port.c" index )
     if(index EQUAL -1)
-        message( AUTHOR_WARNING "${PORT_NAME} does not have a port.c" )
+        message( AUTHOR_WARNING "${PORT_NAME} does not have a port.c under SOURCES" )
     endif()
-
-    message( STATUS "Configuring port ${PORT_NAME} AKA ${PORT_ALIAS}" )
 
     add_library( ${PORT_NAME} INTERFACE )
 
@@ -71,7 +71,6 @@ macro( freertos_define_port )
     foreach( ALIAS IN LISTS PORT_ALIAS )
         add_library( FreeRTOS::Kernel::Port::${ALIAS} ALIAS ${PORT_NAME} )
     endforeach()
-    
 endmacro()
 
 ###############################################################################

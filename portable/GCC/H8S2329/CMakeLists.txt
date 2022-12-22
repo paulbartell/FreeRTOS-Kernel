@@ -8,9 +8,9 @@
 # GCC H8S2329
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_h8s2329
-    ALIAS GCC_H8S2329                
+    ALIAS GCC_H8S2329
     HEADERS
         portmacro.h
     SOURCES

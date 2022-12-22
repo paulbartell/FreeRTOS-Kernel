@@ -8,11 +8,11 @@
 # GCC STR75X
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_str75x
     ALIAS GCC_STR75X
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portISR.c )

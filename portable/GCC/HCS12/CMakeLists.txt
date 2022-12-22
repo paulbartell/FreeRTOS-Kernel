@@ -8,9 +8,9 @@
 # HCS12
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_m68h_hcs12
-    ALIAS GCC_HCS12                
+    ALIAS GCC_HCS12
     HEADERS
         portmacro.h
     SOURCES
