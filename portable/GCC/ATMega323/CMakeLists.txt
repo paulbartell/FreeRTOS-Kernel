@@ -4,19 +4,14 @@
 # SPDX-License-Identifier: MIT
 ###############################################################################
 
-add_library( freertos_port_atmega323 INTERFACE )
+###############################################################################
+# ATMEGA323 for IAR
+###############################################################################
 
-target_sources( freertos_port_atmega323 INTERFACE port.c )
-
-if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
-    target_sources( freertos_port_atmega323 PUBLIC portmacro.h )
-    target_include_directories( freertos_port_atmega323 INTERFACE . )
-else()
-    target_sources( freertos_port_atmega323
-        PUBLIC
-            FILE_SET HEADERS
-                BASE_DIRS .
-                FILES portmacro.h )
-endif()
-
-add_library( FreeRTOS::Kernel::Port::ATMega323 ALIAS freertos_port_atmega323 )
+freertos_define_port( 
+    NAME freertos_port_atmega323
+    ALIAS IAR_ATMEGA323
+    HEADERS
+        portmacro.h
+    SOURCES
+        port.c )

@@ -18,6 +18,63 @@ add_library( FreeRTOS::Kernel::Heap3 ALIAS freertos_kernel_heap_3 )
 add_library( FreeRTOS::Kernel::Heap4 ALIAS freertos_kernel_heap_4 )
 
 ###############################################################################
+# Helper for defining a port
+# Useful for simple ports
+###############################################################################
+macro( freertos_define_port )
+    set(oneValueArgs
+        NAME    # current naming convention
+        )
+
+    set(multiValueArgs
+        ALIAS     # backwards-compatible name(s)
+        HEADERS   # header files this port uses
+        SOURCES ) # source files this port uses
+
+    cmake_parse_arguments(PORT "" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+    if(PORT_NAME STREQUAL "")
+        message( FATAL_ERROR "Provide a NAME for the port target!")
+    endif()
+
+    if(PORT_ALIAS STREQUAL "")
+        message( FATAL_ERROR "Provide a backwards-compatible ALIAS for the port!")
+    endif()
+
+    list(FIND PORT_HEADERS "portmacro.h" index )
+    if(index EQUAL -1)
+        message( AUTHOR_WARNING "${PORT_NAME} does not have a portmacro.h" )
+    endif()
+
+    list(FIND PORT_SOURCES "port.c" index )
+    if(index EQUAL -1)
+        message( AUTHOR_WARNING "${PORT_NAME} does not have a port.c" )
+    endif()
+
+    message( STATUS "Configuring port ${PORT_NAME} AKA ${PORT_ALIAS}" )
+
+    add_library( ${PORT_NAME} INTERFACE )
+
+    target_sources( ${PORT_NAME} INTERFACE "${PORT_SOURCES}" )
+
+    if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
+        target_sources( ${PORT_NAME} PUBLIC "${PORT_HEADERS}" )
+        target_include_directories( ${PORT_NAME} INTERFACE . )
+    else()
+        target_sources( ${PORT_NAME}
+            PUBLIC
+                FILE_SET HEADERS
+                    BASE_DIRS .
+                    FILES "${PORT_HEADERS}" )
+    endif()
+
+    foreach( ALIAS IN LISTS PORT_ALIAS )
+        add_library( FreeRTOS::Kernel::Port::${ALIAS} ALIAS ${PORT_NAME} )
+    endforeach()
+    
+endmacro()
+
+###############################################################################
 # Natively compiled simulator ports
 ###############################################################################
 if(NOT CMAKE_CROSSCOMPILING)
@@ -74,8 +131,8 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
 
     # ARMv8-A ports for GNU/GCC and Clang (including armclang and tiarmclang)
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC)
-        # add_subdirectory( GCC/ARM_CA53_64_BIT )
-        # add_subdirectory( GCC/ARM_CA53_64_BIT_SRE )
+        add_subdirectory( GCC/ARM_CA53_64_BIT )
+        add_subdirectory( GCC/ARM_CA53_64_BIT_SRE )
     endif()
 
     ###########################################################################
@@ -107,11 +164,11 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
     ###########################################################################
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC)
         # ARMv4T / ARM7TDMI
-        # add_subdirectory( GCC/ARM7_AT91FR40008 )
-        # add_subdirectory( GCC/ARM7_AT91SAM7S )
-        # add_subdirectory( GCC/ARM7_LPC2000 )
-        # add_subdirectory( GCC/ARM7_LPC23xx )
-        # add_subdirectory( GCC/STR75x )
+        add_subdirectory( GCC/ARM7_AT91FR40008 )
+        add_subdirectory( GCC/ARM7_AT91SAM7S )
+        add_subdirectory( GCC/ARM7_LPC2000 )
+        add_subdirectory( GCC/ARM7_LPC23xx )
+        add_subdirectory( GCC/STR75x )
 
         # ARMv6-M
         add_subdirectory( GCC/ARM_CM0 )
@@ -127,11 +184,11 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|Arm|arm")
         add_subdirectory( GCC/ARM_CM7/r0p1 )
 
         # ARMv7-R
-        # add_subdirectory( GCC/ARM_CR5 )
-        # add_subdirectory( GCC/ARM_CRx_No_GIC )
+        add_subdirectory( GCC/ARM_CR5 )
+        add_subdirectory( GCC/ARM_CRx_No_GIC )
 
         # ARMv7-A
-        # add_subdirectory( GCC/ARM_CA9 )
+        add_subdirectory( GCC/ARM_CA9 )
     endif()
 
     ###########################################################################
@@ -229,7 +286,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(m68k|M68K|coldfire|ColdFire|COLDFIRE)$"
 ###############################################################################
 elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^m68hc1x$")
     if(CMAKE_C_COMPILER_IS_GCC)
-        # add_subdirectory( GCC/HCS12 )
+        add_subdirectory( GCC/HCS12 )
     endif()
     # TODO: CodeWarrior/HCS12
 
