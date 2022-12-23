@@ -8,11 +8,11 @@
 # ARM CR5
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_arm_cr5
     ALIAS GCC_ARM_CR5
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portASM.S )

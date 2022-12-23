@@ -8,11 +8,11 @@
 # ARM CA9
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_arm_ca9
     ALIAS GCC_ARM_CA9
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portASM.S )

@@ -8,11 +8,11 @@
 # ARM CRx No GIC
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_arm_crx_no_gic
     ALIAS GCC_ARM_CRX_NOGIC
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portASM.S )

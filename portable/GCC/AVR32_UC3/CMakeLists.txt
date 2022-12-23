@@ -8,11 +8,11 @@
 # Microchip (Atmel) AVR32 UC3
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_avr32_uc3
     ALIAS GCC_AVR32_UC3
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         exception.S )

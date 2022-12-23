@@ -8,11 +8,11 @@
 # ARM7 LPC2000
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_arm7_lpc2000
     ALIAS GCC_ARM7_LPC2000
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portISR.c )

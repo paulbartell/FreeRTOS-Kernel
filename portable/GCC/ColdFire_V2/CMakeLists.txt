@@ -8,11 +8,11 @@
 # ColdFire V2 for GCC
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_codewarrior_coldfire_v2
     ALIAS GCC_COLDFIRE_V2
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portasm.S )

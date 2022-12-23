@@ -5,14 +5,14 @@
 ###############################################################################
 
 ###############################################################################
-# ColdFire V2 for GCC
+# ColdFire V2 for CodeWarrior
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME freertos_port_codewarrior_coldfire_v2
-    ALIAS GCC_COLDFIRE_V2
+    ALIAS CODEWARRIOR_COLDFIRE_V2
     HEADERS
         portmacro.h
     SOURCES
-        port.c 
+        port.c
         portasm.S )

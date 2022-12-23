@@ -8,7 +8,7 @@
 # GCC CORTUS APS3
 ###############################################################################
 
-freertos_define_port( 
+freertos_define_port(
     NAME cortus_aps3
     ALIAS GCC_CORTUS_APS3
     HEADERS
