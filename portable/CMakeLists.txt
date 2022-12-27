@@ -127,7 +127,7 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "(GCC|ROWLEY)_MSP430F449")
         add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449 )
 
-    elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$)" ) # fallback
+    elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$" ) # fallback
         message( STATUS "Falling back to ${CMAKE_MATCH_1}/${CMAKE_MATCH_2}" )
         add_subdirectory( ${CMAKE_MATCH_1}/${CMAKE_MATCH_2} )
     endif()
