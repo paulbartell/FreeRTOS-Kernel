@@ -8,11 +8,12 @@
 # ARM_CM7
 ###############################################################################
 
-message( FATAL_ERROR "Give ARM_CM7 an alias and remove this message" )
-
 freertos_define_port(
     NAME freertos_port_arm_cm7
-    ALIAS # TODO:
+    ALIAS
+        RVDS_ARM_CM7
+        Cortex-M7
     HEADERS
+        portmacro.h
     SOURCES
-)
+        port.c )

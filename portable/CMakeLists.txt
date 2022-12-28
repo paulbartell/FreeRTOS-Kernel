@@ -45,7 +45,8 @@ macro( freertos_define_port )
 
     if(NOT PORT_COMMON_FILES)
         if( ( NOT "portmacro.h" IN_LIST PORT_HEADERS ) AND
-            ( NOT "prtmacro.h"  IN_LIST PORT_HEADERS ) ) # BCC 16bitdos
+                 # 16-bit DOS filename compatibility
+            ( NOT "prtmacro.h"  IN_LIST PORT_HEADERS ) )
             message( AUTHOR_WARNING
             "${PORT_NAME} does not have a portmacro.h under HEADERS" )
         endif()
@@ -296,6 +297,11 @@ if(FREERTOS_PORT)
 
     return()
 endif()
+
+###############################################################################
+# Common Files
+###############################################################################
+add_subdirectory( Common )
 
 ###############################################################################
 # Natively compiled simulator ports

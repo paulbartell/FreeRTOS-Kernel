@@ -5,18 +5,15 @@
 ###############################################################################
 
 ###############################################################################
-# ARM7_LPC21xx
+# ARMv7 LPC21XX for RVDS
 ###############################################################################
-
-message( FATAL_ERROR "Give ARM7_LPC21xx an alias and remove this message" )
 
 freertos_define_port(
     NAME freertos_port_arm7_lpc21xx
-    ALIAS # TODO:
+    ALIAS RVDS_ARM7_LPC21XX
     HEADERS
         portmacro.h
         portmacro.inc
     SOURCES
         portASM.s
-        port.c
-)
+        port.c )

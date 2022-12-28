@@ -5,18 +5,17 @@
 ###############################################################################
 
 ###############################################################################
-# ARMv7E-M Port
+# ARMv7-R Port for CCS
 ###############################################################################
 
 freertos_define_port(
-    NAME freertos_port_armv7em
+    NAME freertos_port_arm_cr4
     ALIAS
-        ARMv7-M
-        Cortex-M5
-        Cortex-M7
-        CCS_ARM_CM4F
+        ARMv7-R
+        Cortex-R4
+        CCS_ARM_CR4
     HEADERS
         portmacro.h
     SOURCES
         port.c
-        portasm.asm )
+        portASM.asm )

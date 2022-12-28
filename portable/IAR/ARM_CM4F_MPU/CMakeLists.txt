@@ -19,5 +19,6 @@ freertos_define_port(
         portmacro.h
     SOURCES
         port.c
-        portasm.s
-        ${CMAKE_CURRENT_SOURCE_DIR}../../../Common/mpu_wrappers.c )
+        portasm.s )
+
+target_link_libraries(freertos_port_armv7em_mpu INTERFACE FreeRTOS::Kernel::Port::Common::MPU)
