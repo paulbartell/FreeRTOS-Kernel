@@ -5,7 +5,7 @@
 ###############################################################################
 
 ###############################################################################
-# ARMv7-M Port
+# ARMv7-M Port for CCS
 ###############################################################################
 
 freertos_define_port(
@@ -13,8 +13,9 @@ freertos_define_port(
     ALIAS
         ARMv7-M
         Cortex-M3
-        GCC_ARM_CM7
+        CCS_ARM_CM7
     HEADERS
         portmacro.h
     SOURCES
-        port.c )
+        port.c
+        portasm.asm )
