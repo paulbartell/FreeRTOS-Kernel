@@ -8,11 +8,9 @@
 # Xtensa_ESP32
 ###############################################################################
 
-message( FATAL_ERROR "Give Xtensa_ESP32 an alias and remove this message" )
-
 freertos_define_port(
     NAME freertos_port_xtensa_esp32
-    ALIAS # TODO:
+    ALIAS GCC_XTENSA_ESP32
     HEADERS
         portmux_impl.h
         portmux_impl.inc.h
@@ -27,5 +25,4 @@ freertos_define_port(
         port_common.c
         port_systick.c
         xtensa_init.c
-        xtensa_overlay_os_hook.c
-)
+        xtensa_overlay_os_hook.c )
