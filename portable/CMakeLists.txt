@@ -52,27 +52,22 @@ macro( freertos_define_port )
         "${PORT_NAME} does not have a port.c under SOURCES" )
     endif()
 
-    message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}")
     add_library( ${PORT_NAME} INTERFACE )
 
-    # ASM files do not get absolute paths generated for them in target_sources
-    set( PORT_SOURCE_PATHS "" )
-    foreach( SOURCE IN LISTS PORT_SOURCES )
-        string(PREPEND SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/ )
-        list(APPEND PORT_SOURCE_PATHS ${SOURCE} )
-    endforeach()
+    target_sources( ${PORT_NAME} INTERFACE ${PORT_SOURCES} )
 
-    target_sources( ${PORT_NAME} INTERFACE "${PORT_SOURCE_PATHS}" )
+    get_target_property( PORT_NAME_SOURCES ${PORT_NAME} INTERFACE_SOURCES )
+    message("${PORT_NAME_SOURCES}")
 
     if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
-        target_sources( ${PORT_NAME} PUBLIC "${PORT_HEADERS}" )
+        target_sources( ${PORT_NAME} PUBLIC ${PORT_HEADERS} )
         target_include_directories( ${PORT_NAME} INTERFACE . )
     else()
         target_sources( ${PORT_NAME}
             PUBLIC
                 FILE_SET HEADERS
                     BASE_DIRS .
-                    FILES "${PORT_HEADERS}" )
+                    FILES ${PORT_HEADERS} )
     endif()
 
     foreach( ALIAS IN LISTS PORT_ALIAS )
@@ -119,7 +114,7 @@ if(FREERTOS_PORT)
         add_subdirectory( GCC/MicroBlaze${CMAKE_MATCH_1} )
 
     elseif(FREERTOS_PORT MATCHES "GCC_RISC_V")
-        #TODO:
+        add_subdirectory(GCC/RISC-V)
 
     elseif(FREERTOS_PORT MATCHES "(IAR|CCS)_MSP430(X)?")
         add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
