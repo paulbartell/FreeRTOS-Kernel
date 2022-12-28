@@ -16,6 +16,4 @@ freertos_define_port(
         portmacro.h
     SOURCES
         port_asm.S
-        port.c
- )
-
+        port.c )

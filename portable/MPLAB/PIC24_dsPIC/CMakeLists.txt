@@ -16,6 +16,4 @@ freertos_define_port(
     SOURCES
         portasm_PIC24.S
         portasm_dsPIC.S
-        port.c
- )
-
+        port.c )
