@@ -19,6 +19,8 @@ endif()
 # Useful for simple ports
 ###############################################################################
 macro( freertos_define_port )
+    set(optionalArgs
+        COMMON_FILES ) # If set skips some checks
     set(oneValueArgs
         NAME )    # name to give to port library
     set(multiValueArgs
@@ -26,7 +28,7 @@ macro( freertos_define_port )
         HEADERS   # header files this port uses
         SOURCES ) # source files this port uses
     cmake_parse_arguments(PORT
-        ""
+        "${optionalArgs}"
         "${oneValueArgs}"
         "${multiValueArgs}"
         ${ARGN} )
@@ -41,23 +43,21 @@ macro( freertos_define_port )
 
     message( STATUS "Configuring port ${PORT_NAME} AKA ${PORT_ALIAS}" )
 
-    list(FIND PORT_HEADERS "portmacro.h" index )
-    if(index EQUAL -1)
-        message( AUTHOR_WARNING
-        "${PORT_NAME} does not have a portmacro.h under HEADERS" )
-    endif()
-    list(FIND PORT_SOURCES "port.c" index )
-    if(index EQUAL -1)
-        message( AUTHOR_WARNING
-        "${PORT_NAME} does not have a port.c under SOURCES" )
+    if(NOT PORT_COMMON_FILES)
+        if( ( NOT "portmacro.h" IN_LIST PORT_HEADERS ) AND
+            ( NOT "prtmacro.h"  IN_LIST PORT_HEADERS ) ) # BCC 16bitdos
+            message( AUTHOR_WARNING
+            "${PORT_NAME} does not have a portmacro.h under HEADERS" )
+        endif()
+        if(NOT "port.c" IN_LIST PORT_SOURCES)
+            message( AUTHOR_WARNING
+            "${PORT_NAME} does not have a port.c under SOURCES" )
+        endif()
     endif()
 
     add_library( ${PORT_NAME} INTERFACE )
 
     target_sources( ${PORT_NAME} INTERFACE ${PORT_SOURCES} )
-
-    get_target_property( PORT_NAME_SOURCES ${PORT_NAME} INTERFACE_SOURCES )
-    message("${PORT_NAME_SOURCES}")
 
     if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
         target_sources( ${PORT_NAME} PUBLIC ${PORT_HEADERS} )
@@ -92,6 +92,16 @@ if(FREERTOS_PORT)
 
     elseif(FREERTOS_PORT STREQUAL "GCC_IA32_FLAT")
         add_subdirectory( GCC/IA32_flat )
+
+    elseif(FREERTOS_PORT MATCHES "(OWATCOM|BCC)_16BIT_DOS_(PC|FLSH186)")
+        if(${CMAKE_MATCH_1} STREQUAL BCC)
+            set( MATCH_COMPILER BCC )
+        else()
+            set( MATCH_COMPILER oWatcom )
+        endif()
+        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/common )
+        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/Flsh186 )
+        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/PC )
 
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM(23|33|55|85)_(NONSECURE|SECURE|TFM|NTZ_NONSECURE)$")
         add_subdirectory( ARMv8M/non_secure )
@@ -283,6 +293,7 @@ if(FREERTOS_PORT)
         FreeRTOS::Kernel::Port::${FREERTOS_PORT}
         ALIASED_TARGET )
     add_library(freertos_kernel_port ALIAS ${target_name})
+
     return()
 endif()
 
