@@ -10,7 +10,10 @@
 
 freertos_define_port(
     NAME freertos_port_arm_ca9
-    ALIAS GCC_ARM_CA9
+    ALIAS
+        GCC_ARM_CA9
+        Cortex-A9
+        ARMv7-A
     HEADERS
         portmacro.h
     SOURCES

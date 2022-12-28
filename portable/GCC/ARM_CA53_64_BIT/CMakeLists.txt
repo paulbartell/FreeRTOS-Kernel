@@ -10,7 +10,10 @@
 
 freertos_define_port(
     NAME freertos_port_arm_ca53_64_bit
-    ALIAS GCC_ARM_CA53_64_BIT
+    ALIAS
+        GCC_ARM_CA53_64_BIT
+        Cortex-A53
+        ARMv8-A
     HEADERS
         portmacro.h
     SOURCES

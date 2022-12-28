@@ -10,7 +10,9 @@
 
 freertos_define_port(
     NAME freertos_port_armv7em_cortex_m7_r0p1
-    ALIAS Cortex-M7-r0p1
+    ALIAS
+        Cortex-M7-r0p1
+        GCC_ARM_CM7
     HEADERS
         portmacro.h
     SOURCES
