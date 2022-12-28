@@ -5,14 +5,16 @@
 ###############################################################################
 
 ###############################################################################
-# ARM_CM4F
+# ARM_CM4F for RDVS
 ###############################################################################
-
-message( FATAL_ERROR "Give ARM_CM4F an alias and remove this message" )
 
 freertos_define_port(
     NAME freertos_port_arm_cm4f
-    ALIAS # TODO:
+    ALIAS
+        ARMv7E-M
+        Cortex-M4
+        Cortex-M7
+        RDVS_ARM_CM4F
     HEADERS
         portmacro.h
     SOURCES

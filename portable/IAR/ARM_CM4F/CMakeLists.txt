@@ -11,8 +11,8 @@
 freertos_define_port(
     NAME freertos_port_armv7em
     ALIAS
-        ARMv7-M
-        Cortex-M5
+        ARMv7E-M
+        Cortex-M4
         Cortex-M7
         IAR_ARM_CM4F
     HEADERS
