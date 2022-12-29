@@ -23,7 +23,7 @@ macro(make_riscv_port EXT_NAME EXT_DIR ALIAS )
             INTERFACE chip_specific_extensions/${EXT_DIR} )
     else()
         target_sources( ${EXT_NAME}
-                PUBLIC
+                INTERFACE
                     FILE_SET HEADERS
                         BASE_DIRS chip_specific_extensions/${EXT_DIR}
                         FILES freertos_risc_v_chip_specific_extensions.h )
@@ -46,4 +46,18 @@ make_riscv_port(freertos_port_riscv_puplino_vega_rv32m1rm
     Pulpino_Vega_RV32M1RM
     GCC_RISC_V_PULPINO_VEGA_RV32M1RM)
 
-# TODO: other 2 extensions
+###############################################################################
+# GCC RISC-V for RV32I CLINT
+###############################################################################
+
+make_riscv_port(freertos_port_riscv_rv32i_clint
+    RV32I_CLINT_no_extensions
+    GCC_RISC_V_RV32I_CLINT)
+
+###############################################################################
+# GCC RISC-V for MTIME CLINT
+###############################################################################
+
+make_riscv_port(freertos_port_riscv_mtime_clint
+    MTIME_CLINT_no_extensions
+    GCC_RISC_V_MTIME_CLINT)
