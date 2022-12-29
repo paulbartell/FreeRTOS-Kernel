@@ -110,6 +110,9 @@ if(FREERTOS_PORT)
         add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/${CMAKE_MATCH_2} )
 
     elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC|IAR)_COLDFIRE_(V1|V2)$")
+        if(CMAKE_MATCH_1 STREQUAL "CODEWARRIOR")
+            set(CMAKE_MATCH_1 "CodeWarrior")
+        endif()
         add_subdirectory( ${CMAKE_MATCH_1}/MicroBlaze_${CMAKE_MATCH_2} )
 
     elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC)_HCS12$")
@@ -134,8 +137,11 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RDVS)_ARM_CM7$" )
         add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM7/r0p1 )
 
+    elseif(FREERTOS_PORT MATCHES "^CCS_ARM_(CM3|CM4F)$" )
+        add_subdirectory( CCS/ARM_${CMAKE_MATCH_1} )
+
     elseif(FREERTOS_PORT STREQUAL "CCS_ARM_CR4")
-        add_subdirectory( CSS/ARM_CR4 )
+        add_subdirectory( CSS/ARM_Cortex-R4 )
 
     elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
         add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
@@ -177,7 +183,7 @@ if(FREERTOS_PORT)
         add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449 )
 
     elseif(FREERTOS_PORT STREQUAL "GCC_NIOSII")
-        add_subdirectory( GCC/NIOSII )
+        add_subdirectory( GCC/NiosII )
 
     elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$" ) # fallback
         message( STATUS "Falling back to ${CMAKE_MATCH_1}/${CMAKE_MATCH_2}" )
