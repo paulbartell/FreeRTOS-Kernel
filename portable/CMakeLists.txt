@@ -65,7 +65,7 @@ macro( freertos_define_port )
         target_include_directories( ${PORT_NAME} INTERFACE . )
     else()
         target_sources( ${PORT_NAME}
-            PUBLIC
+            INTERFACE
                 FILE_SET HEADERS
                     BASE_DIRS .
                     FILES ${PORT_HEADERS} )
@@ -75,6 +75,11 @@ macro( freertos_define_port )
         add_library( FreeRTOS::Kernel::Port::${ALIAS} ALIAS ${PORT_NAME} )
     endforeach()
 endmacro()
+
+###############################################################################
+# Common Files
+###############################################################################
+add_subdirectory( Common )
 
 ###############################################################################
 # Backwards-compatibility
@@ -94,15 +99,33 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT STREQUAL "GCC_IA32_FLAT")
         add_subdirectory( GCC/IA32_flat )
 
-    elseif(FREERTOS_PORT MATCHES "(OWATCOM|BCC)_16BIT_DOS_(PC|FLSH186)")
-        if(${CMAKE_MATCH_1} STREQUAL BCC)
-            set( MATCH_COMPILER BCC )
-        else()
-            set( MATCH_COMPILER oWatcom )
+    elseif(FREERTOS_PORT MATCHES "^(OWATCOM|BCC)_16BIT_DOS_(PC|FLSH186)$")
+        if(CMAKE_MATCH_1 STREQUAL "OWATCOM")
+            set(CMAKE_MATCH_1 "oWatcom")
         endif()
-        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/common )
-        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/Flsh186 )
-        add_subdirectory( ${MATCH_COMPILER}/16BitDOS/PC )
+        if(CMAKE_MATCH_2 STREQUAL "FLSH186")
+            set(CMAKE_MATCH_2 "Flsh186")
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/common )
+        add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/${CMAKE_MATCH_2} )
+
+    elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC|IAR)_COLDFIRE_(V1|V2)$")
+        add_subdirectory( ${CMAKE_MATCH_1}/MicroBlaze_${CMAKE_MATCH_2} )
+
+    elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC)_HCS12$")
+        add_subdirectory( ${CMAKE_MATCH_1}/HCS12 )
+
+    elseif(FREERTOS_PORT STREQUAL "IAR_ARM_CA5_NOGIC")
+        add_subdirectory( IAR/ARM_CA5_No_GIC )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_(CA9|CM0|CM3)$")
+        add_subdirectory(${CMAKE_MATCH_1}/ARM_${CMAKE_MATCH_2})
+
+    elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CM3_MPU")
+        add_subdirectory( GCC/ARM_CM3_MPU )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM4_MPU$")
+        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM4_MPU )
 
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM(23|33|55|85)_(NONSECURE|SECURE|TFM|NTZ_NONSECURE)$")
         add_subdirectory( ARMv8M/non_secure )
@@ -111,27 +134,50 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RDVS)_ARM_CM7$" )
         add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM7/r0p1 )
 
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_(CRX|CA5)_NOGIC$")
-        if(${CMAKE_MATCH_2} STREQUAL "CRX")
-            add_subdirectory( ${CMAKE_MATCH_1}/ARM_CRx_No_GIC )
-        else()
-            add_subdirectory( ${CMAKE_MATCH_1}/ARM_CA5_No_GIC )
-        endif()
+    elseif(FREERTOS_PORT STREQUAL "CCS_ARM_CR4")
+        add_subdirectory( CSS/ARM_CR4 )
 
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_COLDFIRE_(V1|V2)$")
-        add_subdirectory( ${CMAKE_MATCH_1}/MicroBlaze_${CMAKE_MATCH_2} )
+    elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
+        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$" )
+        if( CMAKE_MATCH_1 STREQUAL "ROWLEY" )
+            set( CMAKE_MATCH_1 "Rowley" )
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449)
+
+    elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CR5")
+        add_subdirectory( GCC/ARM_CR5 )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CRX_NOGIC$")
+        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CRx_No_GIC )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_AVR32_UC3$")
+        add_subdirectory( ${CMAKE_MATCH_1}/AVR32_UC3 )
 
     elseif(FREERTOS_PORT MATCHES "^GCC_MICROBLAZE_?(V8|V9)?$")
         add_subdirectory( GCC/MicroBlaze${CMAKE_MATCH_1} )
 
-    elseif(FREERTOS_PORT MATCHES "GCC_RISC_V")
-        add_subdirectory(GCC/RISC-V)
+    elseif(FREERTOS_PORT MATCHES "^GCC_ARM7_(AT91FR40008|AT91SAM7S|LPC2000)$")
+        add_subdirectory( GCC/ARM7_${CMAKE_MATCH_1} )
 
-    elseif(FREERTOS_PORT MATCHES "(IAR|CCS)_MSP430(X)?")
-        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
+    elseif(FREERTOS_PORT STREQUAL "GCC_ARM7_LPC23XX" )
+        add_subdirectory( GCC/ARM7_LPC23xx )
 
-    elseif(FREERTOS_PORT MATCHES "(GCC|ROWLEY)_MSP430F449")
+    elseif( FREERTOS_PORT MATCHES "^(GCC|IAR)_ATMEGA323$" )
+        add_subdirectory( ${CMAKE_MATCH_1}/ATMega323 )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_RISC_V")
+        add_subdirectory( ${CMAKE_MATCH_1}/RISC-V )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$")
+        if(CMAKE_MATCH_1 STREQUAL "ROWLEY")
+            set(CMAKE_MATCH_1 "Rowley")
+        endif()
         add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449 )
+
+    elseif(FREERTOS_PORT STREQUAL "GCC_NIOSII")
+        add_subdirectory( GCC/NIOSII )
 
     elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$" ) # fallback
         message( STATUS "Falling back to ${CMAKE_MATCH_1}/${CMAKE_MATCH_2}" )
@@ -143,7 +189,7 @@ if(FREERTOS_PORT)
         " Available port options:\n"
         " A_CUSTOM_PORT                    - Compiler: User Defined  Target: User Defined\n"
         " BCC_16BIT_DOS_FLSH186            - Compiler: BCC           Target: 16 bit DOS Flsh186\n"
-        " BCC_16BIT_DOS_PC                 - Compiler: BCC           Target: 16 bit DOS PC\n"
+        " BCC_16BIT_DOS_PC                 - Compiler: BCC           Target: 16 bit DOS \n"
         " CCS_ARM_CM3                      - Compiler: CCS           Target: ARM Cortex-M3\n"
         " CCS_ARM_CM4F                     - Compiler: CCS           Target: ARM Cortex-M4 with FPU\n"
         " CCS_ARM_CR4                      - Compiler: CCS           Target: ARM Cortex-R4\n"
@@ -262,7 +308,7 @@ if(FREERTOS_PORT)
         " MPLAB_PIC32MZ                    - Compiler: MPLAB         Target: PIC32MZ\n"
         " MSVC_MINGW                       - Compiler: MSVC or MinGW Target: x86\n"
         " OWATCOM_16BIT_DOS_FLSH186        - Compiler: Open Watcom   Target: 16 bit DOS Flsh186\n"
-        " OWATCOM_16BIT_DOS_PC             - Compiler: Open Watcom   Target: 16 bit DOS PC\n"
+        " OWATCOM_16BIT_DOS_PC             - Compiler: Open Watcom   Target: 16 bit DOS \n"
         " PARADIGM_TERN_EE_LARGE           - Compiler: Paradigm      Target: Tern EE large\n"
         " PARADIGM_TERN_EE_SMALL           - Compiler: Paradigm      Target: Tern EE small\n"
         " RENESAS_RX100                    - Compiler: Renesas       Target: RX100\n"
@@ -290,6 +336,7 @@ if(FREERTOS_PORT)
         return()
     endif()
 
+    # Expose requsted port as freertos_kernel_port
     get_target_property(target_name
         FreeRTOS::Kernel::Port::${FREERTOS_PORT}
         ALIASED_TARGET )
@@ -297,11 +344,6 @@ if(FREERTOS_PORT)
 
     return()
 endif()
-
-###############################################################################
-# Common Files
-###############################################################################
-add_subdirectory( Common )
 
 ###############################################################################
 # Natively compiled simulator ports
@@ -652,11 +694,11 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86(_64)?|i.86)$")
 
     elseif(CMAKE_C_COMPILER_IS_OPEN_WATCOM)
         add_subdirectory( oWatcom/16BitDOS/Flsh186 )
-        add_subdirectory( oWatcom/16BitDOS/PC )
+        add_subdirectory( oWatcom/16BitDOS/ )
 
     elseif(CMAKE_C_COMPILER_IS_BORLAND)
         add_subdirectory( BCC/16BitDOS/Flsh186 )
-        add_subdirectory( BCC/16BitDOS/PC )
+        add_subdirectory( BCC/16BitDOS/ )
     endif()
 
 ###############################################################################
