@@ -9,8 +9,8 @@
 ###############################################################################
 
 freertos_define_port(
-    NAME freertos_port_ppc405_xilinx
-    ALIAS GCC_PPC405_XILINX
+    NAME freertos_port_ppc440_xilinx
+    ALIAS GCC_PPC440_XILINX
     HEADERS
         portmacro.h
         FPU_Macros.h

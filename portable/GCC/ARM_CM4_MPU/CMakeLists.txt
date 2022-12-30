@@ -20,4 +20,4 @@ freertos_define_port(
     SOURCES
         port.c )
 
-target_link_libraries(freertos_port_armv7m_mpu INTERFACE FreeRTOS::Kernel::Port::Common::MPU)
+target_link_libraries(freertos_port_armv7em_mpu INTERFACE FreeRTOS::Kernel::Port::Common::MPU)

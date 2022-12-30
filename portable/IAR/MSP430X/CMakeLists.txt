@@ -13,7 +13,7 @@ freertos_define_port(
     ALIAS IAR_MSP430X
     HEADERS
         portmacro.h
-        portasm.h
+        data_model.h
     SOURCES
         port.c
         portext.s43 )

@@ -18,5 +18,5 @@ freertos_define_port(
 )
 
 target_link_libraries( freertos_port_16bit_dos_flsh186
-    PUBLIC
+    INTERFACE
         freertos_port_owatcom_16bit_dos_common )

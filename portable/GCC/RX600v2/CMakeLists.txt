@@ -10,7 +10,7 @@
 
 freertos_define_port(
     NAME freertos_port_renesas_rx600_v2
-    ALIAS GCC_RX600_v2
+    ALIAS GCC_RX600_V2
     HEADERS
         portmacro.h
     SOURCES

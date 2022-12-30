@@ -11,14 +11,17 @@ add_library( freertos_port_armv8m_ns
              INTERFACE
              port.c
              portasm.h
-             portmacrocommon.h
-             ../../Common/mpu_wrappers.c )
+             portmacrocommon.h )
+
+target_link_libraries( freertos_port_armv8m_ns
+                       INTERFACE
+                       FreeRTOS::Kernel::Port::Common::MPU )
 
 target_include_directories( freertos_port_armv8m_ns
                             INTERFACE
                             . )
 
-if(CMAKE_C_COMPILER_ID STREQUAL IAR)
+if( ( CMAKE_C_COMPILER_ID STREQUAL IAR ) OR ( FREERTOS_PORT MATCHES "^IAR" ) )
     set(ARMV8M_COMPILER_FAMILY IAR)
     set(ARMV8M_PORTASM portasm.s)
 else()
@@ -40,6 +43,8 @@ target_include_directories( freertos_port_armv8m_base_ns
 
 target_link_libraries( freertos_port_armv8m_base_ns INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M23::NS ALIAS freertos_port_armv8m_base_ns )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM23_NONSECURE ALIAS freertos_port_armv8m_base_ns  )
+
 
 ###############################################################################
 # Cortex-M23 NTZ
@@ -55,6 +60,8 @@ target_include_directories( freertos_port_armv8m_base_ntz
 
 target_link_libraries( freertos_port_armv8m_base_ntz INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M23::NTZ ALIAS freertos_port_armv8m_base_ntz )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM23_NTZ_NONSECURE ALIAS freertos_port_armv8m_base_ntz  )
+
 
 ###############################################################################
 # Cortex-M33 NS
@@ -70,6 +77,7 @@ target_include_directories( freertos_port_armv8m_main_ns
 
 target_link_libraries( freertos_port_armv8m_main_ns INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M33::NS ALIAS freertos_port_armv8m_main_ns )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM33_NONSECURE ALIAS freertos_port_armv8m_main_ns  )
 
 ###############################################################################
 # Cortex-M33 NTZ
@@ -85,6 +93,7 @@ target_include_directories( freertos_port_armv8m_main_ntz
 
 target_link_libraries( freertos_port_armv8m_main_ntz INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M33::NTZ ALIAS freertos_port_armv8m_main_ntz )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM33_NTZ_NONSECURE ALIAS freertos_port_armv8m_main_ntz  )
 
 ###############################################################################
 # ARMv8.1M.main / Cortex-M55 NS
@@ -102,6 +111,7 @@ target_link_libraries( freertos_port_armv81m_main_ns INTERFACE freertos_port_arm
 
 add_library( freertos_port_arm_cm55_ns ALIAS freertos_port_armv81m_main_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M55::NS ALIAS freertos_port_armv81m_main_ns )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM55_NONSECURE ALIAS freertos_port_armv81m_main_ns  )
 
 ###############################################################################
 # Cortex-M55 NTZ
@@ -119,6 +129,7 @@ target_link_libraries( freertos_port_armv81m_main_ntz INTERFACE freertos_port_ar
 
 add_library( freertos_port_arm_cm55_ntz ALIAS freertos_port_armv81m_main_ntz )
 add_library( FreeRTOS::Kernel::Port::Cortex-M55::NTZ ALIAS freertos_port_armv81m_main_ntz )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM55_NTZ_NONSECURE ALIAS freertos_port_armv81m_main_ntz  )
 
 ###############################################################################
 # Cortex-M85 NS
@@ -134,6 +145,7 @@ target_include_directories( freertos_port_arm_cm85_ns
 
 target_link_libraries( freertos_port_arm_cm85_ns INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M85::NS ALIAS freertos_port_arm_cm85_ns )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM85_NONSECURE ALIAS freertos_port_arm_cm85_ns  )
 
 ###############################################################################
 # Cortex-M85 NTZ
@@ -149,3 +161,4 @@ target_include_directories( freertos_port_arm_cm85_ntz
 
 target_link_libraries( freertos_port_arm_cm85_ntz INTERFACE freertos_port_armv8m_ns )
 add_library( FreeRTOS::Kernel::Port::Cortex-M85::NTZ ALIAS freertos_port_arm_cm85_ntz )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM85_NTZ_NONSECURE ALIAS freertos_port_arm_cm85_ntz  )

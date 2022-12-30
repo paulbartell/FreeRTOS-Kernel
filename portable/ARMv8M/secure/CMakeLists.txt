@@ -24,7 +24,7 @@ target_include_directories( freertos_port_armv8m_s
                             heap
                             macros )
 
-if(CMAKE_C_COMPILER_ID STREQUAL IAR)
+if( ( CMAKE_C_COMPILER_ID STREQUAL IAR ) OR ( FREERTOS_PORT MATCHES "^IAR" ) )
     set(ARMV8M_COMPILER_FAMILY IAR)
     set(ARMV8M_S_CONTEXT_PORT secure_context_port_asm.s )
 else()
@@ -41,6 +41,7 @@ add_library( freertos_port_armv8m_cm23_s
 
 target_link_libraries( freertos_port_armv8m_cm23_s INTERFACE freertos_port_armv8m_s )
 add_library( FreeRTOS::Kernel::Port::Cortex-M23::S ALIAS freertos_port_armv8m_cm23_s )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM23_SECURE ALIAS freertos_port_armv8m_cm23_s  )
 
 ###############################################################################
 # Cortex-M33 S
@@ -51,15 +52,18 @@ add_library( freertos_port_armv8m_cm33_s
 
 target_link_libraries( freertos_port_armv8m_cm33_s INTERFACE freertos_port_armv8m_s )
 add_library( FreeRTOS::Kernel::Port::Cortex-M33::S ALIAS freertos_port_armv8m_cm33_s )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM33_SECURE ALIAS freertos_port_armv8m_cm33_s )
 
 ###############################################################################
 # Cortex-M55 S
 ###############################################################################
 add_library( freertos_port_armv8m_cm55_s ALIAS freertos_port_armv8m_cm33_s )
 add_library( FreeRTOS::Kernel::Port::Cortex-M55::S ALIAS freertos_port_armv8m_cm33_s )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM55_SECURE ALIAS freertos_port_armv8m_cm33_s )
 
 ###############################################################################
 # Cortex-M85 S
 ###############################################################################
 add_library( freertos_port_armv8m_cm85_s ALIAS freertos_port_armv8m_cm33_s )
 add_library( FreeRTOS::Kernel::Port::Cortex-M85::S ALIAS freertos_port_armv8m_cm33_s )
+add_library( FreeRTOS::Kernel::Port::${ARMV8M_COMPILER_FAMILY}_ARM_CM85_SECURE ALIAS freertos_port_armv8m_cm33_s )

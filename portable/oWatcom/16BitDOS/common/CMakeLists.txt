@@ -10,9 +10,9 @@
 
 freertos_define_port(
     NAME freertos_port_owatcom_common
+    COMMON_FILES
     ALIAS OWATCOM_COMMON
     HEADERS
         portasm.h
     SOURCES
-        portcomn.c
-)
+        portcomn.c )

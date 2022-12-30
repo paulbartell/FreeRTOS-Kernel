@@ -18,5 +18,4 @@ freertos_define_port(
         arc_support.s
         arc_freertos_exceptions.c
         freertos_tls.c
-        port.c
-)
+        port.c )

@@ -78,6 +78,7 @@ endmacro()
 
 ###############################################################################
 # Common Files
+# Currently only has a single MPU file
 ###############################################################################
 add_subdirectory( Common )
 
@@ -90,12 +91,18 @@ if(FREERTOS_PORT)
         return()
     endif()
 
+###############################################################################
+# Natively compiled simulator ports
+###############################################################################
     if(FREERTOS_PORT STREQUAL "MSVC_MINGW")
         add_subdirectory( MSVC-MingW )
 
     elseif(FREERTOS_PORT STREQUAL "GCC_POSIX")
         add_subdirectory( ThirdParty/GCC/Posix )
 
+###############################################################################
+# x86 ports
+###############################################################################
     elseif(FREERTOS_PORT STREQUAL "GCC_IA32_FLAT")
         add_subdirectory( GCC/IA32_flat )
 
@@ -109,54 +116,68 @@ if(FREERTOS_PORT)
         add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/common )
         add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/${CMAKE_MATCH_2} )
 
+###############################################################################
+# NXP / Freescale 32-bit ColdFire
+###############################################################################
     elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC|IAR)_COLDFIRE_(V1|V2)$")
         if(CMAKE_MATCH_1 STREQUAL "CODEWARRIOR")
             set(CMAKE_MATCH_1 "CodeWarrior")
         endif()
-        add_subdirectory( ${CMAKE_MATCH_1}/MicroBlaze_${CMAKE_MATCH_2} )
+        add_subdirectory( ${CMAKE_MATCH_1}/ColdFire_${CMAKE_MATCH_2} )
 
+###############################################################################
+# NXP / Freescale m68k derived 8-bit HC11 family (including HC11, HC12, HCS12)
+###############################################################################
     elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC)_HCS12$")
+        if(CMAKE_MATCH_1 STREQUAL "CODEWARRIOR")
+            set( CMAKE_MATCH_1 "CodeWarrior" )
+        endif()
         add_subdirectory( ${CMAKE_MATCH_1}/HCS12 )
 
+###############################################################################
+# ARM Cortex variants
+###############################################################################
     elseif(FREERTOS_PORT STREQUAL "IAR_ARM_CA5_NOGIC")
         add_subdirectory( IAR/ARM_CA5_No_GIC )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CRX_NOGIC$")
+        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CRx_No_GIC )
 
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_(CA9|CM0|CM3)$")
         add_subdirectory(${CMAKE_MATCH_1}/ARM_${CMAKE_MATCH_2})
 
-    elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CM3_MPU")
-        add_subdirectory( GCC/ARM_CM3_MPU )
-
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM4_MPU$")
-        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM4_MPU )
-
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM(23|33|55|85)_(NONSECURE|SECURE|TFM|NTZ_NONSECURE)$")
-        add_subdirectory( ARMv8M/non_secure )
-        add_subdirectory( ARMv8M/secure )
-
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RDVS)_ARM_CM7$" )
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_CM7$" )
         add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM7/r0p1 )
 
     elseif(FREERTOS_PORT MATCHES "^CCS_ARM_(CM3|CM4F)$" )
         add_subdirectory( CCS/ARM_${CMAKE_MATCH_1} )
 
     elseif(FREERTOS_PORT STREQUAL "CCS_ARM_CR4")
-        add_subdirectory( CSS/ARM_Cortex-R4 )
-
-    elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
-        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
-
-    elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$" )
-        if( CMAKE_MATCH_1 STREQUAL "ROWLEY" )
-            set( CMAKE_MATCH_1 "Rowley" )
-        endif()
-        add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449)
+        add_subdirectory( CCS/ARM_Cortex-R4 )
 
     elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CR5")
         add_subdirectory( GCC/ARM_CR5 )
 
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CRX_NOGIC$")
-        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CRx_No_GIC )
+###############################################################################
+# ARM MPU variantsz
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CM3_MPU")
+        add_subdirectory( GCC/ARM_CM3_MPU )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_ARM_CM4_MPU$")
+        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM4_MPU )
+
+###############################################################################
+# ARM Secure, Trusted Firmware, and Non-Trust Zone variant ports
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES
+        "^(GCC|IAR)_ARM_CM(23|33|55|85)_(NONSECURE|SECURE|TFM|NTZ_NONSECURE)$")
+        add_subdirectory( ARMv8M/non_secure )
+        add_subdirectory( ARMv8M/secure )
+        add_subdirectory( ThirdParty/GCC/ARM_TFM )
+
+    elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
+        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
 
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_AVR32_UC3$")
         add_subdirectory( ${CMAKE_MATCH_1}/AVR32_UC3 )
@@ -164,6 +185,9 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^GCC_MICROBLAZE_?(V8|V9)?$")
         add_subdirectory( GCC/MicroBlaze${CMAKE_MATCH_1} )
 
+###############################################################################
+# ARM7 ports
+###############################################################################
     elseif(FREERTOS_PORT MATCHES "^GCC_ARM7_(AT91FR40008|AT91SAM7S|LPC2000)$")
         add_subdirectory( GCC/ARM7_${CMAKE_MATCH_1} )
 
@@ -176,6 +200,12 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_RISC_V")
         add_subdirectory( ${CMAKE_MATCH_1}/RISC-V )
 
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_STR75X$" )
+        add_subdirectory( ${CMAKE_MATCH_1}/STR75x )
+
+    elseif(FREERTOS_PORT MATCHES "^IAR_STR(71|91)X$")
+        add_subdirectory( IAR/STR${CMAKE_MATCH_1}x )
+
     elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$")
         if(CMAKE_MATCH_1 STREQUAL "ROWLEY")
             set(CMAKE_MATCH_1 "Rowley")
@@ -184,6 +214,36 @@ if(FREERTOS_PORT)
 
     elseif(FREERTOS_PORT STREQUAL "GCC_NIOSII")
         add_subdirectory( GCC/NiosII )
+###############################################################################
+# Renesas RX Series
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "^(GCC|RENESAS|IAR)_RX(100|200|600)$")
+        if(CMAKE_MATCH_1 STREQUAL "RENESAS")
+            set(CMAKE_MATCH_1 "Renesas")
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/RX${CMAKE_MATCH_2} )
+
+    elseif( FREERTOS_PORT MATCHES "^(GCC|RENESA|IAR)_RX600_V2$" )
+        if(CMAKE_MATCH_1 STREQUAL RENESAS)
+            set(CMAKE_MATCH_1 "Renesas")
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/RX600v2 )
+
+    elseif( FREERTOS_PORT MATCHES "^(GCC|RENESAS|IAR)_RX700_V3_DPFPU$" )
+        if(CMAKE_MATCH_1 STREQUAL "RENESAS")
+            set(CMAKE_MATCH_1 "Renesas")
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/RX700v3_DPFPU )
+
+    elseif( FREERTOS_PORT STREQUAL "IAR_RX_V2" )
+        add_subdirectory( IAR/RXv2)
+
+###############################################################################
+# Xilinx Power PC
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "^GCC_(PPC405|PPC440)_XILINX$")
+        add_subdirectory( GCC/${CMAKE_MATCH_1}_Xilinx )
+
 
     elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$" ) # fallback
         message( STATUS "Falling back to ${CMAKE_MATCH_1}/${CMAKE_MATCH_2}" )
@@ -527,6 +587,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(AVR|avr)8?$")
     # GCC / Clang and compatible for 8-bit AVR
     if(CMAKE_C_COMPILER_IS_CLANG OR CMAKE_C_COMPILER_IS_GCC OR CMAKE_C_COMPILER_IS_MCHP_XC)
         add_subdirectory( GCC/ATMega323 )
+        # TODO: Partner ports
         # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_AVRDx )
         # add_subdirectory( ThirdParty/Partner-Supported-Ports/GCC/AVR_Mega0 )
         add_subdirectory( ThirdParty/GCC/ATmega )

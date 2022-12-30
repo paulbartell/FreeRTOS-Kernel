@@ -19,6 +19,8 @@ target_link_libraries( freertos_port_armv8m_cm23_tfm
                        freertos_port_armv8m_tfm
                        freertos_port_armv8m_cm23_ntz )
 
+add_library( FreeRTOS::Kernel::Port::GCC_ARM_CM23_TFM ALIAS freertos_port_armv8m_cm23_tfm )
+
 ###############################################################################
 # Cortex-M33 TFM
 ###############################################################################
@@ -28,6 +30,8 @@ target_link_libraries( freertos_port_armv8m_cm33_tfm
                        INTERFACE
                        freertos_port_armv8m_tfm
                        freertos_port_armv8m_cm33_ntz )
+
+add_library( FreeRTOS::Kernel::Port::GCC_ARM_CM33_TFM ALIAS freertos_port_armv8m_cm33_tfm )
 
 ###############################################################################
 # Cortex-M55 TFM
@@ -39,6 +43,8 @@ target_link_libraries( freertos_port_armv8m_cm55_tfm
                        freertos_port_armv8m_tfm
                        freertos_port_armv8m_cm55_ntz )
 
+add_library( FreeRTOS::Kernel::Port::GCC_ARM_CM55_TFM ALIAS freertos_port_armv8m_cm55_tfm )
+
 ###############################################################################
 # Cortex-M85 TFM
 ###############################################################################
@@ -48,3 +54,5 @@ target_link_libraries( freertos_port_armv8m_cm85_tfm
                        INTERFACE
                        freertos_port_armv8m_tfm
                        freertos_port_armv8m_cm85_ntz )
+
+add_library( FreeRTOS::Kernel::Port::GCC_ARM_CM85_TFM ALIAS freertos_port_armv8m_cm85_tfm )

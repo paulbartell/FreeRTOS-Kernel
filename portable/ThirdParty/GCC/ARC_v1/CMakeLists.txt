@@ -17,5 +17,4 @@ freertos_define_port(
     SOURCES
         arc_support.s
         arc_freertos_exceptions.c
-        port.c
-)
+        port.c )

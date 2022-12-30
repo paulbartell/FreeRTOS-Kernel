@@ -13,6 +13,7 @@ freertos_define_port(
     ALIAS IAR_STR75X
     HEADERS
         portmacro.h
+        ISR_Support.h
     SOURCES
         port.c
-        portISR.c )
+        portasm.s79 )
