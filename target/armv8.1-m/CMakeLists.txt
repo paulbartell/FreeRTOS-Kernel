@@ -5,32 +5,22 @@
 ###############################################################################
 
 macro(define_armv8m_variant arch_variant arch_opt float_abi_opt fpu_opt )
-    can_compile_with_flags( "${arch_opt};-mthumb;${float_abi_opt};${fpu_opt}" ${arch_variant} can_compile )
-    if(can_compile EQUAL 1)
-        add_library( ${arch_variant} INTERFACE )
-
-        target_compile_options( ${arch_variant}
-                                INTERFACE
+    define_variant_if_compiles( ${arch_variant}
+                                FLAGS
                                     ${arch_opt}
-                                    "-mthumb"
+                                    -mthumb
                                     ${float_abi_opt}
                                     ${fpu_opt} )
-    endif()
 endmacro()
 
 macro(define_cpu_fp_variant arch_variant arch_opt cpu_opt float_abi_opt fpu_opt )
-    can_compile_with_flags( "${arch_opt};${cpu_opt};-mthumb;${float_abi_opt};${fpu_opt}" ${arch_variant} can_compile )
-    if(can_compile EQUAL 1)
-        add_library( ${arch_variant} INTERFACE )
-
-        target_compile_options( ${arch_variant}
-                                INTERFACE
+    define_variant_if_compiles( ${arch_variant}
+                                FLAGS
                                     ${arch_opt}
                                     ${cpu_opt}
-                                    "-mthumb"
+                                    -mthumb
                                     ${float_abi_opt}
                                     ${fpu_opt} )
-    endif()
 endmacro()
 
 function(add_fr_config_variants target_suffix port arch_variant)

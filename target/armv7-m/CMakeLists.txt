@@ -5,26 +5,11 @@
 ###############################################################################
 
 macro(define_arch_variant arch_variant )
-    can_compile_with_flags( "-march=armv7-m;-mthumb" ${arch_variant} can_compile )
-    if(can_compile EQUAL 1)
-        add_library( ${arch_variant} INTERFACE )
-        target_compile_options( ${arch_variant}
-                                INTERFACE
-                                    "-march=armv7-m"
-                                    "-mthumb" )
-    endif()
+    define_variant_if_compiles( ${arch_variant} FLAGS -march=armv7-m -mthumb )
 endmacro()
 
 macro(define_cpu_variant arch_variant cpu_opt )
-    can_compile_with_flags( "${cpu_opt};-mthumb" ${arch_variant} can_compile )
-    if(can_compile EQUAL 1)
-        add_library( ${arch_variant} INTERFACE )
-
-        target_compile_options( ${arch_variant}
-                                INTERFACE
-                                    ${cpu_opt}
-                                    "-mthumb" )
-    endif()
+    define_variant_if_compiles( ${arch_variant} FLAGS ${cpu_opt} -mthumb )
 endmacro()
 
 ###############################################################################

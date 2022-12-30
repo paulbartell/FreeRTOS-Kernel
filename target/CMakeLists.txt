@@ -14,14 +14,16 @@ endif()
 # Helper function to check compiler flags
 ###############################################################################
 include(CheckCCompilerFlag)
-function ( can_compile_with_flags flags variant_name can_compile )
-    check_c_compiler_flag("${flags}" compiler_supports_${variant_name})
-    if(compiler_supports_${variant_name} EQUAL 1)
-        set( can_compile 1 PARENT_SCOPE )
-    else()
-        set( can_compile 0 PARENT_SCOPE )
+
+macro ( define_variant_if_compiles VARIANT_NAME )
+    set( multiValueArgs FLAGS )
+    cmake_parse_arguments(VARIANT "" "" "${multiValueArgs}"  ${ARGN})
+    check_c_compiler_flag("${VARIANT_FLAGS}" compiler_supports_${VARIANT_NAME})
+    if( compiler_supports_${VARIANT_NAME} )
+        add_library( ${VARIANT_NAME} INTERFACE )
+        target_compile_options( ${VARIANT_NAME} INTERFACE ${VARIANT_FLAGS} )
     endif()
-endfunction()
+endmacro()
 
 ###############################################################################
 # Helper function to add a new static kernel build configuration
