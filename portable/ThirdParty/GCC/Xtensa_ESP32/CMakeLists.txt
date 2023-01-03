@@ -30,5 +30,5 @@ freertos_define_port(
         xtensa_init.c
         xtensa_overlay_os_hook.c )
 
-targety_link_libraries( freertos_port_xtensa_esp32
+target_link_libraries( freertos_port_xtensa_esp32
     INTERFACE freertos_port_xtensa_esp32_include )
