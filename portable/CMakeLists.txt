@@ -117,6 +117,12 @@ if(FREERTOS_PORT)
         add_subdirectory( ${CMAKE_MATCH_1}/16BitDOS/${CMAKE_MATCH_2} )
 
 ###############################################################################
+# 78K0R
+###############################################################################
+    elseif( FREERTOS_PORT STREQUAL "IAR_78K0K" )
+        add_subdirectory( IAR/78K0R )
+
+###############################################################################
 # NXP / Freescale 32-bit ColdFire
 ###############################################################################
     elseif(FREERTOS_PORT MATCHES "^(CODEWARRIOR|GCC|IAR)_COLDFIRE_(V1|V2)$")
@@ -146,11 +152,16 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_(CA9|CM0|CM3)$")
         add_subdirectory(${CMAKE_MATCH_1}/ARM_${CMAKE_MATCH_2})
 
-    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_CM7$" )
-        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM7/r0p1 )
+    elseif(FREERTOS_PORT STREQUAL "CCS_ARM_CM3" )
+        add_subdirectory( CCS/ARM_CM3 )
 
-    elseif(FREERTOS_PORT MATCHES "^CCS_ARM_(CM3|CM4F)$" )
-        add_subdirectory( CCS/ARM_${CMAKE_MATCH_1} )
+    elseif(FREERTOS_PORT MATCHES "^(CCS|RVDS|GCC|TASKING|MIKROC)_ARM_CM4F$")
+        if(CMAKE_MATCH_1 STREQUAL "TASKING")
+            set(CMAKE_MATCH_1 "Tasking")
+        elseif(CMAKE_MATCH_1 STREQUAL MIKROC)
+            set(CMAKE_MATCH_1 "MikroC")
+        endif()
+        add_subdirectory(${CMAKE_MATCH_1}/ARM_CM4F)
 
     elseif(FREERTOS_PORT STREQUAL "CCS_ARM_CR4")
         add_subdirectory( CCS/ARM_Cortex-R4 )
@@ -158,8 +169,11 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CR5")
         add_subdirectory( GCC/ARM_CR5 )
 
+    elseif(FREERTOS_PORT MATCHES "^(GCC|IAR|RVDS)_ARM_CM7$" )
+        add_subdirectory( ${CMAKE_MATCH_1}/ARM_CM7/r0p1 )
+
 ###############################################################################
-# ARM MPU variantsz
+# ARM MPU variants
 ###############################################################################
     elseif(FREERTOS_PORT STREQUAL "GCC_ARM_CM3_MPU")
         add_subdirectory( GCC/ARM_CM3_MPU )
@@ -176,9 +190,6 @@ if(FREERTOS_PORT)
         add_subdirectory( ARMv8M/secure )
         add_subdirectory( ThirdParty/GCC/ARM_TFM )
 
-    elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
-        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
-
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_AVR32_UC3$")
         add_subdirectory( ${CMAKE_MATCH_1}/AVR32_UC3 )
 
@@ -191,11 +202,11 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^GCC_ARM7_(AT91FR40008|AT91SAM7S|LPC2000)$")
         add_subdirectory( GCC/ARM7_${CMAKE_MATCH_1} )
 
+    elseif(FREERTOS_PORT STREQUAL "RVDS_ARM7_LPC21XX" )
+        add_subdirectory( RVDS/ARM7_LPC21xx )
+
     elseif(FREERTOS_PORT STREQUAL "GCC_ARM7_LPC23XX" )
         add_subdirectory( GCC/ARM7_LPC23xx )
-
-    elseif( FREERTOS_PORT MATCHES "^(GCC|IAR)_ATMEGA323$" )
-        add_subdirectory( ${CMAKE_MATCH_1}/ATMega323 )
 
     elseif(FREERTOS_PORT MATCHES "^(GCC|IAR)_RISC_V")
         add_subdirectory( ${CMAKE_MATCH_1}/RISC-V )
@@ -206,16 +217,11 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^IAR_STR(71|91)X$")
         add_subdirectory( IAR/STR${CMAKE_MATCH_1}x )
 
-    elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$")
-        if(CMAKE_MATCH_1 STREQUAL "ROWLEY")
-            set(CMAKE_MATCH_1 "Rowley")
-        endif()
-        add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449 )
-
     elseif(FREERTOS_PORT STREQUAL "GCC_NIOSII")
         add_subdirectory( GCC/NiosII )
+
 ###############################################################################
-# Renesas RX Series
+# Renesas RX Architecture
 ###############################################################################
     elseif(FREERTOS_PORT MATCHES "^(GCC|RENESAS|IAR)_RX(100|200|600)$")
         if(CMAKE_MATCH_1 STREQUAL "RENESAS")
@@ -223,7 +229,7 @@ if(FREERTOS_PORT)
         endif()
         add_subdirectory( ${CMAKE_MATCH_1}/RX${CMAKE_MATCH_2} )
 
-    elseif( FREERTOS_PORT MATCHES "^(GCC|RENESA|IAR)_RX600_V2$" )
+    elseif( FREERTOS_PORT MATCHES "^(GCC|RENESAS|IAR)_RX600_V2$" )
         if(CMAKE_MATCH_1 STREQUAL RENESAS)
             set(CMAKE_MATCH_1 "Renesas")
         endif()
@@ -236,7 +242,50 @@ if(FREERTOS_PORT)
         add_subdirectory( ${CMAKE_MATCH_1}/RX700v3_DPFPU )
 
     elseif( FREERTOS_PORT STREQUAL "IAR_RX_V2" )
-        add_subdirectory( IAR/RXv2)
+        add_subdirectory( IAR/RXv2 )
+
+###############################################################################
+# 8051 targets
+###############################################################################
+    elseif( FREERTOS_PORT STREQUAL "SDCC_CYGNAL" )
+        add_subdirectory(SDCC/Cygnal)
+
+###############################################################################
+# ARC
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "GCC_ARC_(EM_HS|V1)")
+        if(CMAKE_MATCH_1 STREQUAL V1)
+            string(TOLOWER ${CMAKE_MATCH_1} CMAKE_MATCH_1)
+        endif()
+        add_subdirectory(ThirdParty/GCC/ARC_${CMAKE_MATCH_1})
+
+###############################################################################
+# Fujitsu Softtune ports
+###############################################################################
+    elseif( FREERTOS_PORT MATCHES "^SOFTUNE_(MB91460|MB96340)$" )
+        add_subdirectory( Softune/${CMAKE_MATCH_1} )
+
+###############################################################################
+# Atmel ports
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "IAR_ATMEL_(SAM7S64|SAM9XE)")
+        add_subdirectory( IAR/Atmel${CMAKE_MATCH_1} )
+
+###############################################################################
+# Microchip / Atmel 8-bit AVR
+###############################################################################
+    # TODO Partner-Supported GCC_AVRDX & GCC_AVR_MEGA0
+    elseif(FREERTOS_PORT STREQUAL "IAR_AVR_AVRDX")
+        add_subdirectory( IAR/AVR_AVRDx )
+
+    elseif(FREERTOS_PORT STREQUAL "IAR_AVR_MEGA0")
+        add_subdirectory( IAR/AVR_Mega0 )
+
+    elseif(FREERTOS_PORT STREQUAL "GCC_ATMEGA")
+        add_subdirectory( ThirdParty/GCC/ATmega )
+
+    elseif( FREERTOS_PORT MATCHES "^(GCC|IAR)_ATMEGA323$" )
+        add_subdirectory( ${CMAKE_MATCH_1}/ATMega323 )
 
 ###############################################################################
 # Xilinx Power PC
@@ -244,6 +293,76 @@ if(FREERTOS_PORT)
     elseif(FREERTOS_PORT MATCHES "^GCC_(PPC405|PPC440)_XILINX$")
         add_subdirectory( GCC/${CMAKE_MATCH_1}_Xilinx )
 
+###############################################################################
+# Infineon TriCore
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "GCC_TRICORE_1782")
+        add_subdirectory( GCC/TriCore_1782 )
+
+###############################################################################
+# 8-bit/32-bit Microchip PIC18/PIC32
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "WIZC_PIC18" )
+        add_subdirectory( WizC/PIC18 )
+
+    elseif(FREERTOS_PORT MATCHES "^MPLAB_PIC(18F|32MX|32MZ)$")
+        add_subdirectory( MPLAB/PIC${CMAKE_MATCH_1} )
+
+    elseif(FREERTOS_PORT STREQUAL "MPLAB_PIC32MEC14XX" )
+        add_subdirectory( MPLAB/PIC32MEC14xx )
+
+###############################################################################
+# 16-bit Microchip PIC24
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "MPLAB_PIC24" )
+        add_subdirectory( MPLAB/PIC24_dsPIC )
+
+###############################################################################
+# Paradigm Tern EE
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "^PARADIGM_TERN_EE_(SMALL|LARGE)$")
+        if(CMAKE_MATCH_1 STREQUAL "SMALL")
+            add_subdirectory(Paradigm/Tern_EE/small)
+        else()
+            add_subdirectory(Paradigm/Tern_EE/large_untested)
+        endif()
+
+###############################################################################
+# SH2A
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "RENESAS_SH2A_FPU")
+        add_subdirectory( Renesas/SH2A_FPU )
+
+###############################################################################
+# 16-bit Texas Instruments MSP430
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "^(CCS|IAR)_MSP430(X)?$")
+        add_subdirectory( ${CMAKE_MATCH_1}/MSP430${CMAKE_MATCH_2} )
+
+    elseif(FREERTOS_PORT MATCHES "^(GCC|ROWLEY)_MSP430F449$")
+        if(CMAKE_MATCH_1 STREQUAL "ROWLEY")
+            set(CMAKE_MATCH_1 "Rowley")
+        endif()
+        add_subdirectory( ${CMAKE_MATCH_1}/MSP430F449 )
+
+###############################################################################
+# V850ES ports
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "^IAR_V850ES_(HX3|FX3)$")
+        add_subdirectory( IAR/V850ES )
+
+###############################################################################
+# C-SKY T-HEAD CK802
+###############################################################################
+    elseif(FREERTOS_PORT STREQUAL "CDK_THEAD_CK802")
+        add_subdirectory( ThirdParty/CDK/T-HEAD_CK802 )
+
+###############################################################################
+# Xtensa targets
+###############################################################################
+    elseif(FREERTOS_PORT MATCHES "(XCC|GCC)_XTENSA(_ESP32)?")
+        add_subdirectory( ThirdParty/${CMAKE_MATCH_1}/Xtensa${CMAKE_MATCH_2} )
+        set( FREERTOS_STANDALONE_PORT TRUE )
 
     elseif(FREERTOS_PORT MATCHES "^([A-Z\\d]+)_(.*)$" ) # fallback
         message( STATUS "Falling back to ${CMAKE_MATCH_1}/${CMAKE_MATCH_2}" )

@@ -9,6 +9,10 @@
 # Posix Port
 ###############################################################################
 
+if(FREERTOS_PORT)
+    find_package(Threads REQUIRED)
+endif()
+
 freertos_define_port(
     NAME freertos_port_posix
     ALIAS GCC_POSIX Posix
@@ -17,5 +21,4 @@ freertos_define_port(
         utils/wait_for_event.h
     SOURCES
         port.c
-        utils/wait_for_event.c
-)
+        utils/wait_for_event.c )

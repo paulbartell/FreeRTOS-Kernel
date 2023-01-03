@@ -8,13 +8,10 @@
 # ATmega
 ###############################################################################
 
-message( FATAL_ERROR "Give ATmega an alias and remove this message" )
-
 freertos_define_port(
     NAME freertos_port_atmega
-    ALIAS # TODO:
+    ALIAS GCC_ATMEGA
     HEADERS
         portmacro.h
     SOURCES
-        port.c
-)
+        port.c )

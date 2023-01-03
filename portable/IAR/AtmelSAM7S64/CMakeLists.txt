@@ -15,14 +15,14 @@ freertos_define_port(
         portmacro.h
         ISR_Support.h
         AT91SAM7S64_inc.h
-        AT91SAM7S128_inc.h
-        AT91SAM7S256_inc.h
+        AT91SAM7X128_inc.h
+        AT91SAM7X256_inc.h
         AT91SAM7S64.h
-        AT91SAM7S128.h
-        AT91SAM7S256.h
+        AT91SAM7X128.h
+        AT91SAM7X256.h
         lib_AT91SAM7S64.h
-        lib_AT91SAM7S128.h
-        lib_AT91SAM7S256.h
+        lib_AT91SAM7X128.h
+        lib_AT91SAM7X256.h
     SOURCES
         port.c
-        portmacro.s79 )
+        portasm.s79 )

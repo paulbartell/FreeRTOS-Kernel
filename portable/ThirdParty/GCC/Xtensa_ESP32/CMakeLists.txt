@@ -8,9 +8,12 @@
 # Xtensa_ESP32
 ###############################################################################
 
+add_subdirectory(include)
+
 freertos_define_port(
     NAME freertos_port_xtensa_esp32
     ALIAS GCC_XTENSA_ESP32
+    COMMON_FILES
     HEADERS
         portmux_impl.h
         portmux_impl.inc.h
@@ -26,3 +29,6 @@ freertos_define_port(
         port_systick.c
         xtensa_init.c
         xtensa_overlay_os_hook.c )
+
+targety_link_libraries( freertos_port_xtensa_esp32
+    INTERFACE freertos_port_xtensa_esp32_include )

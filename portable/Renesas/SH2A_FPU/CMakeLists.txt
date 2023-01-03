@@ -16,5 +16,4 @@ freertos_define_port(
         ISR_Support.inc
     SOURCES
         portasm.src
-        port.c
-)
+        port.c )

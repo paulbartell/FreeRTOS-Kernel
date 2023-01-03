@@ -15,4 +15,5 @@ freertos_define_port(
     SOURCES
     mpu_wrappers.c )
 
+# usage:
 # target_link_libraries(<your_freertos_mpu_port> INTERFACE FreeRTOS::Kernel::Port::Common::MPU )

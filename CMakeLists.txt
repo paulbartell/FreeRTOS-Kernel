@@ -212,6 +212,10 @@ if(FREERTOS_PORT)
             freertos_config
             freertos_heap
         PRIVATE
-            freertos_kernel_port
-            freertos_kernel_core )
+            freertos_kernel_port )
+
+    # Xtensa ports include their own kernel
+    if( NOT FREERTOS_STANDALONE_PORT )
+        target_link_libraries( freertos_kernel PRIVATE freertos_kernel_core )
+    endif()
 endif()

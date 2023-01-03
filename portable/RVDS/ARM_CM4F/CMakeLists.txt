@@ -5,7 +5,7 @@
 ###############################################################################
 
 ###############################################################################
-# ARM_CM4F for RDVS
+# ARM_CM4F for RVDS
 ###############################################################################
 
 freertos_define_port(
@@ -14,9 +14,8 @@ freertos_define_port(
         ARMv7E-M
         Cortex-M4
         Cortex-M7
-        RDVS_ARM_CM4F
+        RVDS_ARM_CM4F
     HEADERS
         portmacro.h
     SOURCES
-        port.c
-)
+        port.c )

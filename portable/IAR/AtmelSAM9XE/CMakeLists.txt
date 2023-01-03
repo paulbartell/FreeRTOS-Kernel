@@ -16,4 +16,4 @@ freertos_define_port(
         ISR_Support.h
     SOURCES
         port.c
-        portmacro.s79 )
+        portasm.s79 )
