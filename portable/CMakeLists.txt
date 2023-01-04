@@ -7,7 +7,11 @@
 ###############################################################################
 # Export Heap Implementations as interface targets
 ###############################################################################
-if(NOT FREERTOS_HEAP)
+if( FREERTOS_HEAP )
+    set( is_numeric_heap "$<BOOL:$<FILTER:${FREERTOS_HEAP},EXCLUDE,^[1-5]$>>" )
+    set( heap_source "$<IF:${is_numeric_heap},${FREERTOS_HEAP},MemMang/heap_${FREERTOS_HEAP}.c>")
+    add_library( freertos_heap INTERFACE ${heap_source} )
+else()
     foreach(i RANGE 1 5)
         add_library( freertos_kernel_heap_${i} INTERFACE MemMang/heap_${i}.c )
         add_library( FreeRTOS::Kernel:Heap${i} ALIAS freertos_kernel_heap_${i} )
@@ -19,19 +23,24 @@ endif()
 # Useful for simple ports
 ###############################################################################
 macro( freertos_define_port )
-    set(optionalArgs
+    set(optionArgs
         COMMON_FILES ) # If set skips some checks
     set(oneValueArgs
-        NAME )    # name to give to port library
+        INCLUDE_DIR  # base include directory
+        NAME )       # name to give to port library
     set(multiValueArgs
         ALIAS     # backwards-compatible name(s)
         HEADERS   # header files this port uses
         SOURCES ) # source files this port uses
     cmake_parse_arguments(PORT
-        "${optionalArgs}"
+        "${optionArgs}"
         "${oneValueArgs}"
         "${multiValueArgs}"
         ${ARGN} )
+
+    if( NOT PORT_INCLUDE_DIR )
+        set( PORT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
+    endif()
 
     if( PORT_NAME STREQUAL "" )
         message( FATAL_ERROR "Provide a NAME for the port target!")
@@ -44,13 +53,15 @@ macro( freertos_define_port )
     message( STATUS "Configuring port ${PORT_NAME} AKA ${PORT_ALIAS}" )
 
     if(NOT PORT_COMMON_FILES)
-        if( ( NOT "portmacro.h" IN_LIST PORT_HEADERS ) AND
+        if( ( NOT portmacro.h IN_LIST PORT_HEADERS ) AND
                  # 16-bit DOS filename compatibility
-            ( NOT "prtmacro.h"  IN_LIST PORT_HEADERS ) )
+            ( NOT prtmacro.h IN_LIST PORT_HEADERS ) AND
+            ( NOT ${PORT_INCLUDE_DIR}/portmacro.h IN_LIST PORT_HEADERS ) )
             message( AUTHOR_WARNING
             "${PORT_NAME} does not have a portmacro.h under HEADERS" )
         endif()
-        if(NOT "port.c" IN_LIST PORT_SOURCES)
+        if( ( NOT port.c IN_LIST PORT_SOURCES ) AND
+            ( NOT ${PORT_INCLUDE_DIR}/port.c IN_LIST PORT_SOURCES ) )
             message( AUTHOR_WARNING
             "${PORT_NAME} does not have a port.c under SOURCES" )
         endif()
@@ -62,12 +73,13 @@ macro( freertos_define_port )
 
     if( ${CMAKE_VERSION} VERSION_LESS "3.23.0" )
         target_sources( ${PORT_NAME} PUBLIC ${PORT_HEADERS} )
-        target_include_directories( ${PORT_NAME} INTERFACE . )
+        target_include_directories( ${PORT_NAME}
+                                    INTERFACE ${PORT_INCLUDE_DIR} )
     else()
         target_sources( ${PORT_NAME}
             INTERFACE
                 FILE_SET HEADERS
-                    BASE_DIRS .
+                    BASE_DIRS ${PORT_INCLUDE_DIR}
                     FILES ${PORT_HEADERS} )
     endif()
 
@@ -286,6 +298,17 @@ if(FREERTOS_PORT)
 
     elseif( FREERTOS_PORT MATCHES "^(GCC|IAR)_ATMEGA323$" )
         add_subdirectory( ${CMAKE_MATCH_1}/ATMega323 )
+
+    elseif( FREERTOS_PORT MATCHES "^GCC_(AVR_MEGA0|AVRDX)$" )
+        set( PORT_DIR ThirdParty )
+        message( STATUS "${CMAKE_CURRENT_SOURCE_DIR}/${PORT_DIR}" )
+        if( EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${PORT_DIR} )
+            add_subdirectory( ${PORT_DIR} )
+        else()
+            message(FATAL_ERROR "Partner supported ports not detected.\n"
+                "Run `git submodule update --init --recursive` to clone "
+                "this repository's submodules, then retry.")
+        endif()
 
 ###############################################################################
 # Xilinx Power PC
@@ -521,12 +544,23 @@ if(FREERTOS_PORT)
         return()
     endif()
 
-    # Expose requsted port as freertos_kernel_port
-    get_target_property(target_name
-        FreeRTOS::Kernel::Port::${FREERTOS_PORT}
-        ALIASED_TARGET )
-    add_library(freertos_kernel_port ALIAS ${target_name})
+    add_library(freertos_kernel_port STATIC)
 
+    if(FREERTOS_PORT STREQUAL GCC_POSIX)
+        find_package(Threads REQUIRED)
+    endif()
+
+    target_link_libraries(freertos_kernel_port
+        PUBLIC
+            $<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:pico_base_headers>
+            $<$<STREQUAL:${FREERTOS_PORT},GCC_XTENSA_ESP32>:idf::esp32>
+            FreeRTOS::Kernel::Port::${FREERTOS_PORT}
+        PRIVATE
+            freertos_kernel
+            $<$<STREQUAL:${FREERTOS_PORT},GCC_POSIX>:Threads::Threads>
+            "$<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:hardware_clocks;hardware_exception>"
+             # Windows library which implements timers
+            $<$<STREQUAL:${FREERTOS_PORT},MSVC_MINGW>:winmm> )
     return()
 endif()
 

@@ -188,34 +188,32 @@ else()
     message( STATUS "Auto-detecting ports to expose as library targets." )
 endif()
 
+
 ###############################################################################
 # Ports (including MPU wrappers and heap implementations )
 ###############################################################################
 add_subdirectory( portable )
 
 if(NOT FREERTOS_PORT)
-    add_subdirectory( target )
+add_subdirectory( target )
 endif()
+
 
 ###############################################################################
 # Backwards-compatiblity usage
 ###############################################################################
-if(FREERTOS_PORT)
-    set( is_numeric_heap "$<BOOL:$<FILTER:${FREERTOS_HEAP},EXCLUDE,^[1-5]$>>" )
-    set( heap_source "$<IF:${is_numeric_heap},${FREERTOS_HEAP},portable/MemMang/heap_${FREERTOS_HEAP}.c>")
-    add_library( freertos_heap INTERFACE ${heap_source} )
-
-    add_library( freertos_kernel STATIC )
+if( FREERTOS_PORT )
+    add_library( freertos_kernel INTERFACE )
 
     target_link_libraries( freertos_kernel
-        PUBLIC
+        INTERFACE
             freertos_config
-            freertos_heap
-        PRIVATE
-            freertos_kernel_port )
+            freertos_heap )
 
-    # Xtensa ports include their own kernel
     if( NOT FREERTOS_STANDALONE_PORT )
-        target_link_libraries( freertos_kernel PRIVATE freertos_kernel_core )
+        target_link_libraries( freertos_kernel
+         INTERFACE
+            FreeRTOS::Kernel::Core )
+
     endif()
 endif()
