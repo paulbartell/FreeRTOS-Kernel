@@ -546,10 +546,6 @@ if(FREERTOS_PORT)
 
     add_library(freertos_kernel_port STATIC)
 
-    if(FREERTOS_PORT STREQUAL GCC_POSIX)
-        find_package(Threads REQUIRED)
-    endif()
-
     target_link_libraries(freertos_kernel_port
         PUBLIC
             $<$<STREQUAL:${FREERTOS_PORT},GCC_RP2040>:pico_base_headers>
