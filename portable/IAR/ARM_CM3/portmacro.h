@@ -164,6 +164,13 @@ extern void vPortExitCritical( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
 
+#if ( defined( configPRIO_BITS ) && defined( __NVIC_PRIO_BITS ) )
+    #if ( configPRIO_BITS > __NVIC_PRIO_BITS )
+        #error configPRIO_BITS must be <= __NVIC_PRIO_BITS when both are defined. \
+            Refer to https://www.freertos.org/RTOS-Cortex-M3-M4.html for more details.
+    #endif
+#endif /* configPRIO_BITS && __NVIC_PRIO_BITS */
+
 /* portNOP() is not required by this port. */
 #define portNOP()
 
