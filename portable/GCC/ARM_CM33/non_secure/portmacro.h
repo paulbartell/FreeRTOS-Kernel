@@ -1,6 +1,7 @@
 /*
  * FreeRTOS Kernel <DEVELOPMENT BRANCH>
- * Copyright (C) 2021 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2026 Arm Limited and/or its affiliates <open-source-office@arm.com>
  *
  * SPDX-License-Identifier: MIT
  *
@@ -29,11 +30,11 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
+/* *INDENT-OFF* */
 #ifdef __cplusplus
     extern "C" {
 #endif
-
-#include "portmacrocommon.h"
+/* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
  * Port specific definitions.
@@ -48,19 +49,35 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                       "Cortex-M33"
-#define portDONT_DISCARD                    __attribute__( ( used ) )
+#define portARCH_NAME                    "Cortex-M33"
+#define portHAS_ARMV8M_MAIN_EXTENSION    1
+#define portARMV8M_MINOR_VERSION         0
+#define portDONT_DISCARD                 __attribute__( ( used ) )
+#define portVALIDATED_FOR_SMP            0
+/*-----------------------------------------------------------*/
+
+/* ARMv8-M common port configurations. */
+#include "portmacrocommon.h"
+/*-----------------------------------------------------------*/
+
+#ifndef configENABLE_MVE
+    #define configENABLE_MVE    0
+#elif ( configENABLE_MVE != 0 )
+    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M33.
+#endif
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()            ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()             vClearInterruptMask( 0 )
+#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
+#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
 /*-----------------------------------------------------------*/
 
+/* *INDENT-OFF* */
 #ifdef __cplusplus
     }
 #endif
+/* *INDENT-ON* */
 
 #endif /* PORTMACRO_H */
